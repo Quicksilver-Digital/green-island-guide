@@ -1,0 +1,718 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#157F88"><style>html{color-scheme:light}body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Green Island Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Figtree:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap">
+</head><body>
+<style>
+:root{
+  --ground:#E7F1EF; --surface:#FFFFFF; --surface-2:#F2F7F6; --ink:#0F2A2E; --muted:#56706F; --line:#CFDFDC;
+  --forest:#2D6A47; --sea:#157F88; --accent:#E2553A; --accent-ink:#FFFFFF; --sun:#FFC22E;
+  --m-sea:#8FCFD0; --m-shallow:#B9E3DF; --m-reef:#A5DAD6; --m-sand:#F1E7C9; --m-land:#CFE3B4; --m-forest:#7FB27F;
+  --m-resort:#E6E0D2; --m-bldg:#C9BFAA; --m-pool:#5BC0DE; --m-path:#FFFFFF; --m-board:#6B4F2E; --m-rock:#BDB39C; --m-label:#0F2A2E; --m-halo:#FFFFFF;
+  --shadow:0 6px 24px rgba(15,42,46,.14);
+  --serif:"Young Serif",Georgia,"Songti SC","Hiragino Mincho ProN",serif;
+  --sans:"Figtree",system-ui,-apple-system,"PingFang SC","Hiragino Sans","Noto Sans CJK SC",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  color-scheme:dark;
+  --ground:#0A1A1C; --surface:#11272A; --surface-2:#163136; --ink:#E4F0EE; --muted:#93AEAC; --line:#244347;
+  --forest:#79C08F; --sea:#5CC2C8; --accent:#F0735A; --accent-ink:#1A0D09; --sun:#FFC940;
+  --m-sea:#0F3A42; --m-shallow:#15505A; --m-reef:#134A52; --m-sand:#4A4432; --m-land:#2E4A2C; --m-forest:#23502F;
+  --m-resort:#3A3B33; --m-bldg:#55503F; --m-pool:#2F8FAE; --m-path:#9DB3AF; --m-board:#E0B77C; --m-rock:#5E5847; --m-label:#E4F0EE; --m-halo:#0A1A1C;
+  --shadow:0 6px 24px rgba(0,0,0,.45);
+}}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --ground:#0A1A1C; --surface:#11272A; --surface-2:#163136; --ink:#E4F0EE; --muted:#93AEAC; --line:#244347;
+  --forest:#79C08F; --sea:#5CC2C8; --accent:#F0735A; --accent-ink:#1A0D09; --sun:#FFC940;
+  --m-sea:#0F3A42; --m-shallow:#15505A; --m-reef:#134A52; --m-sand:#4A4432; --m-land:#2E4A2C; --m-forest:#23502F;
+  --m-resort:#3A3B33; --m-bldg:#55503F; --m-pool:#2F8FAE; --m-path:#9DB3AF; --m-board:#E0B77C; --m-rock:#5E5847; --m-label:#E4F0EE; --m-halo:#0A1A1C;
+  --shadow:0 6px 24px rgba(0,0,0,.45);
+}
+html,body{height:100%}
+body{background:var(--ground);color:var(--ink);font:15px/1.5 var(--sans);overflow:hidden}
+*{box-sizing:border-box}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.app{position:relative;height:100%;max-width:520px;margin-inline:auto;display:grid;grid-template-rows:auto 1fr auto;background:var(--ground);box-shadow:0 0 0 1px var(--line)}
+header.top{display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--surface);border-bottom:1px solid var(--line)}
+.brand{display:flex;flex-direction:column;line-height:1.1;min-width:0}
+.brand b{font:400 19px/1.1 var(--serif);white-space:nowrap;letter-spacing:.01em}
+.brand small{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.langsel{margin-left:auto;display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden;flex:none}
+.langsel button{border:0;background:none;padding:6px 10px;font-size:13px;font-weight:600;color:var(--muted)}
+.langsel button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+main{position:relative;overflow:hidden;min-height:0}
+.view{position:absolute;inset:0;overflow-y:auto;-webkit-overflow-scrolling:touch}
+.view.pad{padding:18px 16px 28px}
+nav.tabs{display:grid;grid-template-columns:repeat(4,1fr);background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav.tabs button{border:0;background:none;padding:8px 4px 9px;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px;font-weight:600;color:var(--muted)}
+nav.tabs svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+nav.tabs button[aria-selected="true"]{color:var(--sea)}
+
+/* map */
+#map{position:absolute;inset:0;touch-action:none;background:var(--m-sea);user-select:none;-webkit-user-select:none}
+#map svg{width:100%;height:100%;display:block}
+.l-reef{fill:var(--m-reef);fill-rule:evenodd}
+.l-beach{fill:var(--m-sand);fill-rule:evenodd}
+.l-coast{fill:var(--m-land)}
+.l-wood{fill:var(--m-forest)}
+.l-park{fill:none;stroke:var(--forest);stroke-width:1.2;stroke-dasharray:4 3;vector-effect:non-scaling-stroke;opacity:.8}
+.l-resort{fill:url(#hatch)}
+.l-bldg{fill:var(--m-bldg);stroke:var(--m-label);stroke-opacity:.25;stroke-width:.6;vector-effect:non-scaling-stroke}
+.l-pool,.l-swimarea{fill:var(--m-pool);opacity:.8}
+.l-swimarea{opacity:.35}
+.l-rock{fill:var(--m-rock);opacity:.7}
+.l-pier{fill:none;stroke:var(--m-board);stroke-width:5;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.l-foot{fill:none;stroke:var(--m-path);stroke-width:2.2;vector-effect:non-scaling-stroke;stroke-linecap:round}
+.l-sand{fill:none;stroke:var(--m-board);stroke-width:1.6;stroke-dasharray:1 4;stroke-linecap:round;vector-effect:non-scaling-stroke;opacity:.7}
+.l-board{fill:none;stroke:var(--m-board);stroke-width:3.4;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.l-route{fill:none;stroke:var(--accent);stroke-width:7;stroke-linecap:round;stroke-linejoin:round;opacity:.28;vector-effect:non-scaling-stroke}
+.l-walked{fill:none;stroke:var(--accent);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.l-acc{fill:var(--sea);fill-opacity:.15;stroke:var(--sea);stroke-opacity:.5;stroke-width:1;vector-effect:non-scaling-stroke}
+.mk{cursor:pointer}
+.mk-stop circle{fill:var(--surface);stroke:var(--accent);stroke-width:2.5}
+.mk-stop text{font:700 11px var(--sans);fill:var(--accent);text-anchor:middle;dominant-baseline:central}
+.mk-stop.done circle{fill:var(--accent)}
+.mk-stop.done text{fill:var(--accent-ink)}
+.mk-stop.active circle{stroke-width:4;r:14px}
+.mk-poi rect{fill:var(--surface);stroke:var(--m-label);stroke-opacity:.35;stroke-width:1}
+.mk-poi path,.mk-poi .g{fill:none;stroke:var(--ink);stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
+.mk-poi text.g{fill:var(--ink);stroke:none;font:700 8px var(--sans);text-anchor:middle;dominant-baseline:central}
+.mk-poi.hl rect{fill:var(--sun);stroke:var(--ink);stroke-opacity:1;stroke-width:1.5}
+.lbl{font:600 11px var(--sans);fill:var(--m-label);paint-order:stroke;stroke:var(--m-halo);stroke-width:3px;stroke-linejoin:round;pointer-events:none}
+.lbl.big{font:400 15px var(--serif);letter-spacing:.02em}
+.lbl.water{font:italic 500 11px var(--sans);fill:var(--sea);letter-spacing:.08em}
+.zoomlbl{display:none}
+.zoomed .zoomlbl{display:inline}
+.far #pois{display:none}
+.me .halo{fill:var(--sun);opacity:.35;animation:pulse 2s ease-out infinite;transform-box:fill-box;transform-origin:center}
+.me .dot{fill:var(--sun);stroke:#1a1a1a;stroke-width:2.5}
+@keyframes pulse{0%{transform:scale(.6);opacity:.55}100%{transform:scale(1.8);opacity:0}}
+@media (prefers-reduced-motion:reduce){.me .halo{animation:none}}
+
+.mapctl{position:absolute;right:12px;top:12px;display:flex;flex-direction:column;gap:8px;z-index:3}
+.fab{width:42px;height:42px;border-radius:12px;border:1px solid var(--line);background:var(--surface);box-shadow:var(--shadow);display:grid;place-items:center}
+.fab svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.fab[aria-pressed="true"]{background:var(--sea);color:var(--surface);border-color:var(--sea)}
+.status{position:absolute;left:12px;top:12px;z-index:3;max-width:calc(100% - 80px);display:flex;align-items:center;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:6px 12px 6px 10px;font-size:13px;font-weight:600;box-shadow:var(--shadow)}
+.status i{width:9px;height:9px;border-radius:50%;background:var(--muted);flex:none}
+.status[data-s="gps"] i{background:#2BB673}
+.status[data-s="demo"] i{background:var(--sun)}
+.status[data-s="warn"] i{background:var(--accent)}
+.status span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+
+/* sheet */
+.sheet{position:absolute;left:0;right:0;bottom:0;z-index:4;background:var(--surface);border-radius:18px 18px 0 0;box-shadow:0 -6px 30px rgba(15,42,46,.18);display:flex;flex-direction:column;max-height:74%;transition:max-height .28s ease}
+.sheet.peek .sbody{display:none}
+.grab{border:0;background:none;padding:8px 0 2px;display:grid;place-items:center;width:100%}
+.grab::before{content:"";width:40px;height:4px;border-radius:4px;background:var(--line)}
+.player{padding:4px 16px 14px;display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+.pbtn{width:52px;height:52px;border-radius:50%;border:0;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;flex:none}
+.pbtn svg{width:22px;height:22px;fill:currentColor}
+.pbtn:disabled{opacity:.4;cursor:default}
+.pmeta{min-width:0}
+.eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--sea)}
+.ptitle{font:400 19px/1.2 var(--serif);margin:2px 0 6px;text-wrap:balance}
+.prog{height:4px;border-radius:4px;background:var(--surface-2);overflow:hidden;border:1px solid var(--line)}
+.prog b{display:block;height:100%;width:0;background:var(--accent);transition:width .25s linear}
+.pnav{display:flex;gap:6px}
+.icon{width:36px;height:36px;border-radius:10px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center}
+.icon svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.icon:disabled{opacity:.35;cursor:default}
+.walkbar{display:flex;align-items:center;gap:10px;padding:0 16px 12px;font-size:12px;color:var(--muted);font-variant-numeric:tabular-nums}
+.walkbar .track{flex:1;height:6px;border-radius:6px;background:var(--surface-2);position:relative;overflow:hidden}
+.walkbar .track b{position:absolute;inset:0 auto 0 0;background:var(--forest);border-radius:6px}
+.sbody{overflow-y:auto;padding:4px 16px 20px;border-top:1px solid var(--line)}
+.sbody p{margin:12px 0;max-width:62ch}
+.note{font-size:13px;background:var(--surface-2);border:1px dashed var(--line);border-radius:10px;padding:10px 12px;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:5px 11px;font-size:13px;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--surface);border-color:var(--ink)}
+.src{font-size:12px;color:var(--muted)}
+h3.sub{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:18px 0 6px}
+.stoplist{list-style:none;margin:0;padding:0;display:grid;gap:2px}
+.stoplist button{width:100%;display:grid;grid-template-columns:28px 1fr auto;gap:10px;align-items:center;text-align:left;border:0;background:none;padding:8px 4px;border-radius:8px}
+.stoplist button:hover{background:var(--surface-2)}
+.num{width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:700;border:2px solid var(--accent);color:var(--accent)}
+.done .num{background:var(--accent);color:var(--accent-ink)}
+.stoplist .d{font:500 12px var(--mono);color:var(--muted)}
+.actions{display:flex;gap:8px;flex-wrap:wrap}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 14px;font-weight:600;display:inline-flex;gap:8px;align-items:center}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* intro */
+.intro{position:absolute;inset:0;z-index:10;background:var(--ground);overflow-y:auto;display:flex;flex-direction:column}
+.intro-art{height:180px;flex:none;background:var(--m-sea);position:relative;overflow:hidden}
+.intro-art svg{position:absolute;inset:0;width:100%;height:100%}
+.intro-body{padding:20px 16px 28px;display:flex;flex-direction:column;gap:16px}
+.intro h1{font:400 34px/1.05 var(--serif);margin:0;text-wrap:balance}
+.intro h1 em{font-style:normal;color:var(--forest)}
+.intro .lede{margin:0;color:var(--muted);max-width:52ch}
+.ack{font-size:13px;border-left:3px solid var(--forest);padding:4px 0 4px 12px;color:var(--ink);max-width:60ch}
+.intro .choose{display:grid;gap:10px}
+.bigbtn{display:grid;grid-template-columns:40px 1fr;gap:12px;align-items:center;text-align:left;border:1px solid var(--line);background:var(--surface);border-radius:14px;padding:14px}
+.bigbtn b{display:block;font-size:16px}
+.bigbtn small{color:var(--muted);font-size:13px}
+.bigbtn .ic{width:40px;height:40px;border-radius:12px;display:grid;place-items:center;background:var(--surface-2)}
+.bigbtn.primary{border-color:var(--accent)}
+.bigbtn.primary .ic{background:var(--accent);color:var(--accent-ink)}
+.bigbtn svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.poc{font-size:12px;color:var(--muted)}
+
+/* content views */
+.vhead h2{font:400 26px/1.15 var(--serif);margin:0 0 4px;text-wrap:balance}
+.vhead p{margin:0 0 14px;color:var(--muted);max-width:60ch}
+.search{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:var(--surface);color:var(--ink);font:inherit;margin-bottom:10px}
+.tally{font:500 12px var(--mono);color:var(--muted);margin:4px 0 12px}
+.cards{display:grid;gap:12px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.card .band{display:flex;align-items:baseline;justify-content:space-between;gap:8px;padding:12px 14px 10px;border-bottom:1px solid var(--line);background:var(--surface-2)}
+.card .band .grp{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase}
+.card[data-g="birds"] .grp{color:var(--sea)} .card[data-g="sea"] .grp{color:#2F6FB5} .card[data-g="plants"] .grp{color:var(--forest)} .card[data-g="reptiles"] .grp{color:var(--accent)}
+:root[data-theme="dark"] .card[data-g="sea"] .grp{color:#7FB3F0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .card[data-g="sea"] .grp{color:#7FB3F0}}
+.card .inner{padding:12px 14px 14px}
+.card h4{font:400 20px/1.15 var(--serif);margin:0}
+.card .lat{font-style:italic;color:var(--muted);font-size:14px;margin:2px 0 8px}
+.card p{margin:0 0 10px}
+.spot{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 10px;font-size:12px;font-weight:700;display:inline-flex;align-items:center;gap:6px;flex:none}
+.spot[aria-pressed="true"]{background:var(--forest);border-color:var(--forest);color:var(--surface)}
+.where{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.where span{font-size:12px;background:var(--surface-2);border-radius:6px;padding:2px 8px;color:var(--muted);font-weight:600}
+.src.draft{color:var(--accent)}
+.grouph{font:400 19px var(--serif);margin:22px 0 10px}
+.act{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:14px;display:grid;gap:6px}
+.act h4{margin:0;font-size:16px}
+.act p{margin:0;color:var(--ink)}
+.act .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border-radius:6px;padding:3px 7px}
+.tag.inc{background:color-mix(in srgb,var(--forest) 16%,transparent);color:var(--forest)}
+.tag.opt{background:color-mix(in srgb,var(--sea) 16%,transparent);color:var(--sea)}
+.tag.free{background:var(--surface-2);color:var(--muted)}
+.linkbtn{border:0;background:none;color:var(--sea);font-weight:700;padding:4px 0;display:inline-flex;gap:4px;align-items:center}
+.facts{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.facts div{background:var(--surface);padding:12px 14px}
+.facts b{display:block;font:400 22px/1.1 var(--serif);font-variant-numeric:tabular-nums}
+.facts span{font-size:12px;color:var(--muted)}
+.walks{display:grid;gap:10px}
+.walk{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.walk h4{margin:0 0 2px;font-size:16px}
+.walk .m{font:500 13px var(--mono);color:var(--sea)}
+.walk .bar{height:6px;border-radius:6px;background:var(--surface-2);margin:8px 0;overflow:hidden}
+.walk .bar b{display:block;height:100%;background:var(--forest)}
+.walk p{margin:0;font-size:14px;color:var(--muted)}
+.tl{list-style:none;margin:0;padding:0;border-left:2px solid var(--line);margin-left:6px}
+.tl li{position:relative;padding:0 0 14px 18px}
+.tl li::before{content:"";position:absolute;left:-7px;top:6px;width:12px;height:12px;border-radius:50%;background:var(--surface);border:2px solid var(--sea)}
+.tl .y{font:500 13px var(--mono);color:var(--sea);font-variant-numeric:tabular-nums}
+.safety{margin:0;padding-left:20px}
+.safety li{margin:0 0 8px;max-width:62ch}
+.info p{max-width:62ch}
+.info a{color:var(--sea)}
+.toast{position:absolute;left:50%;transform:translateX(-50%);top:62px;z-index:6;background:var(--ink);color:var(--surface);padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:var(--shadow);max-width:calc(100% - 32px)}
+</style>
+
+<div class="app" id="app">
+  <header class="top">
+    <div class="brand"><small>Wunyami</small><b>Green Island Guide</b></div>
+    <div class="langsel" role="group" aria-label="Narration language">
+      <button data-lang="en" aria-pressed="true">EN</button><button data-lang="zh" aria-pressed="false">中文</button><button data-lang="ja" aria-pressed="false">日本語</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- TOUR -->
+    <section class="view" id="v-tour">
+      <div id="map" aria-label="Map of Green Island"></div>
+      <div class="status" id="status" data-s="idle"><i></i><span id="statusText">Tour not started</span></div>
+      <div class="mapctl">
+        <button class="fab" id="btnLocate" aria-pressed="false" title="Use my location" aria-label="Use my location"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></button>
+        <button class="fab" id="btnDemo" aria-pressed="false" title="Demo walk" aria-label="Demo walk"><svg viewBox="0 0 24 24" id="demoIcon"><path d="M13 4a1.5 1.5 0 1 0 0 .01M10 21l2-6 3 3v3M8 11l3-3 3 2 3 1M12 15l-1-5"/></svg></button>
+        <button class="fab" id="btnFit" title="Show whole island" aria-label="Show whole island"><svg viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+        <button class="fab" id="btnIn" aria-label="Zoom in"><svg viewBox="0 0 24 24"><path d="M12 6v12M6 12h12"/></svg></button>
+        <button class="fab" id="btnOut" aria-label="Zoom out"><svg viewBox="0 0 24 24"><path d="M6 12h12"/></svg></button>
+      </div>
+      <div class="sheet peek" id="sheet">
+        <button class="grab" id="grab" aria-label="Expand stop details" aria-expanded="false"></button>
+        <div class="player">
+          <button class="pbtn" id="btnPlay" aria-label="Play narration"><svg viewBox="0 0 24 24" id="playIcon"><path d="M8 5v14l11-7z"/></svg></button>
+          <div class="pmeta">
+            <div class="eyebrow" id="pEyebrow">Stop 1 of 11</div>
+            <div class="ptitle" id="pTitle">The Jetty</div>
+            <div class="prog" aria-hidden="true"><b id="pProg"></b></div>
+          </div>
+          <div class="pnav">
+            <button class="icon" id="btnPrev" aria-label="Previous stop"><svg viewBox="0 0 24 24"><path d="M15 6l-6 6 6 6"/></svg></button>
+            <button class="icon" id="btnNext" aria-label="Next stop"><svg viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg></button>
+          </div>
+        </div>
+        <div class="walkbar"><span id="wbLeft">0 m</span><div class="track"><b id="wbFill" style="width:0"></b></div><span id="wbRight">977 m</span></div>
+        <div class="sbody" id="sbody"></div>
+      </div>
+    </section>
+
+    <!-- NATURE -->
+    <section class="view pad" id="v-nature" hidden>
+      <div class="vhead"><h2>Flora &amp; fauna</h2><p>Over 120 native plants, 55-plus bird species seen regularly and a reef with 190 kinds of hard coral. Tick off what you spot.</p></div>
+      <input class="search" id="natSearch" type="search" placeholder="Search birds, turtles, plants…" aria-label="Search flora and fauna">
+      <div class="chips" id="natFilter" role="group" aria-label="Filter"></div>
+      <div class="tally" id="natTally"></div>
+      <div class="cards" id="natCards"></div>
+    </section>
+
+    <!-- EXPLORE -->
+    <section class="view pad" id="v-explore" hidden>
+      <div class="vhead"><h2>Things to do</h2><p>Everything on the island within a few minutes' walk of the jetty. Tap <b>Show on map</b> to find it.</p></div>
+      <div id="actList"></div>
+    </section>
+
+    <!-- INFO -->
+    <section class="view pad info" id="v-info" hidden>
+      <div id="infoBody"></div>
+    </section>
+
+    <!-- INTRO -->
+    <div class="intro" id="intro">
+      <div class="intro-art" aria-hidden="true"><svg id="introArt" preserveAspectRatio="xMidYMid slice"></svg></div>
+      <div class="intro-body">
+        <h1>Wunyami, <em>Green Island</em></h1>
+        <p class="lede">An audio guide to a 6,000-year-old rainforest cay on the Great Barrier Reef. Walk the boardwalk and each story plays as you reach it.</p>
+        <p class="ack">We acknowledge the Gunggandji people, Traditional Owners of Wunyami and its sea country, and pay our respects to Elders past and present.</p>
+        <div class="choose">
+          <button class="bigbtn primary" id="introGps"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></span><span><b>Start tour with GPS</b><small>For use on the island. Stories play as you walk.</small></span></button>
+          <button class="bigbtn" id="introDemo"><span class="ic"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><span><b>Try the demo walk</b><small>A simulated walk from the jetty to the southern lookout.</small></span></button>
+          <button class="bigbtn" id="introBrowse"><span class="ic"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg></span><span><b>Just browse</b><small>Map, wildlife and things to do, no audio.</small></span></button>
+        </div>
+        <p class="poc">Proof of concept. Content drawn from Queensland Parks and Wildlife Service and green-island.com.au. Map data © OpenStreetMap contributors.</p>
+      </div>
+    </div>
+    <div class="toast" id="toast" hidden></div>
+  </main>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-v="tour" aria-selected="true"><svg viewBox="0 0 24 24"><path d="M9 4L3 6v14l6-2 6 2 6-2V4l-6 2-6-2zM9 4v14M15 6v14"/></svg><span data-i="tour">Tour</span></button>
+    <button role="tab" data-v="nature" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M5 19c0-8 6-14 15-14-1 9-6 14-13 14M5 19l7-7"/></svg><span data-i="nature">Nature</span></button>
+    <button role="tab" data-v="explore" aria-selected="false"><svg viewBox="0 0 24 24"><path d="M3 15c2 0 2-1.5 4.5-1.5S10 15 12 15s2.5-1.5 4.5-1.5S19 15 21 15M3 19c2 0 2-1.5 4.5-1.5S10 19 12 19s2.5-1.5 4.5-1.5S19 19 21 19M12 11V3l5 3-5 3"/></svg><span data-i="explore">Explore</span></button>
+    <button role="tab" data-v="info" aria-selected="false"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></svg><span data-i="info">Info</span></button>
+  </nav>
+</div>
+
+<script>
+const GEO = {"lat0":-16.7592,"lon0":145.9735,"kx":106591.69109317292,"ky":110574,"layers":{"coast":["M365.7 115.5 L367.1 97.1 L362.3 77.6 L348.7 55.8 L326.6 34.6 L262.2 3.2 L232.7 -13.1 L164.3 -46.3 L106.5 -90.8 L74.7 -122.9 L11.2 -148.4 L-45.3 -164.6 L-78.7 -177.0 L-101.9 -179.0 L-116.5 -175.7 L-127.2 -168.9 L-134.5 -159.4 L-136.5 -151.7 L-136.6 -143.6 L-137.2 -136.1 L-137.2 -126.3 L-141.9 -115.5 L-147.0 -107.7 L-147.6 -107.2 L-151.7 -103.1 L-152.3 -102.6 L-161.5 -97.0 L-163.6 -95.7 L-189.4 -73.0 L-220.4 -44.6 L-236.2 -22.0 L-243.1 -13.0 L-271.4 34.5 L-278.8 45.8 L-282.7 55.8 L-282.0 60.0 L-265.7 73.9 L-257.0 77.3 L-239.2 90.8 L-232.5 102.3 L-218.7 108.3 L-204.5 113.0 L-175.5 120.4 L-178.5 128.0 L-163.8 135.0 L-159.3 127.9 L-124.3 142.9 L-74.0 157.1 L-37.0 164.8 L23.4 173.8 L61.7 175.3 L106.1 175.5 L153.3 174.3 L183.9 170.9 L241.3 166.2 L281.2 162.7 L312.4 155.2 L336.7 147.6 L348.7 141.0 L361.4 130.0 L365.7 115.5Z"],"board":["M291.0 145.9 L290.2 154.4","M132.6 -25.4 L138.3 -31.1 L144.8 -37.7 L146.0 -39.7","M193.6 10.9 L193.7 2.1 L200.0 -11.0 L205.8 -19.3","M-110.2 -78.7 L-112.8 -89.7 L-107.7 -100.2 L-105.8 -113.3 L-110.9 -126.0 L-120.6 -133.1 L-124.5 -134.3","M43.8 -59.8 L67.4 -51.6 L77.7 -51.4 L94.8 -45.4 L111.4 -39.3 L132.6 -25.4 L145.0 -15.3 L154.8 -1.2 L167.2 16.2 L172.7 19.9 L181.7 12.6 L193.6 10.9 L198.6 10.1 L219.8 13.9 L227.6 19.9 L227.2 28.3 L218.5 35.6 L215.7 39.6 L215.4 43.9 L223.7 53.6 L235.9 65.1 L250.4 82.0 L271.2 92.2 L284.7 108.9 L289.6 122.4 L289.7 137.4 L291.0 145.9"],"foot":["M-232.4 21.7 L-232.2 21.7","M-216.0 -18.9 L-202.1 -25.0 L-185.5 -21.8 L-175.3 -25.6 L-166.8 -31.8 L-164.9 -30.6 L-146.4 -32.5 L-139.6 -40.9 L-134.1 -44.4 L-113.7 -43.3 L-104.6 -45.2 L-90.5 -58.4 L-88.1 -62.0 L-84.8 -67.0 L-80.6 -73.9 L-74.8 -76.9 L-76.3 -85.1","M289.7 137.4 L296.9 136.8 L300.7 142.4","M-76.3 -85.1 L-69.2 -99.7 L-70.4 -115.1 L-64.4 -125.8 L-55.7 -136.5 L-51.4 -146.1 L-45.0 -161.0","M-169.7 -76.9 L-173.2 -80.9","M-195.5 -54.3 L-185.7 -40.6","M-171.8 -70.0 L-160.5 -49.6 L-167.9 -44.1 L-166.8 -31.8","M-160.5 -49.6 L-154.6 -49.7 L-148.1 -49.2 L-142.1 -46.0 L-139.6 -40.9","M-188.6 -36.9 L-175.3 -25.6","M-185.7 -40.6 L-188.6 -36.9","M-105.9 -79.9 L-96.9 -62.3 L-88.1 -62.0","M-177.8 -85.6 L-176.5 -84.2 L-173.2 -80.9","M-109.1 107.3 L-122.8 113.9 L-129.1 115.9 L-134.7 119.3","M-122.8 113.9 L-136.8 92.4 L-136.8 84.4","M-157.6 103.4 L-163.1 117.5","M-149.5 -101.1 L-148.4 -84.4","M-215.4 19.5 L-214.8 23.2 L-211.3 30.9 L-200.2 51.3 L-192.9 56.7 L-185.8 65.9 L-179.9 74.3 L-176.9 78.3 L-167.9 92.8 L-157.6 103.4 L-134.7 119.3 L-130.4 129.9","M-179.9 74.3 L-177.6 72.7","M-177.6 72.7 L-152.4 56.1","M-200.2 51.3 L-206.2 56.8 L-211.3 58.2","M-232.2 21.7 L-215.4 19.5 L-219.8 6.1 L-218.9 -9.2 L-216.0 -18.9 L-212.1 -36.5 L-200.2 -50.4 L-195.5 -54.3 L-191.1 -61.2 L-183.8 -64.7 L-171.8 -70.0 L-169.7 -76.9 L-159.2 -77.4 L-148.4 -84.4 L-126.6 -74.3 L-110.2 -78.7 L-105.9 -79.9 L-100.1 -81.5 L-76.3 -85.1 L-52.1 -79.4 L-38.3 -81.4 L-33.1 -81.3 L-12.7 -75.4 L-7.7 -68.1 L27.9 -60.6 L33.6 -60.3 L43.8 -59.8","M-437.0 -136.3 L-437.2 -138.1 L-434.0 -138.3","M-149.5 -101.1 L-151.7 -103.1 L-152.8 -104.2","M33.6 -60.3 L31.6 -50.1","M-436.9 -134.7 L-400.2 -138.1 L-354.3 -141.0 L-223.8 -23.9 L-216.0 -18.9","M-455.3 -128.6 L-454.1 -131.8 L-452.9 -133.0 L-451.2 -133.7 L-436.9 -134.7 L-437.0 -136.3"],"pier":["M-362.7 -141.9 L-427.6 -136.6 L-437.0 -136.3 L-457.7 -135.1 L-455.3 -128.6 L-452.9 -121.8 L-447.6 -123.8 L-451.3 -131.8 L-437.6 -132.3 L-438.8 -115.0 L-432.0 -114.9 L-431.9 -133.0 L-427.7 -133.0 L-427.6 -134.7 L-400.1 -137.4 L-399.9 -135.9 L-355.4 -139.7 L-232.0 -29.1 L-229.8 -31.1 L-352.1 -143.2 L-356.5 -142.8","M-362.7 -141.9 L-362.9 -143.3 L-392.5 -140.4 L-392.8 -142.9 L-356.8 -146.3 L-356.5 -142.8"],"sand":["M-33.1 -81.3 L-32.9 -103.6 L-34.8 -126.5 L-32.9 -137.7 L-31.5 -145.3 L-28.7 -156.1","M-211.3 58.2 L-213.0 58.7 L-219.4 57.9 L-226.0 57.3 L-243.2 55.1 L-249.2 54.6 L-255.0 53.1 L-259.4 50.6 L-259.6 48.5 L-253.1 41.1 L-246.7 34.7 L-243.6 32.9 L-240.3 32.9 L-237.8 36.6 L-235.6 40.3 L-237.5 45.9 L-235.9 49.6 L-229.9 51.1 L-224.4 51.2 L-219.4 57.9"],"pool":["M-143.4 -61.2 L-135.3 -57.2 L-129.7 -56.3 L-126.2 -57.8 L-123.0 -56.1 L-122.6 -49.8 L-124.5 -46.2 L-129.4 -45.1 L-135.4 -47.7 L-140.9 -46.7 L-144.8 -49.3 L-146.8 -51.2 L-149.1 -56.7 L-147.3 -60.5 L-143.4 -61.2Z","M-157.7 8.8 L-163.9 10.7 L-165.1 14.7 L-163.1 17.2 L-159.3 18.0 L-155.7 16.8 L-154.4 14.5 L-154.8 10.6 L-157.7 8.8Z"],"bldg":["M-119.1 -54.8 L-119.9 -49.3 L-115.2 -46.0 L-110.2 -46.7 L-108.0 -48.8 L-108.0 -54.4 L-114.4 -57.0 L-119.1 -54.8Z","M-166.3 -42.5 L-163.1 -33.5 L-153.6 -36.2 L-144.6 -39.8 L-148.5 -48.6 L-166.3 -42.5Z","M-63.3 -146.1 L-64.0 -142.4 L-59.4 -141.5 L-58.7 -145.3 L-63.3 -146.1Z","M-73.0 -155.5 L-73.9 -153.2 L-71.5 -152.3 L-70.7 -154.7 L-73.0 -155.5Z","M-85.3 -64.7 L-85.4 -59.4 L-79.1 -59.3 L-79.2 -52.4 L-67.1 -52.2 L-66.9 -64.5 L-85.3 -64.7Z","M-163.7 39.5 L-162.7 46.4 L-157.8 45.7 L-158.8 38.8 L-163.7 39.5Z","M-75.5 -135.8 L-79.5 -132.2 L-77.0 -129.4 L-72.9 -133.0 L-75.5 -135.8Z","M-15.3 12.2 L-17.4 27.0 L6.4 30.3 L8.4 15.5 L-15.3 12.2Z","M-91.6 83.1 L-84.7 86.7 L-90.5 97.7 L-97.4 94.2 L-91.6 83.1Z","M-92.7 -19.6 L-94.0 -8.8 L-84.2 -7.7 L-82.9 -18.4 L-92.7 -19.6Z","M-30.0 -32.3 L-35.8 -33.6 L-41.0 -35.0 L-39.7 -45.9 L-21.1 -42.7 L-23.6 -32.9 L-23.9 -31.2 L-30.0 -32.3Z","M-26.3 -25.4 L-40.5 -26.7 L-41.6 -14.0 L-28.0 -11.9 L-26.3 -25.4Z","M-42.2 -27.2 L-59.0 -29.1 L-60.4 -18.0 L-56.6 -17.4 L-51.9 -3.5 L-45.4 -6.9 L-48.7 -16.5 L-43.3 -15.9 L-42.2 -27.2Z","M-33.4 4.0 L-42.1 2.5 L-46.3 22.3 L-24.7 25.7 L-22.7 11.5 L-34.2 9.4 L-33.4 4.0Z","M23.8 -55.6 L-16.4 -62.8 L-18.3 -54.1 L7.2 -49.8 L4.5 -33.9 L19.2 -31.2 L23.8 -55.6Z"],"swimarea":["M-55.5 -211.7 L-63.9 -177.5 L-16.7 -159.2 L-4.4 -196.9 L-55.5 -211.7Z"],"wood":["M-71.1 139.9 L31.4 158.2 L145.2 155.1 L281.0 145.7 L325.9 131.9 L342.1 114.4 L343.4 93.9 L325.9 68.4 L308.4 53.7 L260.3 21.1 L211.3 0.1 L161.8 -19.1 L142.3 -34.1 L120.0 -51.3 L47.6 -62.4 L39.5 -10.6 L31.4 43.0 L-51.8 28.7 L-67.1 -0.8 L-123.3 -6.2 L-148.0 9.5 L-130.5 34.5 L-141.3 89.0 L-152.5 110.4 L-71.1 139.9Z"],"rock":["M-183.8 116.7 L-171.9 119.9 L-173.7 124.2 L-180.5 121.9 L-183.8 116.7Z","M-160.3 126.7 L-124.3 140.2 L-99.4 146.6 L-89.8 148.4 L-57.0 155.2 L-29.4 161.0 L11.1 166.6 L45.8 169.2 L77.0 170.0 L104.7 170.9 L130.6 171.7 L135.9 173.9 L149.7 175.2 L149.8 176.2 L145.2 176.8 L107.1 180.5 L90.6 182.1 L62.8 179.3 L31.4 178.4 L-38.9 167.2 L-58.7 161.4 L-64.1 161.7 L-71.1 159.6 L-92.7 156.2 L-121.0 147.7 L-134.8 142.7 L-156.6 133.8 L-162.1 130.8 L-160.3 126.7Z","M159.0 175.3 L183.7 169.7 L238.1 167.7 L285.3 163.3 L330.8 153.6 L363.6 142.8 L355.6 149.9 L329.9 159.1 L308.7 164.3 L285.1 169.3 L266.4 171.3 L231.3 172.0 L184.6 173.0 L159.0 175.3Z","M343.2 60.7 L354.0 77.9 L363.0 97.9 L365.6 95.6 L360.4 80.2 L349.4 62.5 L340.8 53.6 L323.6 41.8 L304.1 28.7 L284.9 15.2 L272.9 6.7 L257.8 2.7 L247.3 -0.4 L237.7 -3.3 L239.1 -1.0 L259.7 5.8 L272.0 11.1 L301.3 29.4 L335.4 54.2 L343.2 60.7Z"],"resort":["M-151.6 105.9 L-144.3 88.9 L-132.6 36.1 L-150.3 11.4 L-149.3 6.9 L-133.8 -3.5 L-174.1 -10.9 L-215.7 -10.4 L-216.9 5.7 L-211.9 19.0 L-198.0 49.4 L-189.8 54.8 L-177.6 72.7 L-166.5 92.1 L-151.6 105.9Z"],"park":["M-46.3 149.1 L-43.4 127.9 L-86.2 116.6 L-137.5 98.2 L-107.5 -7.8 L-44.3 0.8 L-47.4 23.6 L30.3 34.2 L33.3 11.4 L42.2 -53.4 L48.9 -78.0 L69.4 -77.1 L122.4 -67.2 L148.8 -48.6 L182.9 -34.8 L243.1 -8.0 L285.9 10.0 L316.8 34.9 L346.7 59.8 L367.8 89.5 L360.7 121.6 L336.5 145.8 L307.1 154.1 L261.8 160.8 L215.4 162.6 L167.7 160.7 L88.3 165.5 L54.0 164.9 L11.2 161.5 L-27.4 153.6 L-46.3 149.1Z"],"beach":["M-237.7 110.1 L-247.4 105.3 L-254.3 98.2 L-256.3 88.8 L-256.3 70.1 L-294.3 53.0 L-249.1 2.2 L-243.4 -2.3 L-239.4 -2.3 L-235.4 0.8 L-233.7 7.3 L-231.4 24.1 L-237.4 25.5 L-237.1 29.2 L-246.3 35.7 L-255.7 41.4 L-258.8 43.7 L-263.4 49.1 L-259.7 57.6 L-255.7 62.4 L-246.5 65.8 L-242.0 70.1 L-238.0 74.6 L-233.1 80.0 L-227.1 87.4 L-216.5 93.9 L-146.5 120.6 L-111.0 134.0 L-95.6 139.1 L-35.3 152.7 L-0.7 158.1 L34.8 162.7 L75.1 164.4 L124.6 162.9 L168.6 159.8 L186.6 157.8 L212.0 157.5 L244.6 155.3 L272.9 152.4 L309.2 144.5 L326.1 138.0 L337.0 130.0 L344.4 121.5 L348.4 110.1 L348.4 96.5 L343.3 84.6 L334.1 70.9 L318.1 56.2 L291.2 34.3 L259.8 16.1 L223.5 -1.5 L204.0 -7.2 L182.9 -15.4 L158.9 -29.9 L146.0 -39.7 L133.4 -49.2 L101.1 -74.8 L77.4 -100.3 L54.8 -115.6 L29.1 -127.6 L-16.4 -141.2 L-19.8 -138.9 L-42.1 -141.2 L-54.7 -142.9 L-61.0 -147.7 L-73.6 -158.2 L-85.3 -161.4 L-98.7 -159.4 L-112.5 -154.3 L-119.6 -148.3 L-123.9 -138.9 L-124.5 -134.3 L-125.3 -128.1 L-126.7 -112.0 L-129.3 -109.1 L-138.1 -109.8 L-147.6 -107.2 L-152.3 -102.6 L-161.5 -97.0 L-162.1 -98.2 L-158.9 -102.2 L-141.3 -127.6 L-147.6 -145.2 L-149.0 -160.5 L-143.3 -175.0 L-132.8 -185.5 L-121.0 -190.3 L-104.7 -190.3 L-84.2 -189.2 L-71.9 -183.8 L-54.7 -176.4 L-22.4 -162.5 L-1.8 -156.8 L14.2 -154.3 L26.8 -151.7 L46.2 -146.0 L69.7 -135.2 L85.7 -123.6 L98.3 -110.3 L120.0 -88.4 L133.7 -77.9 L164.3 -55.2 L182.6 -42.7 L211.5 -25.9 L255.8 -3.8 L304.1 20.9 L346.1 40.3 L356.1 51.3 L363.0 64.1 L376.2 82.0 L380.4 101.3 L379.6 118.1 L369.3 141.4 L354.1 152.7 L323.0 162.4 L288.1 170.3 L256.6 172.9 L225.8 173.2 L184.6 174.3 L158.0 177.4 L90.8 185.1 L41.9 184.5 L6.2 181.7 L-33.0 174.0 L-70.1 165.5 L-98.4 161.2 L-128.2 152.7 L-156.2 141.1 L-182.8 128.6 L-237.7 110.1Z M-183.8 116.7 L-171.9 119.9 L-173.7 124.2 L-180.5 121.9 L-183.8 116.7Z M-160.3 126.7 L-124.3 140.2 L-99.4 146.6 L-89.8 148.4 L-57.0 155.2 L-29.4 161.0 L11.1 166.6 L45.8 169.2 L77.0 170.0 L104.7 170.9 L130.6 171.7 L135.9 173.9 L149.7 175.2 L149.8 176.2 L145.2 176.8 L107.1 180.5 L90.6 182.1 L62.8 179.3 L31.4 178.4 L-38.9 167.2 L-58.7 161.4 L-64.1 161.7 L-71.1 159.6 L-92.7 156.2 L-121.0 147.7 L-134.8 142.7 L-156.6 133.8 L-162.1 130.8 L-160.3 126.7Z M159.0 175.3 L183.7 169.7 L238.1 167.7 L285.3 163.3 L330.8 153.6 L363.6 142.8 L355.6 149.9 L329.9 159.1 L308.7 164.3 L285.1 169.3 L266.4 171.3 L231.3 172.0 L184.6 173.0 L159.0 175.3Z M343.2 60.7 L354.0 77.9 L363.0 97.9 L365.6 95.6 L360.4 80.2 L349.4 62.5 L340.8 53.6 L323.6 41.8 L304.1 28.7 L284.9 15.2 L272.9 6.7 L257.8 2.7 L247.3 -0.4 L237.7 -3.3 L239.1 -1.0 L259.7 5.8 L272.0 11.1 L301.3 29.4 L335.4 54.2 L343.2 60.7Z"],"reef":["M365.7 115.5 L367.1 97.1 L362.3 77.6 L348.7 55.8 L326.6 34.6 L262.2 3.2 L232.7 -13.1 L164.3 -46.3 L106.5 -90.8 L74.7 -122.9 L11.2 -148.4 L-45.3 -164.6 L-78.7 -177.0 L-101.9 -179.0 L-116.5 -175.7 L-127.2 -168.9 L-134.5 -159.4 L-136.5 -151.7 L-136.6 -143.6 L-137.2 -136.1 L-137.2 -126.3 L-141.9 -115.5 L-147.0 -107.7 L-147.6 -107.2 L-151.7 -103.1 L-152.3 -102.6 L-161.5 -97.0 L-163.6 -95.7 L-189.4 -73.0 L-220.4 -44.6 L-236.2 -22.0 L-243.1 -13.0 L-271.4 34.5 L-278.8 45.8 L-282.7 55.8 L-282.0 60.0 L-265.7 73.9 L-257.0 77.3 L-239.2 90.8 L-232.5 102.3 L-218.7 108.3 L-204.5 113.0 L-175.5 120.4 L-178.5 128.0 L-163.8 135.0 L-159.3 127.9 L-124.3 142.9 L-74.0 157.1 L-37.0 164.8 L23.4 173.8 L61.7 175.3 L106.1 175.5 L153.3 174.3 L183.9 170.9 L241.3 166.2 L281.2 162.7 L312.4 155.2 L336.7 147.6 L348.7 141.0 L361.4 130.0 L365.7 115.5Z M-901.5 -1019.8 L-938.1 -729.0 L-810.0 -311.0 L-381.9 556.0 L404.9 1428.4 L800.2 1561.0 L1612.6 1355.7 L2264.0 943.1 L2575.0 743.2 L2538.4 416.0 L2117.6 161.6 L1532.1 -274.6 L690.4 -529.1 L-261.1 -838.0 L-718.5 -1038.0 L-901.5 -1019.8Z"]},"route":[[-457.7,-135.1],[-437.0,-136.3],[-436.9,-134.7],[-400.2,-138.1],[-354.3,-141.0],[-223.8,-23.9],[-216.0,-18.9],[-202.1,-25.0],[-185.5,-21.8],[-175.3,-25.6],[-166.8,-31.8],[-164.9,-30.6],[-146.4,-32.5],[-139.6,-40.9],[-134.1,-44.4],[-113.7,-43.3],[-104.6,-45.2],[-90.5,-58.4],[-88.1,-62.0],[-84.8,-67.0],[-80.6,-73.9],[-74.8,-76.9],[-76.3,-85.1],[-52.1,-79.4],[-38.3,-81.4],[-33.1,-81.3],[-12.7,-75.4],[-7.7,-68.1],[27.9,-60.6],[33.6,-60.3],[43.8,-59.8],[67.4,-51.6],[77.7,-51.4],[94.8,-45.4],[111.4,-39.3],[132.6,-25.4],[145.0,-15.3],[154.8,-1.2],[167.2,16.2],[172.7,19.9],[181.7,12.6],[193.6,10.9],[198.6,10.1],[219.8,13.9],[227.6,19.9],[227.2,28.3],[218.5,35.6],[215.7,39.6],[215.4,43.9],[223.7,53.6],[235.9,65.1],[250.4,82.0],[271.2,92.2],[284.7,108.9],[289.6,122.4],[289.7,137.4],[296.9,136.8],[300.7,142.4]]};
+
+/* ---------- content ---------- */
+const UI = {
+  en:{tour:'Tour',nature:'Nature',explore:'Explore',info:'Info',stop:'Stop',of:'of'},
+  zh:{tour:'导览',nature:'自然',explore:'活动',info:'信息',stop:'第',of:'/'},
+  ja:{tour:'ツアー',nature:'自然',explore:'アクティビティ',info:'情報',stop:'ストップ',of:'/'}
+};
+const SPEECH_LANG = {en:'en-AU',zh:'zh-CN',ja:'ja-JP'};
+
+// Stops sit on real boardwalk sign positions (OpenStreetMap). Order is computed from distance along the route.
+const STOPS = [
+ {id:'jetty', at:'routeStart', kind:'Jetty walk',
+  t:{en:'The Jetty',zh:'栈桥',ja:'桟橋'},
+  n:{en:"Welcome to Green Island. You're standing on a jetty that visitors have walked for nearly a hundred years. It stretches about 250 metres out over the reef flat. Look over the edge. Large fish glide through the shadows below, stingrays burst away from the sandy bottom in a puff of sand, and green turtles surface for a breath. Before you walk ashore, turn around for the classic postcard view of the island in a sea of blue.",
+     zh:"欢迎来到绿岛。您脚下的这座栈桥，近百年来一直迎接着来访的游客。它从岸边向礁坪延伸约250米。请低头看看：大鱼在阴影中穿梭，魟鱼从沙底疾游而去，扬起一团细沙，绿海龟也会浮出水面换气。上岸之前，不妨回头欣赏小岛被碧蓝大海环抱的明信片般的景色。",
+     ja:"グリーン島へようこそ。いま立っている桟橋は、100年近くにわたり訪れる人々を迎えてきました。桟橋はリーフフラットの上を約250メートル伸びています。下をのぞいてみてください。大きな魚が影の中を泳ぎ、エイは砂を巻き上げて逃げていき、アオウミガメが息つぎに顔を出します。上陸する前に振り返って、青い海に浮かぶ島の絵葉書のような景色を楽しみましょう。"},
+  look:['turtle','ray','pelagic','egret'], src:'Parks QLD, Jetty walk'},
+ {id:'welcome', ll:[-16.759076,145.971481], kind:'Sign: Welcome to Green Island',
+  t:{en:'Arrival & day-use area',zh:'抵达与一日游区域',ja:'到着とデイユースエリア'},
+  n:{en:"This is the heart of the day-use area, which stretches along the beach either side of the jetty. Beach Hire, just left of the jetty behind the patrolled beach, rents towels, umbrellas, sun lounges and kayaks. The safest place to swim is between the red and yellow flags on the northern beach. Stingers can be present at any time, so wear a stinger suit in the water. Toilets, showers and lockers are in the resort, just ahead.",
+     zh:"这里是一日游区域的中心，沿着栈桥两侧的海滩展开。栈桥左侧、有救生员巡视的海滩后方是海滩租赁处，可以租用毛巾、遮阳伞、躺椅和皮划艇。最安全的游泳地点是北侧海滩的红黄旗之间。水母全年都可能出现，下水时请穿防蛰服。前方度假村内设有洗手间、淋浴和储物柜。",
+     ja:"ここは桟橋の両側の浜辺に広がるデイユースエリアの中心です。桟橋の左手、監視員のいるビーチの奥にあるビーチハイヤーでは、タオル、パラソル、サンラウンジャー、カヤックを借りられます。いちばん安全に泳げるのは、北側ビーチの赤と黄色の旗の間です。クラゲは一年中現れる可能性があるので、水に入るときはスティンガースーツを着用してください。トイレ、シャワー、ロッカーはこの先のリゾート内にあります。"},
+  look:['casuarina','coconut'], src:'Parks QLD, day-use area and map'},
+ {id:'monkman', ll:[-16.758512,145.97339], kind:'Sign: Kitty & Noel Monkman',
+  t:{en:'Kitty & Noel Monkman',zh:'蒙克曼夫妇',ja:'モンクマン夫妻'},
+  n:{en:"This sign remembers Kitty and Noel Monkman, pioneering filmmakers who brought the Great Barrier Reef to cinema audiences and made Green Island their home. The island was full of firsts for reef tourism. The world's first glass-bottom boat launched here in 1937, and the world's first underwater observatory opened here in 1954.",
+     zh:"这块标牌纪念基蒂和诺埃尔·蒙克曼夫妇。他们是开拓性的电影人，把大堡礁带上了大银幕，并以绿岛为家。绿岛创造了许多珊瑚礁旅游的“世界第一”：1937年，世界上第一艘玻璃底船在这里启航；1954年，世界上第一座水下观景台在这里开放。",
+     ja:"この看板は、グレートバリアリーフを映画館のスクリーンに届け、グリーン島を住まいとした先駆的な映画製作者、キティとノエル・モンクマン夫妻を紹介しています。グリーン島はリーフ観光の「世界初」の地でもあります。1937年には世界初のグラスボトムボートがここで就航し、1954年には世界初の海中展望台がオープンしました。"},
+  look:[], src:'green-island.com.au history', note:'Sign wording to be confirmed on site. Monkman biography drafted for review.'},
+ {id:'entry', ll:[-16.758666,145.973883], kind:'Sign: Green Island National Park',
+  t:{en:'Into the rainforest',zh:'走进雨林',ja:'熱帯雨林へ'},
+  n:{en:"Here the boardwalk leaves the resort and enters Green Island National Park. Step out of the glare into cool, shady vine-thicket rainforest. It grows on sand. The island is a pile of coral rubble, shells and sand about 6,000 years old, cemented and fertilised by seabird droppings. More than 120 native plant species grow here. Listen for buff-banded rails dashing across the path and emerald doves rustling in the leaf litter. Please stay on the boardwalk.",
+     zh:"从这里开始，木栈道离开度假村，进入绿岛国家公园。走出烈日，进入凉爽、幽暗的藤本灌丛雨林。这片雨林生长在沙子上：整座小岛由珊瑚碎屑、贝壳和沙子堆积而成，已有约6000年历史，海鸟粪便把它们胶结在一起，也为种子提供养分。这里生长着120多种本土植物。留意横穿步道的灰胸秧鸡，以及在落叶间窸窣觅食的绿翅金鸠。请始终走在栈道上。",
+     ja:"ここで遊歩道はリゾートを離れ、グリーン島国立公園に入ります。強い日差しから、涼しく木陰の多いつる性の熱帯雨林へ。この森は砂の上に育っています。島はサンゴのかけら、貝殻、砂が積み重なってできた約6000年前の砂州で、海鳥のふんがそれを固め、種に栄養を与えました。120種以上の在来植物が生えています。道を横切るムナオビクイナや、落ち葉の中でカサカサと音を立てるキンバトに耳を澄ませてください。遊歩道から外れないようにしましょう。"},
+  look:['rail','dove','vinethicket'], src:'Parks QLD, The Boardwalk; green-island.com.au'},
+ {id:'showcase', ll:[-16.759396,145.975114], kind:'Sign: By Nature, Showcase to the World',
+  t:{en:'Showcase to the world',zh:'向世界展示',ja:'世界に誇る自然'},
+  n:{en:"Green Island sits inside the Great Barrier Reef World Heritage Area, famed for its superlative natural beauty, reef ecosystem development, evolutionary history and diversity. The island is protected three ways: as a national park, within the Great Barrier Reef Marine Park, and as World Heritage. Of around 300 coral cays on the reef, it is the only one with a rainforest. Look up for silvereyes darting through the canopy.",
+     zh:"绿岛位于大堡礁世界遗产区内，这里以绝美的自然景观、珊瑚礁生态系统的演化和丰富的生物多样性而闻名。小岛受到三重保护：国家公园、大堡礁海洋公园，以及世界遗产。在大堡礁约300座珊瑚沙洲中，只有绿岛拥有雨林。抬头看看，灰胸绣眼鸟正在树冠间穿梭。",
+     ja:"グリーン島はグレートバリアリーフ世界遺産地域の中にあり、比類ない自然美、サンゴ礁生態系の発達、進化の歴史、多様性が評価されています。島は国立公園、グレートバリアリーフ海洋公園、世界遺産という三重の保護を受けています。リーフにある約300のサンゴ砂州のうち、熱帯雨林があるのはこの島だけです。見上げると、ハイムネメジロが林冠を飛び回っています。"},
+  look:['silvereye'], src:'Parks QLD; green-island.com.au'},
+ {id:'pestfree', ll:[-16.759235,145.975323], kind:"Sign: Let's Not Change a Thing",
+  t:{en:'Keep it pest-free',zh:'远离有害生物',ja:'外来生物を持ち込まない'},
+  n:{en:"Great Barrier Reef islands are among the most pest-free islands in the world. One seed stuck to a shoelace, or a stowaway insect, could change this forest. Check your shoes, bags and clothes for soil, seeds, insects and lizards, and put any seeds you find in a bin. Everything here is protected. Land and sea are a no-take zone, and feeding birds or fish is not allowed.",
+     zh:"大堡礁的岛屿是世界上有害生物最少的岛屿之一。鞋带上的一粒种子，或偷偷搭便车的一只昆虫，都可能改变这片森林。请检查鞋子、背包和衣物上是否沾有泥土、种子、昆虫或蜥蜴，发现的种子请丢进垃圾桶。这里的一切都受到保护：陆地和海洋都禁止采集任何动植物，也不允许喂食鸟类或鱼类。",
+     ja:"グレートバリアリーフの島々は、世界でも有数の外来生物の少ない島です。靴ひもに付いた種ひとつ、紛れ込んだ虫一匹が、この森を変えてしまうかもしれません。靴やバッグ、衣服に土、種、虫、トカゲが付いていないか確認し、見つけた種はごみ箱へ。ここではすべてが保護されています。陸でも海でも動植物の採取は禁止で、鳥や魚にえさを与えることもできません。"},
+  look:[], src:'Parks QLD, Visiting safely and map'},
+ {id:'wunyami', ll:[-16.759333,145.975443], kind:'Sign: Aboriginal Place, Wunyami',
+  t:{en:'Wunyami, place of spirits',zh:'Wunyami：灵魂之地',ja:'ウニャミ：精霊の地'},
+  n:{en:"Long before it was named Green Island, this cay was Wunyami, meaning place of spirits. It is a special place for its Traditional Owners, the Gunggandji people. They fished and hunted here, and held manhood initiation ceremonies on the island. The Gunggandji people's connection to Wunyami and the surrounding sea continues today.",
+     zh:"早在被命名为绿岛之前，这座沙洲就叫做 Wunyami，意为“灵魂之地”。对于这里的传统所有者——冈甘吉（Gunggandji）族人来说，这是一个特别的地方。他们曾在这里捕鱼、狩猎，并在岛上举行成年礼仪式。冈甘吉族人与 Wunyami 及周围海域的联系延续至今。",
+     ja:"グリーン島と名付けられるずっと前から、この砂州は「精霊の地」を意味するウニャミ（Wunyami）と呼ばれていました。伝統的所有者であるグンガンジ（Gunggandji）の人々にとって特別な場所です。彼らはここで漁や狩りをし、島で成人の儀式を行っていました。グンガンジの人々とウニャミ、そして周りの海とのつながりは今も続いています。"},
+  look:[], src:'Parks QLD; green-island.com.au history',
+  note:'Placeholder. In the finished guide this stop would be written and voiced with Gunggandji Traditional Owners, with an ICIP notice, as Skyrail did with the Djabugay people.'},
+ {id:'history', ll:[-16.759469,145.975595], kind:'Sign: Historical',
+  t:{en:'Cook, Green and bêche-de-mer',zh:'库克、格林与海参',ja:'クック、グリーン、ナマコ'},
+  n:{en:"On the 10th of June 1770, Captain James Cook charted a low green woody island and named it after Charles Green, the Endeavour's astronomer. From 1857 a bêche-de-mer station operated here for several decades, smoking sea cucumbers. Coconut palms were planted in 1889, pleasure cruises began arriving in 1890, and a regular passenger service from Cairns started in 1924.",
+     zh:"1770年6月10日，詹姆斯·库克船长在海图上标出一座“低矮、翠绿、林木茂密的小岛”，并以“奋进号”上的天文学家查尔斯·格林的名字为它命名。从1857年起，这里设有一座海参熏制站，运营了几十年。1889年岛上种下了椰子树，1890年开始有游船到访，1924年起开通了往返凯恩斯的定期客运。",
+     ja:"1770年6月10日、ジェームズ・クック船長は「低く緑の木々に覆われた島」を海図に記し、エンデバー号の天文学者チャールズ・グリーンにちなんで名付けました。1857年からは数十年にわたり、ナマコを燻製にする加工場がありました。1889年にはココヤシが植えられ、1890年には遊覧船が訪れ始め、1924年にはケアンズからの定期旅客便が始まりました。"},
+  look:['seacucumber','coconut'], src:'green-island.com.au history'},
+ {id:'future', ll:[-16.759574,145.975515], kind:'Sign: Into the Future',
+  t:{en:'Protecting the island',zh:'守护小岛',ja:'島を守る'},
+  n:{en:"Green Island was declared a national park in 1937, the same year the world's first glass-bottom boat launched here. The surrounding waters became a marine national park in 1974. Today they sit in Marine National Park and Scientific Research zones, where fishing is not allowed. The resort began installing solar power in 2017. What happens next depends on every visitor treading lightly.",
+     zh:"1937年，绿岛被宣布为国家公园；同一年，世界上第一艘玻璃底船在这里启航。1974年，周围海域成为海洋国家公园，如今属于海洋国家公园区和科学研究区，禁止捕鱼。度假村自2017年起开始安装太阳能发电设施。小岛的未来，取决于每一位访客都能轻轻走过。",
+     ja:"グリーン島は1937年に国立公園に指定されました。同じ年、世界初のグラスボトムボートがここで就航しています。周囲の海は1974年に海洋国立公園となり、現在は海洋国立公園ゾーンと科学研究ゾーンに属し、釣りは禁止されています。リゾートでは2017年から太陽光発電の導入が始まりました。島の未来は、訪れる一人ひとりが自然にやさしく歩くことにかかっています。"},
+  look:[], src:'green-island.com.au history; Parks QLD'},
+ {id:'edge', ll:[-16.760364,145.976214], kind:'Sign: Life on the Edge',
+  t:{en:'Life on the edge',zh:'边缘生活',ja:'境界に生きる'},
+  n:{en:"You're nearing the southern shore. Here the rainforest gives way to a fringe of tough coastal plants: casuarinas and beach almonds. They tolerate sand, salt and wind, and shelter the rainforest behind them. On the beach, look for oystercatchers, egrets and terns fossicking along the shoreline.",
+     zh:"您已接近南岸。在这里，雨林让位于一圈耐盐的海岸植物：木麻黄和榄仁树。它们能忍受沙土、盐分和海风，为身后的雨林遮挡风浪。在海滩上，留意沿岸觅食的蛎鹬、白鹭和燕鸥。",
+     ja:"南側の海岸が近づいてきました。ここでは熱帯雨林が、たくましい海岸植物の帯へと変わります。モクマオウとモモタマナです。砂や塩、風に耐え、背後の熱帯雨林を守っています。浜辺では、波打ち際でえさを探すミヤコドリ、サギ、アジサシを探してみましょう。"},
+  look:['casuarina','almond','oystercatcher','tern'], src:'Parks QLD, Beach walk'},
+ {id:'lookout', ll:[-16.760476,145.976317], kind:'Constructed lookout',
+  t:{en:'Southern lookout',zh:'南端观景台',ja:'南の展望台'},
+  n:{en:"This lookout marks the end of the boardwalk. Beyond the beach lies the reef flat, around 1,200 hectares of coral and seagrass. The seagrass beds feed green turtles and dugongs, and shelter young fish. The reef holds more than 190 kinds of hard coral and over 100 soft corals. Watch the sky for ospreys and white-bellied sea-eagles. To return, retrace the boardwalk, or at low tide walk the 1.5 kilometre beach circuit around the island.",
+     zh:"这座观景台是木栈道的终点。沙滩之外是约1200公顷的礁坪，布满珊瑚和海草。海草床为绿海龟和儒艮提供食物，也为幼鱼提供庇护。这里的珊瑚礁有190多种硬珊瑚和100多种软珊瑚。抬头留意空中盘旋的鹗和白腹海雕。返程时可沿木栈道原路返回；如果是低潮，也可以沿海滩绕岛一周，全程1.5公里。",
+     ja:"この展望台が遊歩道の終点です。浜の向こうには、サンゴと海草が広がる約1200ヘクタールのリーフフラット。海草藻場はアオウミガメやジュゴンのえさ場であり、稚魚の隠れ家でもあります。このリーフには190種以上のハードコーラルと100種以上のソフトコーラルがあります。空を舞うミサゴやシロハラウミワシにも注目してください。帰りは遊歩道を戻るか、干潮時なら島を一周する1.5キロのビーチウォークもおすすめです。"},
+  look:['seagrass','dugong','coral','osprey','seaeagle'], src:'Parks QLD; green-island.com.au reef & fauna'}
+];
+
+const POIS = [
+ {id:'marineland',name:'Marineland Melanesia',cat:'act',ll:[-16.758697,145.973457]},
+ {id:'dive',name:'Dive Centre',cat:'act',ll:[-16.758859,145.97197]},
+ {id:'beachhire',name:'Beach Hire',cat:'act',ll:[-16.757899,145.972924]},
+ {id:'swim',name:'Patrolled swimming area',cat:'swim',ll:[-16.757515,145.97317]},
+ {id:'heli',name:'Nautilus Helicopters',cat:'act',ll:[-16.75885,145.971919]},
+ {id:'pool',name:'Day-visitor pool',cat:'swim',ll:[-16.758721,145.972228]},
+ {id:'canopy',name:'The Canopy Grill',cat:'food',ll:[-16.758767,145.972581]},
+ {id:'emeralds',name:'Emeralds',cat:'food',ll:[-16.758868,145.972376]},
+ {id:'litebites',name:'Lite Bites: The Cafe',cat:'food',ll:[-16.75895,145.972056]},
+ {id:'greens',name:'Greens Buffet',cat:'food',ll:[-16.758669,145.972776]},
+ {id:'reflections',name:'Reflections Pool Bar',cat:'food',ll:[-16.758739,145.972435]},
+ {id:'wc1',name:'Toilets',cat:'wc',ll:[-16.758993,145.972082]},
+ {id:'wc2',name:'Toilets & showers',cat:'wc',ll:[-16.758655,145.972576]},
+ {id:'info',name:'Information counter',cat:'info',ll:[-16.759059,145.971571]}
+];
+
+const NATURE = [
+ {id:'rail',g:'birds',n:'Buff-banded rail',l:'Hypotaenidia philippensis',w:['Boardwalk'],t:"A striped, chicken-sized bird that dashes across the boardwalk. Hard to miss, and bold around people. Please don't feed it.",s:'Parks QLD'},
+ {id:'dove',g:'birds',n:'Emerald dove',l:'Chalcophaps longirostris',w:['Boardwalk'],t:'Glossy green wings and a soft call. Usually heard rustling through leaf litter on the forest floor before it is seen.',s:'Parks QLD'},
+ {id:'silvereye',g:'birds',n:'Silvereye',l:'Zosterops lateralis',w:['Rainforest canopy'],t:'Tiny olive-green birds with a white eye-ring, darting about the canopy in busy flocks.',s:'Parks QLD'},
+ {id:'pigeon',g:'birds',n:'Pied imperial-pigeon',l:'Ducula spilorrhoa',w:['Canopy','Summer'],t:'Large white pigeons that arrive in the summer months. Their soft calls fill the canopy during the forest fruiting season.',s:'Parks QLD'},
+ {id:'osprey',g:'birds',n:'Osprey',l:'Pandion haliaetus',w:['Beach','Overhead'],t:'A fish-eating raptor that soars over the reef flat and plunges feet-first for fish.',s:'Parks QLD'},
+ {id:'seaeagle',g:'birds',n:'White-bellied sea-eagle',l:'Haliaeetus leucogaster',w:['Overhead'],t:'A huge white and grey eagle with broad, upswept wings. Watch for it soaring above the beach walk.',s:'Parks QLD'},
+ {id:'oystercatcher',g:'birds',n:'Oystercatchers',l:'Haematopus spp.',w:['Beach'],t:'Black or black-and-white shorebirds with long red bills, probing the sand along the shoreline.',s:'Parks QLD'},
+ {id:'egret',g:'birds',n:'Egrets & reef herons',l:'Egretta spp.',w:['Jetty','Beach'],t:'Tall white herons that stalk the shallows. Look for them from the jetty and along the tide line.',s:'Parks QLD'},
+ {id:'tern',g:'birds',n:'Terns',l:'Family Laridae',w:['Beach','Jetty'],t:'Slender seabirds that hover and dive for small fish. More than 35 seabird species are recorded around the island.',s:'Parks QLD'},
+ {id:'turtle',g:'sea',n:'Green turtle',l:'Chelonia mydas',w:['Jetty','Seagrass beds'],t:"Drawn to Green Island's undulating seagrass beds. Watch the surface from the jetty for a head popping up to breathe.",s:'Parks QLD'},
+ {id:'ray',g:'sea',n:'Stingrays',l:'Family Dasyatidae',w:['Jetty','Reef flat'],t:'Scan the sandy bottom below the jetty. Stingrays send up a cloud of sand as they dart away.',s:'Parks QLD'},
+ {id:'pelagic',g:'sea',n:'Pelagic fish',l:'Open-water species',w:['Under the jetty'],t:'Large fish live under the jetty, gliding in and out of its shadows.',s:'Parks QLD'},
+ {id:'reeffish',g:'sea',n:'Reef fish',l:'Many species',w:['Coral bommies','Snorkel trail'],t:'Colourful reef fish crowd the coral bommies visible from the jetty and on a snorkel.',s:'Parks QLD'},
+ {id:'coral',g:'sea',n:'Hard & soft corals',l:'Scleractinia & Alcyonacea',w:['Reef edge'],t:'More than 190 kinds of hard coral and over 100 soft corals, grading from shallow to deep water. Never stand on coral; use rest stations.',s:'green-island.com.au'},
+ {id:'seagrass',g:'sea',n:'Seagrass meadows',l:'Several species',w:['Reef flat'],t:'Shallow meadows that shelter juvenile fish and feed turtles and dugongs.',s:'green-island.com.au'},
+ {id:'dugong',g:'sea',n:'Dugong',l:'Dugong dugon',w:['Seagrass beds'],t:'A shy marine mammal that grazes on seagrass. A rare and lucky sighting.',s:'green-island.com.au'},
+ {id:'seacucumber',g:'sea',n:'Sea cucumber (bêche-de-mer)',l:'Class Holothuroidea',w:['Reef flat'],t:'Harvested and smoked on the island from 1857. Today it is protected, like everything in this no-take zone.',s:'green-island.com.au'},
+ {id:'vinethicket',g:'plants',n:'Vine-thicket rainforest',l:'Island interior',w:['Boardwalk'],t:"Dense, shady rainforest growing in sand in the island's centre. Green Island is the only one of about 300 reef cays with rainforest.",s:'green-island.com.au'},
+ {id:'casuarina',g:'plants',n:'Coastal she-oak (casuarina)',l:'Casuarina equisetifolia',w:['Beach fringe'],t:'Wispy, needle-like foliage that frames the day-use area. Tolerates sand, salt and wind, sheltering the rainforest.',s:'Parks QLD'},
+ {id:'almond',g:'plants',n:'Beach almond',l:'Terminalia catappa',w:['Beach fringe'],t:'Broad leaves that turn red before they fall. One of the salt-tolerant plants that shield the island interior.',s:'Parks QLD'},
+ {id:'coconut',g:'plants',n:'Coconut palm',l:'Cocos nucifera',w:['Day-use area'],t:'The swaying palms of the day-use area. Coconuts were planted here in 1889.',s:'green-island.com.au'},
+ {id:'pandanus',g:'plants',n:'Pandanus',l:'Pandanus tectorius',w:['Beach fringe'],t:'Screw pines with stilt roots and spiral leaves, typical of reef-island shores.',s:'draft'},
+ {id:'croc',g:'reptiles',n:'Saltwater crocodile',l:'Crocodylus porosus',w:['Marineland Melanesia'],t:'See them up close at Marineland Melanesia, which began as a crocodile farm in 1964.',s:'green-island.com.au'}
+];
+const NGROUPS = [['all','All'],['birds','Birds'],['sea','Sea life'],['plants','Plants'],['reptiles','Reptiles']];
+
+const ACTS = [
+ {h:'On the water', items:[
+  {n:'Snorkelling',d:'Snorkel from the beach over coral and seagrass. The safest spot is between the flags. Go at high tide, when entry is easier.',tag:'inc',poi:'swim'},
+  {n:'Glass-bottom boat',d:"See the reef without getting wet. The world's first glass-bottom boat launched here in 1937.",tag:'inc',poi:null},
+  {n:'Marine biologist guided snorkel',d:'Snorkel with a marine biologist who points out corals, fish and turtles.',tag:'opt',poi:'dive'},
+  {n:'Scuba diving',d:'Introductory and certified dives, booked through the Dive Centre.',tag:'opt',poi:'dive'},
+  {n:'Seawalker helmet diving',d:'Walk the sea floor wearing a helmet with air supplied from the surface. No diving experience needed.',tag:'opt',poi:'dive'},
+  {n:'Parasailing',d:'See the island and reef flat from the air.',tag:'opt',poi:'beachhire'},
+  {n:'Kayaks & beach hire',d:'Towels, umbrellas, sun lounges and non-motorised water sports. Motorised water sports are not allowed.',tag:'opt',poi:'beachhire'},
+  {n:'GoPro hire',d:'Record your snorkel or dive in high definition.',tag:'opt',poi:'dive'}
+ ]},
+ {h:'On the island', items:[
+  {n:'Boardwalk eco walk',d:'1.3 km return through the rainforest to the southern lookout. Allow 30 to 50 minutes. This app is your guide.',tag:'free',poi:null,tour:true},
+  {n:'Beach walk',d:'1.5 km circuit around the whole island. Allow 45 minutes to an hour. Do not attempt at high tide.',tag:'free',poi:null},
+  {n:'Jetty walk',d:'Walk the 250 m jetty for turtles, rays and the postcard view back to the island.',tag:'free',poi:null},
+  {n:'Marineland Melanesia',d:'Crocodile habitat and Melanesian artefacts, operating since 1964 as a crocodile farm and renamed in 1972.',tag:'opt',poi:'marineland'},
+  {n:'Scenic helicopter flight',d:'A short flight over Green Island and the reef.',tag:'opt',poi:'heli'},
+  {n:'Swimming pool',d:'Resort pool for day visitors on Eco Adventure and Discovery tours.',tag:'inc',poi:'pool'}
+ ]},
+ {h:'Eat & drink', items:[
+  {n:'Lite Bites: The Cafe',d:'Coffee, snacks and light meals near the jetty.',tag:'free',poi:'litebites'},
+  {n:'Greens Buffet',d:'Buffet lunch for day visitors.',tag:'free',poi:'greens'},
+  {n:'The Canopy Grill',d:'Casual meals in the resort.',tag:'free',poi:'canopy'},
+  {n:'Emeralds',d:'Resort restaurant.',tag:'free',poi:'emeralds'},
+  {n:'Reflections Pool Bar',d:'Drinks beside the pool.',tag:'free',poi:'reflections'}
+ ]}
+];
+const TAGS = {inc:['inc','Included on Eco Adventure & Discovery'],opt:['opt','Optional extra'],free:['free','Open to all']};
+
+/* ---------- helpers ---------- */
+const $ = s => document.querySelector(s);
+const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const XY = (lat,lon) => [(lon-GEO.lon0)*GEO.kx, -(lat-GEO.lat0)*GEO.ky];
+const store = {get(k,d){try{const v=localStorage.getItem('gig:'+k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem('gig:'+k,JSON.stringify(v))}catch(e){}}};
+function toast(msg,ms=2600){const t=$('#toast');t.textContent=msg;t.hidden=false;clearTimeout(toast.h);toast.h=setTimeout(()=>t.hidden=true,ms)}
+
+/* route geometry */
+const ROUTE = GEO.route; const CUM=[0];
+for(let i=1;i<ROUTE.length;i++) CUM.push(CUM[i-1]+Math.hypot(ROUTE[i][0]-ROUTE[i-1][0],ROUTE[i][1]-ROUTE[i-1][1]));
+const RLEN = CUM[CUM.length-1];
+function project(p){let best={d:1e9,s:0,pt:ROUTE[0]};for(let i=1;i<ROUTE.length;i++){const a=ROUTE[i-1],b=ROUTE[i];const vx=b[0]-a[0],vy=b[1]-a[1];const L=vx*vx+vy*vy||1;let u=((p[0]-a[0])*vx+(p[1]-a[1])*vy)/L;u=Math.max(0,Math.min(1,u));const q=[a[0]+u*vx,a[1]+u*vy];const d=Math.hypot(p[0]-q[0],p[1]-q[1]);if(d<best.d)best={d,s:CUM[i-1]+u*Math.sqrt(L),pt:q}}return best}
+function pointAt(s){s=Math.max(0,Math.min(RLEN,s));let i=1;while(i<CUM.length-1&&CUM[i]<s)i++;const a=ROUTE[i-1],b=ROUTE[i];const u=(s-CUM[i-1])/((CUM[i]-CUM[i-1])||1);return [a[0]+u*(b[0]-a[0]),a[1]+u*(b[1]-a[1])]}
+function walkedPath(s){const pts=[];for(let i=0;i<ROUTE.length&&CUM[i]<=s;i++)pts.push(ROUTE[i]);pts.push(pointAt(s));return 'M'+pts.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' L')}
+
+STOPS.forEach(s=>{s.xy = s.at==='routeStart'?ROUTE[0].slice():XY(...s.ll);s.along=project(s.xy).s});
+STOPS.sort((a,b)=>a.along-b.along);
+POIS.forEach(p=>p.xy=XY(...p.ll));
+
+/* ---------- state ---------- */
+const st = {lang:store.get('lang','en'), active:0, visited:new Set(store.get('visited',[])), mode:'idle', me:null, acc:0, follow:false, walked:0, audioOn:false, spotted:new Set(store.get('spotted',[]))};
+
+/* ---------- map ---------- */
+const mapEl = $('#map');
+const vp = {cx:-60,cy:0,k:1};
+const ICON = {
+ act:'<path d="M-3.5 1.5l3.5-6 3.5 6zM-4 4h8"/>',
+ food:'<path d="M-2.5 -5v10M-4 -5v3a1.5 1.5 0 0 0 3 0v-3M3 -5c-1.6.8-1.6 4 0 5v5"/>',
+ swim:'<path d="M-5 0c1.6 0 1.6-1.4 3.3-1.4S0 0 1.7 0s1.6-1.4 3.3-1.4M-5 3.4c1.6 0 1.6-1.4 3.3-1.4S0 3.4 1.7 3.4s1.6-1.4 3.3-1.4"/>',
+ wc:'<text class="g" y="0.5">WC</text>',
+ info:'<path d="M0 -1v5M0 -4.2v.01"/>'
+};
+function buildMap(){
+  const L=GEO.layers, g=k=>(L[k]||[]).map(d=>`<path class="l-${k}" d="${d}"/>`).join('');
+  const lbl=(x,y,t,c='')=>`<g class="mk lblg" data-x="${x}" data-y="${y}"><text class="lbl ${c}" text-anchor="middle">${t}</text></g>`;
+  mapEl.innerHTML = `<svg id="svg" xmlns="http://www.w3.org/2000/svg">
+   <defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="var(--m-resort)"/><line x1="0" y1="0" x2="0" y2="6" stroke="var(--m-bldg)" stroke-width="2"/></pattern></defs>
+   <rect x="-3000" y="-3000" width="7000" height="6000" fill="var(--m-sea)"/>
+   ${g('reef')}${g('beach')}${g('coast')}${g('wood')}${g('resort')}${g('rock')}${g('swimarea')}${g('pool')}${g('bldg')}${g('park')}
+   ${g('foot')}${g('sand')}${g('board')}${g('pier')}
+   <path class="l-route" d="M${ROUTE.map(p=>p.join(' ')).join(' L')}"/>
+   <path class="l-walked" id="walked" d=""/>
+   <circle class="l-acc" id="acc" r="0" cx="0" cy="0" style="display:none"/>
+   <g id="labels">${lbl(40,85,'National Park','big')}${lbl(-380,-175,'Jetty','')}${lbl(250,-150,'Reef flat','water')}</g>
+   <g id="pois">${POIS.map(p=>`<g class="mk mk-poi" data-poi="${p.id}" data-x="${p.xy[0]}" data-y="${p.xy[1]}"><title>${esc(p.name)}</title><rect x="-9" y="-9" width="18" height="18" rx="5"/>${ICON[p.cat]}<text class="lbl zoomlbl" x="12" y="4" style="font-size:10px">${esc(p.name)}</text></g>`).join('')}</g>
+   <g id="stops">${STOPS.map((s,i)=>`<g class="mk mk-stop" data-stop="${i}" data-x="${s.xy[0]}" data-y="${s.xy[1]}"><circle r="11"/><text>${i+1}</text></g>`).join('')}</g>
+   <g class="mk me" id="me" data-x="0" data-y="0" style="display:none"><circle class="halo" r="14"/><circle class="dot" r="7"/></g>
+  </svg>`;
+  bindMap();
+}
+function size(){const r=mapEl.getBoundingClientRect();return [r.width||360,r.height||500]}
+function render(){
+  const [w,h]=size(); const svg=$('#svg'); if(!svg)return;
+  const W=w/vp.k,H=h/vp.k;
+  svg.setAttribute('viewBox',`${vp.cx-W/2} ${vp.cy-H/2} ${W} ${H}`);
+  const inv=1/vp.k;
+  svg.querySelectorAll('.mk').forEach(m=>m.setAttribute('transform',`translate(${m.dataset.x} ${m.dataset.y}) scale(${inv})`));
+  mapEl.classList.toggle('zoomed',vp.k>2.2);mapEl.classList.toggle('far',vp.k<1.1);
+}
+function fit(){const [w,h]=size();const sheetH=$('#sheet').offsetHeight||140;vp.k=Math.min(w/860,(h-sheetH-40)/400);vp.cx=-45;vp.cy=10+ (sheetH/2)/vp.k;render()}
+function centerOn(xy,k){const sheetH=$('#sheet').offsetHeight||140;if(k)vp.k=k;vp.cx=xy[0];vp.cy=xy[1]+(sheetH/2-20)/vp.k;render()}
+function zoomAt(f,px,py){const [w,h]=size();const nk=Math.max(.25,Math.min(9,vp.k*f));const wx=vp.cx+(px-w/2)/vp.k,wy=vp.cy+(py-h/2)/vp.k;vp.k=nk;vp.cx=wx-(px-w/2)/nk;vp.cy=wy-(py-h/2)/nk;render()}
+function bindMap(){
+  const pts=new Map();let moved=0,last=null;
+  mapEl.addEventListener('pointerdown',e=>{mapEl.setPointerCapture(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);moved=0;last=null});
+  mapEl.addEventListener('pointermove',e=>{if(!pts.has(e.pointerId))return;const prev=pts.get(e.pointerId);pts.set(e.pointerId,[e.clientX,e.clientY]);
+    if(pts.size===1){const dx=e.clientX-prev[0],dy=e.clientY-prev[1];moved+=Math.abs(dx)+Math.abs(dy);vp.cx-=dx/vp.k;vp.cy-=dy/vp.k;if(moved>6)st.follow=false;render()}
+    else if(pts.size===2){const [a,b]=[...pts.values()];const d=Math.hypot(a[0]-b[0],a[1]-b[1]);const r=mapEl.getBoundingClientRect();if(last)zoomAt(d/last,(a[0]+b[0])/2-r.left,(a[1]+b[1])/2-r.top);last=d;moved=99;st.follow=false}});
+  const up=e=>{pts.delete(e.pointerId);if(pts.size<2)last=null;
+    if(moved<6&&e.type==='pointerup'){const el=document.elementFromPoint(e.clientX,e.clientY);const sm=el&&el.closest('[data-stop]');const pm=el&&el.closest('[data-poi]');
+      if(sm)selectStop(+sm.dataset.stop,{open:true}); else if(pm){const p=POIS.find(x=>x.id===pm.dataset.poi);highlightPoi(p.id);toast(p.name)}}};
+  mapEl.addEventListener('pointerup',up);mapEl.addEventListener('pointercancel',up);
+  mapEl.addEventListener('wheel',e=>{e.preventDefault();const r=mapEl.getBoundingClientRect();zoomAt(e.deltaY<0?1.15:1/1.15,e.clientX-r.left,e.clientY-r.top);st.follow=false},{passive:false});
+}
+function highlightPoi(id){document.querySelectorAll('.mk-poi').forEach(m=>m.classList.toggle('hl',m.dataset.poi===id))}
+function setMe(xy,acc){const me=$('#me'),a=$('#acc');if(!xy){me.style.display='none';a.style.display='none';return}
+  me.dataset.x=xy[0];me.dataset.y=xy[1];me.style.display='';if(acc){a.setAttribute('cx',xy[0]);a.setAttribute('cy',xy[1]);a.setAttribute('r',acc);a.style.display=''}else a.style.display='none';
+  if(st.follow)centerOn(xy);else render()}
+function setWalked(s){st.walked=Math.max(st.walked,s);$('#walked').setAttribute('d',walkedPath(st.walked));
+  $('#wbFill').style.width=(st.walked/RLEN*100)+'%';$('#wbLeft').textContent=Math.round(st.walked)+' m';$('#wbRight').textContent=Math.round(RLEN)+' m'}
+
+/* ---------- audio (Web Speech narration) ---------- */
+const synth = window.speechSynthesis; let speaking=false, onDone=null;
+function pickVoice(lang){const vs=synth?synth.getVoices():[];const want=SPEECH_LANG[lang];return vs.find(v=>v.lang===want)||vs.find(v=>v.lang.replace('_','-').startsWith(want.slice(0,2)))||null}
+// Speak sentence by sentence (avoids Chrome's ~15 s cut-off) with a timer fallback,
+// so progress and the demo keep moving even where no voice is installed.
+let tick=0, watchdog=0, runId=0;
+function estSecs(txt){return st.lang==='en'?txt.split(/\s+/).length/2.6:txt.length/5}
+function speak(i,done){
+  stopAudio();const txt=STOPS[i].n[st.lang];const est=estSecs(txt);const my=++runId;onDone=done;speaking=true;setPlayIcon();
+  const t0=performance.now();const prog=$('#pProg');prog.style.width='2%';
+  const finish=()=>{if(my!==runId)return;runId++;clearInterval(tick);clearTimeout(watchdog);speaking=false;prog.style.width='100%';setPlayIcon();const d=onDone;onDone=null;d&&d()};
+  tick=setInterval(()=>{prog.style.width=Math.min(97,(performance.now()-t0)/1000/est*100)+'%'},250);
+  watchdog=setTimeout(finish,(est+4)*1000);
+  if(!synth){toast('Audio narration is not supported in this browser. Read along below.');setSheet(true);return}
+  const v=pickVoice(st.lang);
+  if(!v&&st.lang!=='en')toast('No '+(st.lang==='zh'?'Chinese':'Japanese')+' voice on this device. Read along below.');
+  const parts=txt.match(/[^.!?。！？]+[.!?。！？]*/g)||[txt];
+  parts.forEach((p,k)=>{const u=new SpeechSynthesisUtterance(p.trim());u.lang=SPEECH_LANG[st.lang];if(v)u.voice=v;u.rate=st.lang==='en'?0.98:1;
+    if(k===parts.length-1)u.onend=finish;u.onerror=e=>{if(e.error!=='interrupted'&&e.error!=='canceled')finish()};synth.speak(u)});
+  setTimeout(()=>{if(my===runId&&!synth.speaking&&!synth.pending){toast('Audio unavailable on this device. Read along below.');setSheet(true)}},2500);
+}
+function stopAudio(){runId++;onDone=null;clearInterval(tick);clearTimeout(watchdog);if(synth)synth.cancel();speaking=false;setPlayIcon()}
+function setPlayIcon(){$('#playIcon').innerHTML=speaking?'<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>':'<path d="M8 5v14l11-7z"/>';$('#btnPlay').setAttribute('aria-label',speaking?'Stop narration':'Play narration')}
+function primeAudio(){st.audioOn=true;if(synth){const u=new SpeechSynthesisUtterance(' ');u.volume=0;synth.speak(u)}}
+
+/* ---------- sheet ---------- */
+const sheet=$('#sheet');
+function setSheet(open){sheet.classList.toggle('peek',!open);$('#grab').setAttribute('aria-expanded',open);$('#grab').setAttribute('aria-label',open?'Collapse stop details':'Expand stop details')}
+function selectStop(i,{open=false,play=false,center=true}={}){
+  st.active=Math.max(0,Math.min(STOPS.length-1,i));const s=STOPS[st.active];
+  if(speaking)stopAudio();
+  $('#pProg').style.width='0';
+  document.querySelectorAll('.mk-stop').forEach(m=>{const k=+m.dataset.stop;m.classList.toggle('active',k===st.active);m.classList.toggle('done',st.visited.has(STOPS[k].id))});
+  const u=UI[st.lang];
+  $('#pEyebrow').textContent = st.lang==='en'?`Stop ${st.active+1} of ${STOPS.length}`:st.lang==='zh'?`第 ${st.active+1} 站 / 共 ${STOPS.length} 站`:`ストップ ${st.active+1} / ${STOPS.length}`;
+  $('#pTitle').textContent=s.t[st.lang];
+  $('#btnPrev').disabled=st.active===0;$('#btnNext').disabled=st.active===STOPS.length-1;
+  const looks=s.look.map(id=>NATURE.find(n=>n.id===id)).filter(Boolean);
+  $('#sbody').innerHTML=`
+   <p class="src" style="margin-top:12px">${esc(s.kind)}</p>
+   <p>${esc(s.n[st.lang])}</p>
+   ${s.note?`<p class="note">${esc(s.note)}</p>`:''}
+   ${looks.length?`<h3 class="sub">Look for</h3><div class="chips">${looks.map(n=>`<button class="chip" data-nat="${n.id}">${esc(n.n)}</button>`).join('')}</div>`:''}
+   <p class="src">Source: ${esc(s.src)}${st.lang!=='en'?' · Translation drafted for review':''}</p>
+   <h3 class="sub">All stops</h3>
+   <ol class="stoplist">${STOPS.map((x,k)=>`<li class="${st.visited.has(x.id)?'done':''}"><button data-go="${k}"><span class="num">${k+1}</span><span>${esc(x.t[st.lang])}</span><span class="d">${Math.round(x.along)} m</span></button></li>`).join('')}</ol>`;
+  if(open)setSheet(true);
+  if(center&&!st.follow)centerOn(s.xy,Math.max(vp.k,1.6));
+  if(play)speak(st.active,()=>{if(st.mode==='demo')resumeDemoSoon()});
+}
+function markVisited(i){st.visited.add(STOPS[i].id);store.set('visited',[...st.visited]);document.querySelectorAll('.mk-stop')[i]?.classList.add('done')}
+
+/* geofence: fire the nearest unvisited stop within radius */
+const RADIUS=18;
+function checkFences(xy){
+  let hit=-1,bd=1e9;STOPS.forEach((s,i)=>{const d=Math.hypot(s.xy[0]-xy[0],s.xy[1]-xy[1]);if(d<RADIUS&&d<bd&&!st.fired.has(i)){bd=d;hit=i}});
+  if(hit<0)return false;st.fired.add(hit);markVisited(hit);
+  if(navigator.vibrate)try{navigator.vibrate(60)}catch(e){}
+  selectStop(hit,{play:st.audioOn,center:false});
+  if(!st.audioOn&&st.mode==='demo')resumeDemoSoon(2200);
+  return true}
+st.fired=new Set();
+
+/* ---------- GPS ---------- */
+let watchId=null;
+function setStatus(s,text){const el=$('#status');el.dataset.s=s;$('#statusText').textContent=text}
+function startGps(){
+  stopDemo();
+  if(!('geolocation' in navigator)){setStatus('warn','Location not available. Try the demo walk.');return}
+  setStatus('idle','Finding your location…');st.mode='gps';$('#btnLocate').setAttribute('aria-pressed','true');st.follow=true;
+  watchId=navigator.geolocation.watchPosition(onPos,onPosErr,{enableHighAccuracy:true,maximumAge:3000,timeout:20000});
+}
+function onPos(p){
+  const xy=XY(p.coords.latitude,p.coords.longitude);const d=Math.hypot(xy[0],xy[1]);
+  if(d>1500){setMe(null);const km=d/1000;setStatus('warn',`You're ${km<100?km.toFixed(1):Math.round(km).toLocaleString()} km from Green Island`);return}
+  if(!st.me)vp.k=Math.max(vp.k,1.8);st.me=xy;st.acc=Math.min(p.coords.accuracy||0,60);setMe(xy,st.acc);setStatus('gps',`GPS on · ±${Math.round(p.coords.accuracy)} m`);
+  const pr=project(xy);if(pr.d<25)setWalked(pr.s);
+  checkFences(xy);
+}
+function onPosErr(e){const msg=e.code===1?'Location permission is off':e.code===3?'Location timed out':'Location unavailable';setStatus('warn',msg+'. Try the demo walk.');stopGps(true)}
+function stopGps(keepStatus){if(watchId!=null)navigator.geolocation.clearWatch(watchId);watchId=null;$('#btnLocate').setAttribute('aria-pressed','false');if(st.mode==='gps'){st.mode='idle';if(!keepStatus)setStatus('idle','Tour paused')}}
+
+/* ---------- demo walk ---------- */
+const SPEED=12; // metres per second of simulation, roughly 8x walking pace
+let demo={s:0,raf:0,t0:0,paused:true,timer:0};
+function startDemo(fromStart){
+  stopGps();st.mode='demo';st.follow=true;$('#btnDemo').setAttribute('aria-pressed','true');
+  if(fromStart||demo.s>=RLEN){demo.s=0;st.walked=0;st.fired=new Set()}
+  setStatus('demo','Demo walk · 8× speed');if(vp.k<1.3)centerOn(pointAt(demo.s),1.5);demo.paused=false;demo.t0=0;cancelAnimationFrame(demo.raf);demo.raf=requestAnimationFrame(stepDemo);setDemoIcon()}
+function stepDemo(t){if(demo.paused)return;if(!demo.t0)demo.t0=t;const dt=Math.min(.1,(t-demo.t0)/1000);demo.t0=t;demo.s+=SPEED*dt;
+  const xy=pointAt(demo.s);st.me=xy;setMe(xy,0);setWalked(demo.s);
+  if(checkFences(xy)){demo.paused=true;setStatus('demo','Demo walk · listening');return}
+  if(demo.s>=RLEN){demo.paused=true;setStatus('demo','Demo finished · boardwalk end');$('#btnDemo').setAttribute('aria-pressed','false');setDemoIcon();return}
+  demo.raf=requestAnimationFrame(stepDemo)}
+function resumeDemoSoon(ms=900){clearTimeout(demo.resume);demo.resume=setTimeout(()=>{if(st.mode==='demo'&&demo.paused&&demo.s<RLEN){demo.paused=false;demo.t0=0;setStatus('demo','Demo walk · 8× speed');demo.raf=requestAnimationFrame(stepDemo)}},ms)}
+function pauseDemo(){demo.paused=true;clearTimeout(demo.resume);cancelAnimationFrame(demo.raf);$('#btnDemo').setAttribute('aria-pressed','false');setStatus('demo','Demo paused');setDemoIcon()}
+function stopDemo(){if(st.mode==='demo'){pauseDemo();st.mode='idle'}}
+function setDemoIcon(){const on=st.mode==='demo'&&!demo.paused;$('#demoIcon').innerHTML=on?'<path d="M8 5h3v14H8zM13 5h3v14h-3z"/>':'<path d="M13 4a1.5 1.5 0 1 0 0 .01M10 21l2-6 3 3v3M8 11l3-3 3 2 3 1M12 15l-1-5"/>';$('#btnDemo').setAttribute('aria-label',on?'Pause demo walk':'Demo walk')}
+
+/* ---------- views ---------- */
+function showView(v){document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.v===v));
+  document.querySelectorAll('.view').forEach(el=>el.hidden=el.id!=='v-'+v);if(v==='tour')requestAnimationFrame(render)}
+function applyLang(){document.querySelectorAll('[data-i]').forEach(el=>el.textContent=UI[st.lang][el.dataset.i]);
+  document.querySelectorAll('.langsel button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lang===st.lang));document.documentElement.lang=SPEECH_LANG[st.lang]}
+
+function renderNature(){
+  const f=$('#natFilter');const cur=renderNature.g||'all';const q=($('#natSearch').value||'').toLowerCase();
+  f.innerHTML=NGROUPS.map(([k,l])=>`<button class="chip" data-g="${k}" aria-pressed="${k===cur}">${l}</button>`).join('');
+  const list=NATURE.filter(n=>(cur==='all'||n.g===cur)&&(!q||(n.n+' '+n.l+' '+n.t+' '+n.w.join(' ')).toLowerCase().includes(q)));
+  $('#natTally').textContent=`You've spotted ${st.spotted.size} of ${NATURE.length}`;
+  const G={birds:'Bird',sea:'Sea life',plants:'Plant',reptiles:'Reptile'};
+  $('#natCards').innerHTML=list.map(n=>`<article class="card" data-g="${n.g}" id="nat-${n.id}"><div class="band"><span class="grp">${G[n.g]}</span><button class="spot" data-spot="${n.id}" aria-pressed="${st.spotted.has(n.id)}">${st.spotted.has(n.id)?'✓ Spotted':'Spotted it?'}</button></div>
+   <div class="inner"><h4>${esc(n.n)}</h4><div class="lat">${esc(n.l)}</div><div class="where">${n.w.map(w=>`<span>${esc(w)}</span>`).join('')}</div><p>${esc(n.t)}</p>
+   <div class="src ${n.s==='draft'?'draft':''}">${n.s==='draft'?'Draft entry, verify before launch':'Source: '+esc(n.s)}</div></div></article>`).join('')||'<p class="src">Nothing matches that search.</p>';
+}
+function renderActs(){
+  $('#actList').innerHTML=ACTS.map(g=>`<h3 class="grouph">${g.h}</h3><div class="cards">${g.items.map(a=>`<div class="act"><div class="row"><h4>${esc(a.n)}</h4><span class="tag ${TAGS[a.tag][0]}">${TAGS[a.tag][1]}</span></div><p>${esc(a.d)}</p>${a.poi?`<div><button class="linkbtn" data-poi="${a.poi}">Show on map →</button></div>`:a.tour?`<div><button class="linkbtn" data-tour="1">Start the audio tour →</button></div>`:''}</div>`).join('')}</div>`).join('')+
+  `<p class="src" style="margin-top:18px">Activities and inclusions from green-island.com.au. Prices and availability change; check at the information counter.</p>`;
+}
+function renderInfo(){
+  const facts=[['27 km','from Cairns'],['50 min','by ferry'],['660 × 260 m','island size'],['1.6 km','around the island'],['15 ha','island area'],['1,200 ha','reef area'],['~6,000 yrs','age of the cay'],['4 m','highest point']];
+  const walks=[['Jetty walk','500 m return','30 min','Easy. Wheelchair accessible.',500],['The Boardwalk','1.3 km return','30–50 min','Easy, Grade 1. Wheelchair accessible with assistance. Allow longer to read the signs.',1300],['Beach walk','1.5 km circuit','45 min–1 hr','Easy. Not wheelchair accessible. Do not attempt at high tide.',1500]];
+  const tl=[['Always','Wunyami, "place of spirits", a special place for the Gunggandji people'],['1770','Captain Cook names the island after astronomer Charles Green'],['1857','Bêche-de-mer smoking station opens'],['1889','Coconut palms planted'],['1890','Pleasure cruises begin on the coaster Zeus'],['1924','Hayles start a regular passenger service from Cairns'],['1937','World’s first glass-bottom boat; national park declared'],['1954','World’s first underwater observatory opens (closed 2012)'],['1964','Crocodile farm opens, renamed Marineland Melanesia in 1972'],['1974','Surrounding waters become a marine national park'],['2017','Resort begins installing solar power']];
+  const safety=['Marine stingers (jellyfish) may be present at any time, more often in warmer months. Wear a stinger suit to swim or snorkel.','Swim and snorkel between the red and yellow flags on the northern beach, always with a buddy.','Snorkel at high tide, when it is easier to get in and out of the water.','Never stand on coral. Use rest stations or rest on sand.','Wear a hat and sunscreen, and drink plenty of water. Treated water is on tap in the day-use amenities.','The boardwalk can be slippery when wet.','No-take zone: never touch, pick up or take plants or animals. Rangers issue fines.','Don’t feed wildlife, including birds and fish. No drones on the island or over the reef.','Stay on boardwalks and marked tracks.'];
+  $('#infoBody').innerHTML=`
+   <div class="vhead"><h2>About Wunyami</h2><p>A rainforest-covered sand cay inside the Great Barrier Reef World Heritage Area, and the only one of about 300 reef cays with rainforest.</p></div>
+   <div class="facts">${facts.map(f=>`<div><b>${f[0]}</b><span>${f[1]}</span></div>`).join('')}</div>
+   <h3 class="grouph">Walks</h3>
+   <div class="walks">${walks.map(w=>`<div class="walk"><h4>${w[0]}</h4><div class="m">${w[1]} · ${w[2]}</div><div class="bar"><b style="width:${w[4]/15}%"></b></div><p>${w[3]}</p></div>`).join('')}</div>
+   <h3 class="grouph">History</h3>
+   <ol class="tl">${tl.map(t=>`<li><div class="y">${t[0]}</div><div>${esc(t[1])}</div></li>`).join('')}</ol>
+   <h3 class="grouph">Stay safe</h3>
+   <ul class="safety">${safety.map(s=>`<li>${esc(s)}</li>`).join('')}</ul>
+   <h3 class="grouph">Getting there</h3>
+   <p>Ferries leave the Reef Fleet Terminal on Spence Street, Cairns, and take 50 to 60 minutes. Helicopter and seaplane services also fly to the island. Toilets, showers, lockers and food are in the resort. A ranger is based on the island; the information counter is in the resort.</p>
+   <h3 class="grouph">About this proof of concept</h3>
+   <p class="src">Narration uses your device's built-in voice. A production app would use recorded voiceover, including Traditional Owner voices, and could add AR moments at the jetty and lookout. Stop positions are the real boardwalk sign locations. Content: <a href="https://parks.qld.gov.au/parks/green-island" target="_blank" rel="noopener">Queensland Parks and Wildlife Service</a>, <a href="https://www.green-island.com.au/" target="_blank" rel="noopener">green-island.com.au</a>. Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.</p>`;
+}
+
+/* intro art: island silhouette from the same geometry */
+function introArt(){const s=$('#introArt');s.setAttribute('viewBox','-480 -200 870 400');const L=GEO.layers;
+  s.innerHTML=`<rect x="-600" y="-300" width="1200" height="600" fill="var(--m-sea)"/>${(L.reef||[]).map(d=>`<path class="l-reef" d="${d}"/>`).join('')}${(L.beach||[]).map(d=>`<path class="l-beach" d="${d}"/>`).join('')}${(L.coast||[]).map(d=>`<path class="l-coast" d="${d}"/>`).join('')}${(L.wood||[]).map(d=>`<path class="l-wood" d="${d}"/>`).join('')}${(L.pier||[]).map(d=>`<path class="l-pier" d="${d}"/>`).join('')}<path class="l-route" style="opacity:.6" d="M${ROUTE.map(p=>p.join(' ')).join(' L')}"/>`}
+
+/* ---------- events ---------- */
+document.addEventListener('click',e=>{
+  const b=e.target.closest('button');if(!b)return;
+  if(b.dataset.lang){st.lang=b.dataset.lang;store.set('lang',st.lang);applyLang();const was=speaking;selectStop(st.active,{center:false,open:!sheet.classList.contains('peek')});if(was)speak(st.active);return}
+  if(b.dataset.v){showView(b.dataset.v);return}
+  if(b.dataset.go){selectStop(+b.dataset.go,{open:true});return}
+  if(b.dataset.nat){showView('nature');renderNature.g='all';$('#natSearch').value='';renderNature();document.getElementById('nat-'+b.dataset.nat)?.scrollIntoView({block:'center'});return}
+  if(b.dataset.g){renderNature.g=b.dataset.g;renderNature();return}
+  if(b.dataset.spot){const id=b.dataset.spot;st.spotted.has(id)?st.spotted.delete(id):st.spotted.add(id);store.set('spotted',[...st.spotted]);renderNature();return}
+  if(b.dataset.poi){const p=POIS.find(x=>x.id===b.dataset.poi);showView('tour');st.follow=false;highlightPoi(p.id);setSheet(false);requestAnimationFrame(()=>{centerOn(p.xy,3);toast(p.name)});return}
+  if(b.dataset.tour){showView('tour');selectStop(0,{open:false});return}
+});
+$('#grab').onclick=()=>setSheet(sheet.classList.contains('peek'));
+$('#btnPlay').onclick=()=>{if(!st.audioOn)primeAudio();if(speaking){stopAudio();if(st.mode==='demo')pauseDemo()}else speak(st.active,()=>{if(st.mode==='demo')resumeDemoSoon()})};
+$('#btnPrev').onclick=()=>selectStop(st.active-1,{play:speaking});
+$('#btnNext').onclick=()=>selectStop(st.active+1,{play:speaking});
+$('#btnLocate').onclick=()=>{if(st.mode==='gps'){st.follow=true;if(st.me)centerOn(st.me,Math.max(vp.k,2));else stopGps()}else{primeAudio();startGps()}};
+$('#btnDemo').onclick=()=>{if(st.mode==='demo'&&!demo.paused){pauseDemo();stopAudio()}else{primeAudio();startDemo(false)}};
+$('#btnFit').onclick=()=>{st.follow=false;fit()};
+$('#btnIn').onclick=()=>{const [w,h]=size();zoomAt(1.4,w/2,h/2)};
+$('#btnOut').onclick=()=>{const [w,h]=size();zoomAt(1/1.4,w/2,h/2)};
+$('#natSearch').addEventListener('input',renderNature);
+function closeIntro(){$('#intro').hidden=true;requestAnimationFrame(fit)}
+$('#introGps').onclick=()=>{closeIntro();primeAudio();startGps()};
+$('#introDemo').onclick=()=>{closeIntro();primeAudio();setTimeout(()=>startDemo(true),400)};
+$('#introBrowse').onclick=()=>{closeIntro();setStatus('idle','Browsing · tap a numbered stop')};
+window.addEventListener('resize',()=>render());
+if(synth&&synth.onvoiceschanged!==undefined)synth.onvoiceschanged=()=>{};
+
+/* ---------- boot ---------- */
+buildMap();applyLang();introArt();selectStop(0,{center:false});setWalked(0);renderNature();renderActs();renderInfo();
+requestAnimationFrame(fit);
+</script>
+
+</body></html>
