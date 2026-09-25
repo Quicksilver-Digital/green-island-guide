@@ -1,0 +1,310 @@
+{
+  "items": [
+    {
+      "id": "rail",
+      "group": "birds",
+      "name": "Buff-banded rail",
+      "latin": "Hypotaenidia philippensis",
+      "where": [
+        "Boardwalk"
+      ],
+      "text": "A striped, chicken-sized bird that dashes across the boardwalk. Hard to miss, and bold around people. Please don't feed it.",
+      "source": "Parks QLD",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "dove",
+      "group": "birds",
+      "name": "Emerald dove",
+      "latin": "Chalcophaps longirostris",
+      "where": [
+        "Boardwalk"
+      ],
+      "text": "Glossy green wings and a soft call. Usually heard rustling through leaf litter on the forest floor before it is seen.",
+      "source": "Parks QLD",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "silvereye",
+      "group": "birds",
+      "name": "Silvereye",
+      "latin": "Zosterops lateralis",
+      "where": [
+        "Rainforest canopy"
+      ],
+      "text": "Tiny olive-green birds with a white eye-ring, darting about the canopy in busy flocks.",
+      "source": "Parks QLD",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "pigeon",
+      "group": "birds",
+      "name": "Pied imperial-pigeon",
+      "latin": "Ducula spilorrhoa",
+      "where": [
+        "Canopy",
+        "Summer"
+      ],
+      "text": "Large white pigeons that arrive in the summer months. Their soft calls fill the canopy during the forest fruiting season.",
+      "source": "Parks QLD",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "osprey",
+      "group": "birds",
+      "name": "Osprey",
+      "latin": "Pandion haliaetus",
+      "where": [
+        "Beach",
+        "Overhead"
+      ],
+      "text": "A fish-eating raptor that soars over the reef flat and plunges feet-first for fish.",
+      "source": "Parks QLD",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "seaeagle",
+      "group": "birds",
+      "name": "White-bellied sea-eagle",
+      "latin": "Haliaeetus leucogaster",
+      "where": [
+        "Overhead"
+      ],
+      "text": "A huge white and grey eagle with broad, upswept wings. Watch for it soaring above the beach walk.",
+      "source": "Parks QLD",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "oystercatcher",
+      "group": "birds",
+      "name": "Oystercatchers",
+      "latin": "Haematopus spp.",
+      "where": [
+        "Beach"
+      ],
+      "text": "Black or black-and-white shorebirds with long red bills, probing the sand along the shoreline.",
+      "source": "Parks QLD",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "egret",
+      "group": "birds",
+      "name": "Egrets & reef herons",
+      "latin": "Egretta spp.",
+      "where": [
+        "Jetty",
+        "Beach"
+      ],
+      "text": "Tall white herons that stalk the shallows. Look for them from the jetty and along the tide line.",
+      "source": "Parks QLD",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "tern",
+      "group": "birds",
+      "name": "Terns",
+      "latin": "Family Laridae",
+      "where": [
+        "Beach",
+        "Jetty"
+      ],
+      "text": "Slender seabirds that hover and dive for small fish. More than 35 seabird species are recorded around the island.",
+      "source": "Parks QLD",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "turtle",
+      "group": "sea",
+      "name": "Green turtle",
+      "latin": "Chelonia mydas",
+      "where": [
+        "Jetty",
+        "Seagrass beds"
+      ],
+      "text": "Drawn to Green Island's undulating seagrass beds. Watch the surface from the jetty for a head popping up to breathe.",
+      "source": "Parks QLD",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "ray",
+      "group": "sea",
+      "name": "Stingrays",
+      "latin": "Family Dasyatidae",
+      "where": [
+        "Jetty",
+        "Reef flat"
+      ],
+      "text": "Scan the sandy bottom below the jetty. Stingrays send up a cloud of sand as they dart away.",
+      "source": "Parks QLD",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "pelagic",
+      "group": "sea",
+      "name": "Pelagic fish",
+      "latin": "Open-water species",
+      "where": [
+        "Under the jetty"
+      ],
+      "text": "Large fish live under the jetty, gliding in and out of its shadows.",
+      "source": "Parks QLD",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "reeffish",
+      "group": "sea",
+      "name": "Reef fish",
+      "latin": "Many species",
+      "where": [
+        "Coral bommies",
+        "Snorkel trail"
+      ],
+      "text": "Colourful reef fish crowd the coral bommies visible from the jetty and on a snorkel.",
+      "source": "Parks QLD",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "coral",
+      "group": "sea",
+      "name": "Hard & soft corals",
+      "latin": "Scleractinia & Alcyonacea",
+      "where": [
+        "Reef edge"
+      ],
+      "text": "More than 190 kinds of hard coral and over 100 soft corals, grading from shallow to deep water. Never stand on coral; use rest stations.",
+      "source": "green-island.com.au",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "seagrass",
+      "group": "sea",
+      "name": "Seagrass meadows",
+      "latin": "Several species",
+      "where": [
+        "Reef flat"
+      ],
+      "text": "Shallow meadows that shelter juvenile fish and feed turtles and dugongs.",
+      "source": "green-island.com.au",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "dugong",
+      "group": "sea",
+      "name": "Dugong",
+      "latin": "Dugong dugon",
+      "where": [
+        "Seagrass beds"
+      ],
+      "text": "A shy marine mammal that grazes on seagrass. A rare and lucky sighting.",
+      "source": "green-island.com.au",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "seacucumber",
+      "group": "sea",
+      "name": "Sea cucumber (bêche-de-mer)",
+      "latin": "Class Holothuroidea",
+      "where": [
+        "Reef flat"
+      ],
+      "text": "Harvested and smoked on the island from 1857. Today it is protected, like everything in this no-take zone.",
+      "source": "green-island.com.au",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "vinethicket",
+      "group": "plants",
+      "name": "Vine-thicket rainforest",
+      "latin": "Island interior",
+      "where": [
+        "Boardwalk"
+      ],
+      "text": "Dense, shady rainforest growing in sand in the island's centre. Green Island is the only one of about 300 reef cays with rainforest.",
+      "source": "green-island.com.au",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "casuarina",
+      "group": "plants",
+      "name": "Coastal she-oak (casuarina)",
+      "latin": "Casuarina equisetifolia",
+      "where": [
+        "Beach fringe"
+      ],
+      "text": "Wispy, needle-like foliage that frames the day-use area. Tolerates sand, salt and wind, sheltering the rainforest.",
+      "source": "Parks QLD",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "almond",
+      "group": "plants",
+      "name": "Beach almond",
+      "latin": "Terminalia catappa",
+      "where": [
+        "Beach fringe"
+      ],
+      "text": "Broad leaves that turn red before they fall. One of the salt-tolerant plants that shield the island interior.",
+      "source": "Parks QLD",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "coconut",
+      "group": "plants",
+      "name": "Coconut palm",
+      "latin": "Cocos nucifera",
+      "where": [
+        "Day-use area"
+      ],
+      "text": "The swaying palms of the day-use area. Coconuts were planted here in 1889.",
+      "source": "green-island.com.au",
+      "draft": false,
+      "image": ""
+    },
+    {
+      "id": "pandanus",
+      "group": "plants",
+      "name": "Pandanus",
+      "latin": "Pandanus tectorius",
+      "where": [
+        "Beach fringe"
+      ],
+      "text": "Screw pines with stilt roots and spiral leaves, typical of reef-island shores.",
+      "source": "",
+      "draft": true,
+      "image": ""
+    },
+    {
+      "id": "croc",
+      "group": "reptiles",
+      "name": "Saltwater crocodile",
+      "latin": "Crocodylus porosus",
+      "where": [
+        "Marineland Melanesia"
+      ],
+      "text": "See them up close at Marineland Melanesia, which began as a crocodile farm in 1964.",
+      "source": "green-island.com.au",
+      "draft": false,
+      "image": ""
+    }
+  ]
+}

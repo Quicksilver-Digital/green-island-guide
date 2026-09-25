@@ -16,4 +16,29 @@ field guide, island activities and visitor information.
 Content: Queensland Parks and Wildlife Service, green-island.com.au.
 Map data © OpenStreetMap contributors (ODbL).
 
-This repo contains one static page and no build step or workflows.
+## Editing content
+
+Open **https://quicksilver-digital.github.io/green-island-guide/admin/** and choose
+**Sign In Using Access Token**. You need a GitHub token with write access to this
+repo (see below). Each save is a commit to `main`; the live site updates about a
+minute later.
+
+What's editable: the tour stops (titles, narration in three languages, optional
+recorded audio per language, photo, map position, "look for" species), flora and
+fauna entries, map places, activities, the Info tab, the welcome text and
+acknowledgement, and the stop trigger radius.
+
+**Token:** GitHub → Settings → Developer settings → Fine-grained tokens → Generate.
+Resource owner *Quicksilver-Digital*, repository access *Only select repositories →
+green-island-guide*, permission **Contents: Read and write**. Nothing else.
+
+## How it fits together
+
+- `index.html`: the app. It loads `content/*.json` at runtime and has a copy of the
+  content baked in for offline use.
+- `content/`: everything the CMS edits.
+- `media/`: uploaded photos and audio.
+- `admin/`: Sveltia CMS 0.221.0 (MIT), vendored and pinned, with a Content Security
+  Policy that only allows GitHub's API and the CMS's own pinned resources.
+
+No build step or workflows run in this repo.

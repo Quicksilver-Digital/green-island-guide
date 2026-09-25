@@ -1,0 +1,102 @@
+{
+  "places": [
+    {
+      "id": "marineland",
+      "name": "Marineland Melanesia",
+      "category": "act",
+      "lat": -16.758697,
+      "lon": 145.973457
+    },
+    {
+      "id": "dive",
+      "name": "Dive Centre",
+      "category": "act",
+      "lat": -16.758859,
+      "lon": 145.97197
+    },
+    {
+      "id": "beachhire",
+      "name": "Beach Hire",
+      "category": "act",
+      "lat": -16.757899,
+      "lon": 145.972924
+    },
+    {
+      "id": "swim",
+      "name": "Patrolled swimming area",
+      "category": "swim",
+      "lat": -16.757515,
+      "lon": 145.97317
+    },
+    {
+      "id": "heli",
+      "name": "Nautilus Helicopters",
+      "category": "act",
+      "lat": -16.75885,
+      "lon": 145.971919
+    },
+    {
+      "id": "pool",
+      "name": "Day-visitor pool",
+      "category": "swim",
+      "lat": -16.758721,
+      "lon": 145.972228
+    },
+    {
+      "id": "canopy",
+      "name": "The Canopy Grill",
+      "category": "food",
+      "lat": -16.758767,
+      "lon": 145.972581
+    },
+    {
+      "id": "emeralds",
+      "name": "Emeralds",
+      "category": "food",
+      "lat": -16.758868,
+      "lon": 145.972376
+    },
+    {
+      "id": "litebites",
+      "name": "Lite Bites: The Cafe",
+      "category": "food",
+      "lat": -16.75895,
+      "lon": 145.972056
+    },
+    {
+      "id": "greens",
+      "name": "Greens Buffet",
+      "category": "food",
+      "lat": -16.758669,
+      "lon": 145.972776
+    },
+    {
+      "id": "reflections",
+      "name": "Reflections Pool Bar",
+      "category": "food",
+      "lat": -16.758739,
+      "lon": 145.972435
+    },
+    {
+      "id": "wc1",
+      "name": "Toilets",
+      "category": "wc",
+      "lat": -16.758993,
+      "lon": 145.972082
+    },
+    {
+      "id": "wc2",
+      "name": "Toilets & showers",
+      "category": "wc",
+      "lat": -16.758655,
+      "lon": 145.972576
+    },
+    {
+      "id": "info",
+      "name": "Information counter",
+      "category": "info",
+      "lat": -16.759059,
+      "lon": 145.971571
+    }
+  ]
+}

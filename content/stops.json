@@ -1,0 +1,307 @@
+{
+  "stops": [
+    {
+      "id": "jetty",
+      "sign": "Jetty walk",
+      "lat": -16.757978,
+      "lon": 145.969206,
+      "title": {
+        "en": "The Jetty",
+        "zh": "栈桥",
+        "ja": "桟橋"
+      },
+      "narration": {
+        "en": "Welcome to Green Island. You're standing on a jetty that visitors have walked for nearly a hundred years. It stretches about 250 metres out over the reef flat. Look over the edge. Large fish glide through the shadows below, stingrays burst away from the sandy bottom in a puff of sand, and green turtles surface for a breath. Before you walk ashore, turn around for the classic postcard view of the island in a sea of blue.",
+        "zh": "欢迎来到绿岛。您脚下的这座栈桥，近百年来一直迎接着来访的游客。它从岸边向礁坪延伸约250米。请低头看看：大鱼在阴影中穿梭，魟鱼从沙底疾游而去，扬起一团细沙，绿海龟也会浮出水面换气。上岸之前，不妨回头欣赏小岛被碧蓝大海环抱的明信片般的景色。",
+        "ja": "グリーン島へようこそ。いま立っている桟橋は、100年近くにわたり訪れる人々を迎えてきました。桟橋はリーフフラットの上を約250メートル伸びています。下をのぞいてみてください。大きな魚が影の中を泳ぎ、エイは砂を巻き上げて逃げていき、アオウミガメが息つぎに顔を出します。上陸する前に振り返って、青い海に浮かぶ島の絵葉書のような景色を楽しみましょう。"
+      },
+      "audio": {
+        "en": "",
+        "zh": "",
+        "ja": ""
+      },
+      "image": "",
+      "look": [
+        "turtle",
+        "ray",
+        "pelagic",
+        "egret"
+      ],
+      "source": "Parks QLD, Jetty walk",
+      "note": ""
+    },
+    {
+      "id": "welcome",
+      "sign": "Sign: Welcome to Green Island",
+      "lat": -16.759076,
+      "lon": 145.971481,
+      "title": {
+        "en": "Arrival & day-use area",
+        "zh": "抵达与一日游区域",
+        "ja": "到着とデイユースエリア"
+      },
+      "narration": {
+        "en": "This is the heart of the day-use area, which stretches along the beach either side of the jetty. Beach Hire, just left of the jetty behind the patrolled beach, rents towels, umbrellas, sun lounges and kayaks. The safest place to swim is between the red and yellow flags on the northern beach. Stingers can be present at any time, so wear a stinger suit in the water. Toilets, showers and lockers are in the resort, just ahead.",
+        "zh": "这里是一日游区域的中心，沿着栈桥两侧的海滩展开。栈桥左侧、有救生员巡视的海滩后方是海滩租赁处，可以租用毛巾、遮阳伞、躺椅和皮划艇。最安全的游泳地点是北侧海滩的红黄旗之间。水母全年都可能出现，下水时请穿防蛰服。前方度假村内设有洗手间、淋浴和储物柜。",
+        "ja": "ここは桟橋の両側の浜辺に広がるデイユースエリアの中心です。桟橋の左手、監視員のいるビーチの奥にあるビーチハイヤーでは、タオル、パラソル、サンラウンジャー、カヤックを借りられます。いちばん安全に泳げるのは、北側ビーチの赤と黄色の旗の間です。クラゲは一年中現れる可能性があるので、水に入るときはスティンガースーツを着用してください。トイレ、シャワー、ロッカーはこの先のリゾート内にあります。"
+      },
+      "audio": {
+        "en": "",
+        "zh": "",
+        "ja": ""
+      },
+      "image": "",
+      "look": [
+        "casuarina",
+        "coconut"
+      ],
+      "source": "Parks QLD, day-use area and map",
+      "note": ""
+    },
+    {
+      "id": "monkman",
+      "sign": "Sign: Kitty & Noel Monkman",
+      "lat": -16.758512,
+      "lon": 145.97339,
+      "title": {
+        "en": "Kitty & Noel Monkman",
+        "zh": "蒙克曼夫妇",
+        "ja": "モンクマン夫妻"
+      },
+      "narration": {
+        "en": "This sign remembers Kitty and Noel Monkman, pioneering filmmakers who brought the Great Barrier Reef to cinema audiences and made Green Island their home. The island was full of firsts for reef tourism. The world's first glass-bottom boat launched here in 1937, and the world's first underwater observatory opened here in 1954.",
+        "zh": "这块标牌纪念基蒂和诺埃尔·蒙克曼夫妇。他们是开拓性的电影人，把大堡礁带上了大银幕，并以绿岛为家。绿岛创造了许多珊瑚礁旅游的“世界第一”：1937年，世界上第一艘玻璃底船在这里启航；1954年，世界上第一座水下观景台在这里开放。",
+        "ja": "この看板は、グレートバリアリーフを映画館のスクリーンに届け、グリーン島を住まいとした先駆的な映画製作者、キティとノエル・モンクマン夫妻を紹介しています。グリーン島はリーフ観光の「世界初」の地でもあります。1937年には世界初のグラスボトムボートがここで就航し、1954年には世界初の海中展望台がオープンしました。"
+      },
+      "audio": {
+        "en": "",
+        "zh": "",
+        "ja": ""
+      },
+      "image": "",
+      "look": [],
+      "source": "green-island.com.au history",
+      "note": "Sign wording to be confirmed on site. Monkman biography drafted for review."
+    },
+    {
+      "id": "entry",
+      "sign": "Sign: Green Island National Park",
+      "lat": -16.758666,
+      "lon": 145.973883,
+      "title": {
+        "en": "Into the rainforest",
+        "zh": "走进雨林",
+        "ja": "熱帯雨林へ"
+      },
+      "narration": {
+        "en": "Here the boardwalk leaves the resort and enters Green Island National Park. Step out of the glare into cool, shady vine-thicket rainforest. It grows on sand. The island is a pile of coral rubble, shells and sand about 6,000 years old, cemented and fertilised by seabird droppings. More than 120 native plant species grow here. Listen for buff-banded rails dashing across the path and emerald doves rustling in the leaf litter. Please stay on the boardwalk.",
+        "zh": "从这里开始，木栈道离开度假村，进入绿岛国家公园。走出烈日，进入凉爽、幽暗的藤本灌丛雨林。这片雨林生长在沙子上：整座小岛由珊瑚碎屑、贝壳和沙子堆积而成，已有约6000年历史，海鸟粪便把它们胶结在一起，也为种子提供养分。这里生长着120多种本土植物。留意横穿步道的灰胸秧鸡，以及在落叶间窸窣觅食的绿翅金鸠。请始终走在栈道上。",
+        "ja": "ここで遊歩道はリゾートを離れ、グリーン島国立公園に入ります。強い日差しから、涼しく木陰の多いつる性の熱帯雨林へ。この森は砂の上に育っています。島はサンゴのかけら、貝殻、砂が積み重なってできた約6000年前の砂州で、海鳥のふんがそれを固め、種に栄養を与えました。120種以上の在来植物が生えています。道を横切るムナオビクイナや、落ち葉の中でカサカサと音を立てるキンバトに耳を澄ませてください。遊歩道から外れないようにしましょう。"
+      },
+      "audio": {
+        "en": "",
+        "zh": "",
+        "ja": ""
+      },
+      "image": "",
+      "look": [
+        "rail",
+        "dove",
+        "vinethicket"
+      ],
+      "source": "Parks QLD, The Boardwalk; green-island.com.au",
+      "note": ""
+    },
+    {
+      "id": "showcase",
+      "sign": "Sign: By Nature, Showcase to the World",
+      "lat": -16.759396,
+      "lon": 145.975114,
+      "title": {
+        "en": "Showcase to the world",
+        "zh": "向世界展示",
+        "ja": "世界に誇る自然"
+      },
+      "narration": {
+        "en": "Green Island sits inside the Great Barrier Reef World Heritage Area, famed for its superlative natural beauty, reef ecosystem development, evolutionary history and diversity. The island is protected three ways: as a national park, within the Great Barrier Reef Marine Park, and as World Heritage. Of around 300 coral cays on the reef, it is the only one with a rainforest. Look up for silvereyes darting through the canopy.",
+        "zh": "绿岛位于大堡礁世界遗产区内，这里以绝美的自然景观、珊瑚礁生态系统的演化和丰富的生物多样性而闻名。小岛受到三重保护：国家公园、大堡礁海洋公园，以及世界遗产。在大堡礁约300座珊瑚沙洲中，只有绿岛拥有雨林。抬头看看，灰胸绣眼鸟正在树冠间穿梭。",
+        "ja": "グリーン島はグレートバリアリーフ世界遺産地域の中にあり、比類ない自然美、サンゴ礁生態系の発達、進化の歴史、多様性が評価されています。島は国立公園、グレートバリアリーフ海洋公園、世界遺産という三重の保護を受けています。リーフにある約300のサンゴ砂州のうち、熱帯雨林があるのはこの島だけです。見上げると、ハイムネメジロが林冠を飛び回っています。"
+      },
+      "audio": {
+        "en": "",
+        "zh": "",
+        "ja": ""
+      },
+      "image": "",
+      "look": [
+        "silvereye"
+      ],
+      "source": "Parks QLD; green-island.com.au",
+      "note": ""
+    },
+    {
+      "id": "pestfree",
+      "sign": "Sign: Let's Not Change a Thing",
+      "lat": -16.759235,
+      "lon": 145.975323,
+      "title": {
+        "en": "Keep it pest-free",
+        "zh": "远离有害生物",
+        "ja": "外来生物を持ち込まない"
+      },
+      "narration": {
+        "en": "Great Barrier Reef islands are among the most pest-free islands in the world. One seed stuck to a shoelace, or a stowaway insect, could change this forest. Check your shoes, bags and clothes for soil, seeds, insects and lizards, and put any seeds you find in a bin. Everything here is protected. Land and sea are a no-take zone, and feeding birds or fish is not allowed.",
+        "zh": "大堡礁的岛屿是世界上有害生物最少的岛屿之一。鞋带上的一粒种子，或偷偷搭便车的一只昆虫，都可能改变这片森林。请检查鞋子、背包和衣物上是否沾有泥土、种子、昆虫或蜥蜴，发现的种子请丢进垃圾桶。这里的一切都受到保护：陆地和海洋都禁止采集任何动植物，也不允许喂食鸟类或鱼类。",
+        "ja": "グレートバリアリーフの島々は、世界でも有数の外来生物の少ない島です。靴ひもに付いた種ひとつ、紛れ込んだ虫一匹が、この森を変えてしまうかもしれません。靴やバッグ、衣服に土、種、虫、トカゲが付いていないか確認し、見つけた種はごみ箱へ。ここではすべてが保護されています。陸でも海でも動植物の採取は禁止で、鳥や魚にえさを与えることもできません。"
+      },
+      "audio": {
+        "en": "",
+        "zh": "",
+        "ja": ""
+      },
+      "image": "",
+      "look": [],
+      "source": "Parks QLD, Visiting safely and map",
+      "note": ""
+    },
+    {
+      "id": "wunyami",
+      "sign": "Sign: Aboriginal Place, Wunyami",
+      "lat": -16.759333,
+      "lon": 145.975443,
+      "title": {
+        "en": "Wunyami, place of spirits",
+        "zh": "Wunyami：灵魂之地",
+        "ja": "ウニャミ：精霊の地"
+      },
+      "narration": {
+        "en": "Long before it was named Green Island, this cay was Wunyami, meaning place of spirits. It is a special place for its Traditional Owners, the Gunggandji people. They fished and hunted here, and held manhood initiation ceremonies on the island. The Gunggandji people's connection to Wunyami and the surrounding sea continues today.",
+        "zh": "早在被命名为绿岛之前，这座沙洲就叫做 Wunyami，意为“灵魂之地”。对于这里的传统所有者——冈甘吉（Gunggandji）族人来说，这是一个特别的地方。他们曾在这里捕鱼、狩猎，并在岛上举行成年礼仪式。冈甘吉族人与 Wunyami 及周围海域的联系延续至今。",
+        "ja": "グリーン島と名付けられるずっと前から、この砂州は「精霊の地」を意味するウニャミ（Wunyami）と呼ばれていました。伝統的所有者であるグンガンジ（Gunggandji）の人々にとって特別な場所です。彼らはここで漁や狩りをし、島で成人の儀式を行っていました。グンガンジの人々とウニャミ、そして周りの海とのつながりは今も続いています。"
+      },
+      "audio": {
+        "en": "",
+        "zh": "",
+        "ja": ""
+      },
+      "image": "",
+      "look": [],
+      "source": "Parks QLD; green-island.com.au history",
+      "note": "Placeholder. In the finished guide this stop would be written and voiced with Gunggandji Traditional Owners, with an ICIP notice, as Skyrail did with the Djabugay people."
+    },
+    {
+      "id": "history",
+      "sign": "Sign: Historical",
+      "lat": -16.759469,
+      "lon": 145.975595,
+      "title": {
+        "en": "Cook, Green and bêche-de-mer",
+        "zh": "库克、格林与海参",
+        "ja": "クック、グリーン、ナマコ"
+      },
+      "narration": {
+        "en": "On the 10th of June 1770, Captain James Cook charted a low green woody island and named it after Charles Green, the Endeavour's astronomer. From 1857 a bêche-de-mer station operated here for several decades, smoking sea cucumbers. Coconut palms were planted in 1889, pleasure cruises began arriving in 1890, and a regular passenger service from Cairns started in 1924.",
+        "zh": "1770年6月10日，詹姆斯·库克船长在海图上标出一座“低矮、翠绿、林木茂密的小岛”，并以“奋进号”上的天文学家查尔斯·格林的名字为它命名。从1857年起，这里设有一座海参熏制站，运营了几十年。1889年岛上种下了椰子树，1890年开始有游船到访，1924年起开通了往返凯恩斯的定期客运。",
+        "ja": "1770年6月10日、ジェームズ・クック船長は「低く緑の木々に覆われた島」を海図に記し、エンデバー号の天文学者チャールズ・グリーンにちなんで名付けました。1857年からは数十年にわたり、ナマコを燻製にする加工場がありました。1889年にはココヤシが植えられ、1890年には遊覧船が訪れ始め、1924年にはケアンズからの定期旅客便が始まりました。"
+      },
+      "audio": {
+        "en": "",
+        "zh": "",
+        "ja": ""
+      },
+      "image": "",
+      "look": [
+        "seacucumber",
+        "coconut"
+      ],
+      "source": "green-island.com.au history",
+      "note": ""
+    },
+    {
+      "id": "future",
+      "sign": "Sign: Into the Future",
+      "lat": -16.759574,
+      "lon": 145.975515,
+      "title": {
+        "en": "Protecting the island",
+        "zh": "守护小岛",
+        "ja": "島を守る"
+      },
+      "narration": {
+        "en": "Green Island was declared a national park in 1937, the same year the world's first glass-bottom boat launched here. The surrounding waters became a marine national park in 1974. Today they sit in Marine National Park and Scientific Research zones, where fishing is not allowed. The resort began installing solar power in 2017. What happens next depends on every visitor treading lightly.",
+        "zh": "1937年，绿岛被宣布为国家公园；同一年，世界上第一艘玻璃底船在这里启航。1974年，周围海域成为海洋国家公园，如今属于海洋国家公园区和科学研究区，禁止捕鱼。度假村自2017年起开始安装太阳能发电设施。小岛的未来，取决于每一位访客都能轻轻走过。",
+        "ja": "グリーン島は1937年に国立公園に指定されました。同じ年、世界初のグラスボトムボートがここで就航しています。周囲の海は1974年に海洋国立公園となり、現在は海洋国立公園ゾーンと科学研究ゾーンに属し、釣りは禁止されています。リゾートでは2017年から太陽光発電の導入が始まりました。島の未来は、訪れる一人ひとりが自然にやさしく歩くことにかかっています。"
+      },
+      "audio": {
+        "en": "",
+        "zh": "",
+        "ja": ""
+      },
+      "image": "",
+      "look": [],
+      "source": "green-island.com.au history; Parks QLD",
+      "note": ""
+    },
+    {
+      "id": "edge",
+      "sign": "Sign: Life on the Edge",
+      "lat": -16.760364,
+      "lon": 145.976214,
+      "title": {
+        "en": "Life on the edge",
+        "zh": "边缘生活",
+        "ja": "境界に生きる"
+      },
+      "narration": {
+        "en": "You're nearing the southern shore. Here the rainforest gives way to a fringe of tough coastal plants: casuarinas and beach almonds. They tolerate sand, salt and wind, and shelter the rainforest behind them. On the beach, look for oystercatchers, egrets and terns fossicking along the shoreline.",
+        "zh": "您已接近南岸。在这里，雨林让位于一圈耐盐的海岸植物：木麻黄和榄仁树。它们能忍受沙土、盐分和海风，为身后的雨林遮挡风浪。在海滩上，留意沿岸觅食的蛎鹬、白鹭和燕鸥。",
+        "ja": "南側の海岸が近づいてきました。ここでは熱帯雨林が、たくましい海岸植物の帯へと変わります。モクマオウとモモタマナです。砂や塩、風に耐え、背後の熱帯雨林を守っています。浜辺では、波打ち際でえさを探すミヤコドリ、サギ、アジサシを探してみましょう。"
+      },
+      "audio": {
+        "en": "",
+        "zh": "",
+        "ja": ""
+      },
+      "image": "",
+      "look": [
+        "casuarina",
+        "almond",
+        "oystercatcher",
+        "tern"
+      ],
+      "source": "Parks QLD, Beach walk",
+      "note": ""
+    },
+    {
+      "id": "lookout",
+      "sign": "Constructed lookout",
+      "lat": -16.760476,
+      "lon": 145.976317,
+      "title": {
+        "en": "Southern lookout",
+        "zh": "南端观景台",
+        "ja": "南の展望台"
+      },
+      "narration": {
+        "en": "This lookout marks the end of the boardwalk. Beyond the beach lies the reef flat, around 1,200 hectares of coral and seagrass. The seagrass beds feed green turtles and dugongs, and shelter young fish. The reef holds more than 190 kinds of hard coral and over 100 soft corals. Watch the sky for ospreys and white-bellied sea-eagles. To return, retrace the boardwalk, or at low tide walk the 1.5 kilometre beach circuit around the island.",
+        "zh": "这座观景台是木栈道的终点。沙滩之外是约1200公顷的礁坪，布满珊瑚和海草。海草床为绿海龟和儒艮提供食物，也为幼鱼提供庇护。这里的珊瑚礁有190多种硬珊瑚和100多种软珊瑚。抬头留意空中盘旋的鹗和白腹海雕。返程时可沿木栈道原路返回；如果是低潮，也可以沿海滩绕岛一周，全程1.5公里。",
+        "ja": "この展望台が遊歩道の終点です。浜の向こうには、サンゴと海草が広がる約1200ヘクタールのリーフフラット。海草藻場はアオウミガメやジュゴンのえさ場であり、稚魚の隠れ家でもあります。このリーフには190種以上のハードコーラルと100種以上のソフトコーラルがあります。空を舞うミサゴやシロハラウミワシにも注目してください。帰りは遊歩道を戻るか、干潮時なら島を一周する1.5キロのビーチウォークもおすすめです。"
+      },
+      "audio": {
+        "en": "",
+        "zh": "",
+        "ja": ""
+      },
+      "image": "",
+      "look": [
+        "seagrass",
+        "dugong",
+        "coral",
+        "osprey",
+        "seaeagle"
+      ],
+      "source": "Parks QLD; green-island.com.au reef & fauna",
+      "note": ""
+    }
+  ]
+}

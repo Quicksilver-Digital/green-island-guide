@@ -1,0 +1,152 @@
+{
+  "groups": [
+    {
+      "heading": "On the water",
+      "items": [
+        {
+          "name": "Snorkelling",
+          "description": "Snorkel from the beach over coral and seagrass. The safest spot is between the flags. Go at high tide, when entry is easier.",
+          "tag": "inc",
+          "place": "swim",
+          "tour": false
+        },
+        {
+          "name": "Glass-bottom boat",
+          "description": "See the reef without getting wet. The world's first glass-bottom boat launched here in 1937.",
+          "tag": "inc",
+          "place": "",
+          "tour": false
+        },
+        {
+          "name": "Marine biologist guided snorkel",
+          "description": "Snorkel with a marine biologist who points out corals, fish and turtles.",
+          "tag": "opt",
+          "place": "dive",
+          "tour": false
+        },
+        {
+          "name": "Scuba diving",
+          "description": "Introductory and certified dives, booked through the Dive Centre.",
+          "tag": "opt",
+          "place": "dive",
+          "tour": false
+        },
+        {
+          "name": "Seawalker helmet diving",
+          "description": "Walk the sea floor wearing a helmet with air supplied from the surface. No diving experience needed.",
+          "tag": "opt",
+          "place": "dive",
+          "tour": false
+        },
+        {
+          "name": "Parasailing",
+          "description": "See the island and reef flat from the air.",
+          "tag": "opt",
+          "place": "beachhire",
+          "tour": false
+        },
+        {
+          "name": "Kayaks & beach hire",
+          "description": "Towels, umbrellas, sun lounges and non-motorised water sports. Motorised water sports are not allowed.",
+          "tag": "opt",
+          "place": "beachhire",
+          "tour": false
+        },
+        {
+          "name": "GoPro hire",
+          "description": "Record your snorkel or dive in high definition.",
+          "tag": "opt",
+          "place": "dive",
+          "tour": false
+        }
+      ]
+    },
+    {
+      "heading": "On the island",
+      "items": [
+        {
+          "name": "Boardwalk eco walk",
+          "description": "1.3 km return through the rainforest to the southern lookout. Allow 30 to 50 minutes. This app is your guide.",
+          "tag": "free",
+          "place": "",
+          "tour": true
+        },
+        {
+          "name": "Beach walk",
+          "description": "1.5 km circuit around the whole island. Allow 45 minutes to an hour. Do not attempt at high tide.",
+          "tag": "free",
+          "place": "",
+          "tour": false
+        },
+        {
+          "name": "Jetty walk",
+          "description": "Walk the 250 m jetty for turtles, rays and the postcard view back to the island.",
+          "tag": "free",
+          "place": "",
+          "tour": false
+        },
+        {
+          "name": "Marineland Melanesia",
+          "description": "Crocodile habitat and Melanesian artefacts, operating since 1964 as a crocodile farm and renamed in 1972.",
+          "tag": "opt",
+          "place": "marineland",
+          "tour": false
+        },
+        {
+          "name": "Scenic helicopter flight",
+          "description": "A short flight over Green Island and the reef.",
+          "tag": "opt",
+          "place": "heli",
+          "tour": false
+        },
+        {
+          "name": "Swimming pool",
+          "description": "Resort pool for day visitors on Eco Adventure and Discovery tours.",
+          "tag": "inc",
+          "place": "pool",
+          "tour": false
+        }
+      ]
+    },
+    {
+      "heading": "Eat & drink",
+      "items": [
+        {
+          "name": "Lite Bites: The Cafe",
+          "description": "Coffee, snacks and light meals near the jetty.",
+          "tag": "free",
+          "place": "litebites",
+          "tour": false
+        },
+        {
+          "name": "Greens Buffet",
+          "description": "Buffet lunch for day visitors.",
+          "tag": "free",
+          "place": "greens",
+          "tour": false
+        },
+        {
+          "name": "The Canopy Grill",
+          "description": "Casual meals in the resort.",
+          "tag": "free",
+          "place": "canopy",
+          "tour": false
+        },
+        {
+          "name": "Emeralds",
+          "description": "Resort restaurant.",
+          "tag": "free",
+          "place": "emeralds",
+          "tour": false
+        },
+        {
+          "name": "Reflections Pool Bar",
+          "description": "Drinks beside the pool.",
+          "tag": "free",
+          "place": "reflections",
+          "tour": false
+        }
+      ]
+    }
+  ]
+}

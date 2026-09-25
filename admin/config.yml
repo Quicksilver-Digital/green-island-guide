@@ -1,0 +1,219 @@
+# Sveltia CMS configuration for the Green Island Guide.
+# Sign in with a GitHub token that has write access to this repo. Each save is a
+# commit to main, and GitHub Pages republishes the site about a minute later.
+backend:
+  name: github
+  repo: Quicksilver-Digital/green-island-guide
+  branch: main
+  commit_messages:
+    update: "Edit {{collection}} / {{slug}} via CMS"
+    uploadMedia: "Upload {{path}} via CMS"
+    deleteMedia: "Delete {{path}} via CMS"
+
+site_url: https://quicksilver-digital.github.io/green-island-guide/
+display_url: https://quicksilver-digital.github.io/green-island-guide/
+media_folder: media
+public_folder: /media
+
+collections:
+  - name: tour
+    label: Audio tour
+    description: The numbered stops on the walk. Stop order follows the route, so position on the map decides the number.
+    files:
+      - name: stops
+        label: Boardwalk stops
+        file: content/stops.json
+        format: json
+        fields:
+          - name: stops
+            label: Stops
+            label_singular: Stop
+            widget: list
+            summary: "{{fields.title.en}} ({{fields.sign}})"
+            fields:
+              - { name: id, label: ID, widget: string, hint: "Short unique code, lowercase with no spaces, e.g. lookout. Don't change it after launch; visited stops are remembered by ID." }
+              - name: title
+                label: Title
+                widget: object
+                fields:
+                  - { name: en, label: English, widget: string }
+                  - { name: zh, label: Chinese (简体中文), widget: string, required: false, hint: "Leave blank to use English." }
+                  - { name: ja, label: Japanese (日本語), widget: string, required: false, hint: "Leave blank to use English." }
+              - name: narration
+                label: Narration
+                hint: This is read aloud by the device voice when there's no recording, and shown as text.
+                widget: object
+                fields:
+                  - { name: en, label: English, widget: text }
+                  - { name: zh, label: Chinese (简体中文), widget: text, required: false }
+                  - { name: ja, label: Japanese (日本語), widget: text, required: false }
+              - name: audio
+                label: Recorded audio (optional)
+                hint: Upload an MP3 per language to replace the device voice for that language.
+                widget: object
+                collapsed: true
+                fields:
+                  - { name: en, label: English recording, widget: file, required: false }
+                  - { name: zh, label: Chinese recording, widget: file, required: false }
+                  - { name: ja, label: Japanese recording, widget: file, required: false }
+              - { name: image, label: Photo (optional), widget: image, required: false }
+              - { name: sign, label: Sign or place name, widget: string, hint: "Shown above the text, e.g. Sign: Historical" }
+              - { name: lat, label: Latitude, widget: number, value_type: float, step: 0.000001, hint: "e.g. -16.759333. Tip: right-click a spot in Google Maps to copy its coordinates." }
+              - { name: lon, label: Longitude, widget: number, value_type: float, step: 0.000001, hint: "e.g. 145.975443" }
+              - name: look
+                label: Look for
+                widget: relation
+                collection: wildlife
+                file: nature
+                value_field: "items.*.id"
+                search_fields: ["items.*.name"]
+                display_fields: ["items.*.name"]
+                multiple: true
+                required: false
+              - { name: source, label: Source, widget: string, required: false }
+              - { name: note, label: Review note (shown to visitors), widget: text, required: false, hint: "For placeholders or content awaiting sign-off. Leave blank when final." }
+
+  - name: wildlife
+    label: Flora & fauna
+    files:
+      - name: nature
+        label: Species and habitats
+        file: content/nature.json
+        format: json
+        fields:
+          - name: items
+            label: Entries
+            label_singular: Entry
+            widget: list
+            summary: "{{fields.name}} ({{fields.group}})"
+            fields:
+              - { name: id, label: ID, widget: string, hint: "Short unique code, lowercase, e.g. turtle. Used by the 'Look for' links on stops." }
+              - { name: name, label: Common name, widget: string }
+              - { name: latin, label: Scientific name, widget: string, required: false }
+              - name: group
+                label: Group
+                widget: select
+                options:
+                  - { label: Bird, value: birds }
+                  - { label: Sea life, value: sea }
+                  - { label: Plant, value: plants }
+                  - { label: Reptile, value: reptiles }
+              - { name: where, label: Where to see it, widget: list, field: { name: place, label: Place, widget: string }, required: false }
+              - { name: text, label: Description, widget: text }
+              - { name: image, label: Photo (optional), widget: image, required: false }
+              - { name: source, label: Source, widget: string, required: false }
+              - { name: draft, label: Draft entry (shows 'verify before launch'), widget: boolean, default: false, required: false }
+
+  - name: map
+    label: Map places
+    files:
+      - name: places
+        label: Places on the map
+        file: content/places.json
+        format: json
+        fields:
+          - name: places
+            label: Places
+            label_singular: Place
+            widget: list
+            summary: "{{fields.name}}"
+            fields:
+              - { name: id, label: ID, widget: string, hint: "Short unique code, lowercase, e.g. beachhire. Activities link to places by ID." }
+              - { name: name, label: Name, widget: string }
+              - name: category
+                label: Icon
+                widget: select
+                options:
+                  - { label: Activity, value: act }
+                  - { label: Food and drink, value: food }
+                  - { label: Swimming, value: swim }
+                  - { label: Toilets, value: wc }
+                  - { label: Information, value: info }
+              - { name: lat, label: Latitude, widget: number, value_type: float, step: 0.000001 }
+              - { name: lon, label: Longitude, widget: number, value_type: float, step: 0.000001 }
+
+  - name: explore
+    label: Things to do
+    files:
+      - name: activities
+        label: Activities
+        file: content/activities.json
+        format: json
+        fields:
+          - name: groups
+            label: Sections
+            label_singular: Section
+            widget: list
+            summary: "{{fields.heading}}"
+            fields:
+              - { name: heading, label: Heading, widget: string }
+              - name: items
+                label: Activities
+                label_singular: Activity
+                widget: list
+                summary: "{{fields.name}}"
+                fields:
+                  - { name: name, label: Name, widget: string }
+                  - { name: description, label: Description, widget: text }
+                  - name: tag
+                    label: Label
+                    widget: select
+                    options:
+                      - { label: "Included on Eco Adventure & Discovery", value: inc }
+                      - { label: Optional extra, value: opt }
+                      - { label: Open to all, value: free }
+                  - name: place
+                    label: Map place (for the 'Show on map' button)
+                    widget: relation
+                    collection: map
+                    file: places
+                    value_field: "places.*.id"
+                    search_fields: ["places.*.name"]
+                    display_fields: ["places.*.name"]
+                    required: false
+                  - { name: tour, label: Show 'Start the audio tour' button, widget: boolean, default: false, required: false }
+
+  - name: pages
+    label: Island info & settings
+    files:
+      - name: info
+        label: Info tab
+        file: content/info.json
+        format: json
+        fields:
+          - { name: lede, label: Introduction, widget: text }
+          - name: facts
+            label: Fact tiles
+            widget: list
+            summary: "{{fields.value}} {{fields.label}}"
+            fields:
+              - { name: value, label: Figure, widget: string, hint: "e.g. 27 km" }
+              - { name: label, label: Label, widget: string, hint: "e.g. from Cairns" }
+          - name: walks
+            label: Walks
+            widget: list
+            summary: "{{fields.name}}"
+            fields:
+              - { name: name, label: Name, widget: string }
+              - { name: distance, label: Distance, widget: string }
+              - { name: time, label: Time, widget: string }
+              - { name: notes, label: Notes, widget: text }
+              - { name: metres, label: Length in metres (sets the bar), widget: number, value_type: int }
+          - name: timeline
+            label: History timeline
+            widget: list
+            summary: "{{fields.year}}: {{fields.event}}"
+            fields:
+              - { name: year, label: Year, widget: string }
+              - { name: event, label: Event, widget: text }
+          - { name: safety, label: Safety points, widget: list, field: { name: point, label: Point, widget: text } }
+          - { name: getting_there, label: Getting there, widget: text }
+      - name: settings
+        label: Welcome screen & settings
+        file: content/settings.json
+        format: json
+        fields:
+          - { name: intro_lede, label: Welcome text, widget: text }
+          - { name: acknowledgement, label: Acknowledgement of Country, widget: text }
+          - { name: trigger_radius_m, label: Stop trigger radius (metres), widget: number, value_type: int, min: 8, max: 60, hint: "How close a visitor must be for a stop to play. 18 suits phone GPS on the boardwalk." }
+          - { name: demo_speed_mps, label: Demo walk speed (metres per second), widget: number, value_type: float, min: 2, max: 40, hint: "12 is about 8x walking pace." }

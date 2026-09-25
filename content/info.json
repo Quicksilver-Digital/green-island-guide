@@ -1,0 +1,118 @@
+{
+  "lede": "A rainforest-covered sand cay inside the Great Barrier Reef World Heritage Area, and the only one of about 300 reef cays with rainforest.",
+  "facts": [
+    {
+      "value": "27 km",
+      "label": "from Cairns"
+    },
+    {
+      "value": "50 min",
+      "label": "by ferry"
+    },
+    {
+      "value": "660 × 260 m",
+      "label": "island size"
+    },
+    {
+      "value": "1.6 km",
+      "label": "around the island"
+    },
+    {
+      "value": "15 ha",
+      "label": "island area"
+    },
+    {
+      "value": "1,200 ha",
+      "label": "reef area"
+    },
+    {
+      "value": "~6,000 yrs",
+      "label": "age of the cay"
+    },
+    {
+      "value": "4 m",
+      "label": "highest point"
+    }
+  ],
+  "walks": [
+    {
+      "name": "Jetty walk",
+      "distance": "500 m return",
+      "time": "30 min",
+      "notes": "Easy. Wheelchair accessible.",
+      "metres": 500
+    },
+    {
+      "name": "The Boardwalk",
+      "distance": "1.3 km return",
+      "time": "30–50 min",
+      "notes": "Easy, Grade 1. Wheelchair accessible with assistance. Allow longer to read the signs.",
+      "metres": 1300
+    },
+    {
+      "name": "Beach walk",
+      "distance": "1.5 km circuit",
+      "time": "45 min–1 hr",
+      "notes": "Easy. Not wheelchair accessible. Do not attempt at high tide.",
+      "metres": 1500
+    }
+  ],
+  "timeline": [
+    {
+      "year": "Always",
+      "event": "Wunyami, \"place of spirits\", a special place for the Gunggandji people"
+    },
+    {
+      "year": "1770",
+      "event": "Captain Cook names the island after astronomer Charles Green"
+    },
+    {
+      "year": "1857",
+      "event": "Bêche-de-mer smoking station opens"
+    },
+    {
+      "year": "1889",
+      "event": "Coconut palms planted"
+    },
+    {
+      "year": "1890",
+      "event": "Pleasure cruises begin on the coaster Zeus"
+    },
+    {
+      "year": "1924",
+      "event": "Hayles start a regular passenger service from Cairns"
+    },
+    {
+      "year": "1937",
+      "event": "World’s first glass-bottom boat; national park declared"
+    },
+    {
+      "year": "1954",
+      "event": "World’s first underwater observatory opens (closed 2012)"
+    },
+    {
+      "year": "1964",
+      "event": "Crocodile farm opens, renamed Marineland Melanesia in 1972"
+    },
+    {
+      "year": "1974",
+      "event": "Surrounding waters become a marine national park"
+    },
+    {
+      "year": "2017",
+      "event": "Resort begins installing solar power"
+    }
+  ],
+  "safety": [
+    "Marine stingers (jellyfish) may be present at any time, more often in warmer months. Wear a stinger suit to swim or snorkel.",
+    "Swim and snorkel between the red and yellow flags on the northern beach, always with a buddy.",
+    "Snorkel at high tide, when it is easier to get in and out of the water.",
+    "Never stand on coral. Use rest stations or rest on sand.",
+    "Wear a hat and sunscreen, and drink plenty of water. Treated water is on tap in the day-use amenities.",
+    "The boardwalk can be slippery when wet.",
+    "No-take zone: never touch, pick up or take plants or animals. Rangers issue fines.",
+    "Don’t feed wildlife, including birds and fish. No drones on the island or over the reef.",
+    "Stay on boardwalks and marked tracks."
+  ],
+  "getting_there": "Ferries leave the Reef Fleet Terminal on Spence Street, Cairns, and take 50 to 60 minutes. Helicopter and seaplane services also fly to the island. Toilets, showers, lockers and food are in the resort. A ranger is based on the island; the information counter is in the resort."
+}

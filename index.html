@@ -214,6 +214,8 @@ h3.sub{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--
 .safety li{margin:0 0 8px;max-width:62ch}
 .info p{max-width:62ch}
 .info a{color:var(--sea)}
+.photo{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;max-width:100%;background:var(--surface-2)}
+.sbody .photo{border-radius:12px;margin-top:12px}
 .toast{position:absolute;left:50%;transform:translateX(-50%);top:62px;z-index:6;background:var(--ink);color:var(--surface);padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;box-shadow:var(--shadow);max-width:calc(100% - 32px)}
 </style>
 
@@ -281,8 +283,8 @@ h3.sub{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--
       <div class="intro-art" aria-hidden="true"><svg id="introArt" preserveAspectRatio="xMidYMid slice"></svg></div>
       <div class="intro-body">
         <h1>Wunyami, <em>Green Island</em></h1>
-        <p class="lede">An audio guide to a 6,000-year-old rainforest cay on the Great Barrier Reef. Walk the boardwalk and each story plays as you reach it.</p>
-        <p class="ack">We acknowledge the Gunggandji people, Traditional Owners of Wunyami and its sea country, and pay our respects to Elders past and present.</p>
+        <p class="lede" id="introLede">An audio guide to a 6,000-year-old rainforest cay on the Great Barrier Reef. Walk the boardwalk and each story plays as you reach it.</p>
+        <p class="ack" id="introAck">We acknowledge the Gunggandji people, Traditional Owners of Wunyami and its sea country, and pay our respects to Elders past and present.</p>
         <div class="choose">
           <button class="bigbtn primary" id="introGps"><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg></span><span><b>Start tour with GPS</b><small>For use on the island. Stories play as you walk.</small></span></button>
           <button class="bigbtn" id="introDemo"><span class="ic"><svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span><span><b>Try the demo walk</b><small>A simulated walk from the jetty to the southern lookout.</small></span></button>
@@ -313,150 +315,29 @@ const UI = {
 };
 const SPEECH_LANG = {en:'en-AU',zh:'zh-CN',ja:'ja-JP'};
 
-// Stops sit on real boardwalk sign positions (OpenStreetMap). Order is computed from distance along the route.
-const STOPS = [
- {id:'jetty', at:'routeStart', kind:'Jetty walk',
-  t:{en:'The Jetty',zh:'栈桥',ja:'桟橋'},
-  n:{en:"Welcome to Green Island. You're standing on a jetty that visitors have walked for nearly a hundred years. It stretches about 250 metres out over the reef flat. Look over the edge. Large fish glide through the shadows below, stingrays burst away from the sandy bottom in a puff of sand, and green turtles surface for a breath. Before you walk ashore, turn around for the classic postcard view of the island in a sea of blue.",
-     zh:"欢迎来到绿岛。您脚下的这座栈桥，近百年来一直迎接着来访的游客。它从岸边向礁坪延伸约250米。请低头看看：大鱼在阴影中穿梭，魟鱼从沙底疾游而去，扬起一团细沙，绿海龟也会浮出水面换气。上岸之前，不妨回头欣赏小岛被碧蓝大海环抱的明信片般的景色。",
-     ja:"グリーン島へようこそ。いま立っている桟橋は、100年近くにわたり訪れる人々を迎えてきました。桟橋はリーフフラットの上を約250メートル伸びています。下をのぞいてみてください。大きな魚が影の中を泳ぎ、エイは砂を巻き上げて逃げていき、アオウミガメが息つぎに顔を出します。上陸する前に振り返って、青い海に浮かぶ島の絵葉書のような景色を楽しみましょう。"},
-  look:['turtle','ray','pelagic','egret'], src:'Parks QLD, Jetty walk'},
- {id:'welcome', ll:[-16.759076,145.971481], kind:'Sign: Welcome to Green Island',
-  t:{en:'Arrival & day-use area',zh:'抵达与一日游区域',ja:'到着とデイユースエリア'},
-  n:{en:"This is the heart of the day-use area, which stretches along the beach either side of the jetty. Beach Hire, just left of the jetty behind the patrolled beach, rents towels, umbrellas, sun lounges and kayaks. The safest place to swim is between the red and yellow flags on the northern beach. Stingers can be present at any time, so wear a stinger suit in the water. Toilets, showers and lockers are in the resort, just ahead.",
-     zh:"这里是一日游区域的中心，沿着栈桥两侧的海滩展开。栈桥左侧、有救生员巡视的海滩后方是海滩租赁处，可以租用毛巾、遮阳伞、躺椅和皮划艇。最安全的游泳地点是北侧海滩的红黄旗之间。水母全年都可能出现，下水时请穿防蛰服。前方度假村内设有洗手间、淋浴和储物柜。",
-     ja:"ここは桟橋の両側の浜辺に広がるデイユースエリアの中心です。桟橋の左手、監視員のいるビーチの奥にあるビーチハイヤーでは、タオル、パラソル、サンラウンジャー、カヤックを借りられます。いちばん安全に泳げるのは、北側ビーチの赤と黄色の旗の間です。クラゲは一年中現れる可能性があるので、水に入るときはスティンガースーツを着用してください。トイレ、シャワー、ロッカーはこの先のリゾート内にあります。"},
-  look:['casuarina','coconut'], src:'Parks QLD, day-use area and map'},
- {id:'monkman', ll:[-16.758512,145.97339], kind:'Sign: Kitty & Noel Monkman',
-  t:{en:'Kitty & Noel Monkman',zh:'蒙克曼夫妇',ja:'モンクマン夫妻'},
-  n:{en:"This sign remembers Kitty and Noel Monkman, pioneering filmmakers who brought the Great Barrier Reef to cinema audiences and made Green Island their home. The island was full of firsts for reef tourism. The world's first glass-bottom boat launched here in 1937, and the world's first underwater observatory opened here in 1954.",
-     zh:"这块标牌纪念基蒂和诺埃尔·蒙克曼夫妇。他们是开拓性的电影人，把大堡礁带上了大银幕，并以绿岛为家。绿岛创造了许多珊瑚礁旅游的“世界第一”：1937年，世界上第一艘玻璃底船在这里启航；1954年，世界上第一座水下观景台在这里开放。",
-     ja:"この看板は、グレートバリアリーフを映画館のスクリーンに届け、グリーン島を住まいとした先駆的な映画製作者、キティとノエル・モンクマン夫妻を紹介しています。グリーン島はリーフ観光の「世界初」の地でもあります。1937年には世界初のグラスボトムボートがここで就航し、1954年には世界初の海中展望台がオープンしました。"},
-  look:[], src:'green-island.com.au history', note:'Sign wording to be confirmed on site. Monkman biography drafted for review.'},
- {id:'entry', ll:[-16.758666,145.973883], kind:'Sign: Green Island National Park',
-  t:{en:'Into the rainforest',zh:'走进雨林',ja:'熱帯雨林へ'},
-  n:{en:"Here the boardwalk leaves the resort and enters Green Island National Park. Step out of the glare into cool, shady vine-thicket rainforest. It grows on sand. The island is a pile of coral rubble, shells and sand about 6,000 years old, cemented and fertilised by seabird droppings. More than 120 native plant species grow here. Listen for buff-banded rails dashing across the path and emerald doves rustling in the leaf litter. Please stay on the boardwalk.",
-     zh:"从这里开始，木栈道离开度假村，进入绿岛国家公园。走出烈日，进入凉爽、幽暗的藤本灌丛雨林。这片雨林生长在沙子上：整座小岛由珊瑚碎屑、贝壳和沙子堆积而成，已有约6000年历史，海鸟粪便把它们胶结在一起，也为种子提供养分。这里生长着120多种本土植物。留意横穿步道的灰胸秧鸡，以及在落叶间窸窣觅食的绿翅金鸠。请始终走在栈道上。",
-     ja:"ここで遊歩道はリゾートを離れ、グリーン島国立公園に入ります。強い日差しから、涼しく木陰の多いつる性の熱帯雨林へ。この森は砂の上に育っています。島はサンゴのかけら、貝殻、砂が積み重なってできた約6000年前の砂州で、海鳥のふんがそれを固め、種に栄養を与えました。120種以上の在来植物が生えています。道を横切るムナオビクイナや、落ち葉の中でカサカサと音を立てるキンバトに耳を澄ませてください。遊歩道から外れないようにしましょう。"},
-  look:['rail','dove','vinethicket'], src:'Parks QLD, The Boardwalk; green-island.com.au'},
- {id:'showcase', ll:[-16.759396,145.975114], kind:'Sign: By Nature, Showcase to the World',
-  t:{en:'Showcase to the world',zh:'向世界展示',ja:'世界に誇る自然'},
-  n:{en:"Green Island sits inside the Great Barrier Reef World Heritage Area, famed for its superlative natural beauty, reef ecosystem development, evolutionary history and diversity. The island is protected three ways: as a national park, within the Great Barrier Reef Marine Park, and as World Heritage. Of around 300 coral cays on the reef, it is the only one with a rainforest. Look up for silvereyes darting through the canopy.",
-     zh:"绿岛位于大堡礁世界遗产区内，这里以绝美的自然景观、珊瑚礁生态系统的演化和丰富的生物多样性而闻名。小岛受到三重保护：国家公园、大堡礁海洋公园，以及世界遗产。在大堡礁约300座珊瑚沙洲中，只有绿岛拥有雨林。抬头看看，灰胸绣眼鸟正在树冠间穿梭。",
-     ja:"グリーン島はグレートバリアリーフ世界遺産地域の中にあり、比類ない自然美、サンゴ礁生態系の発達、進化の歴史、多様性が評価されています。島は国立公園、グレートバリアリーフ海洋公園、世界遺産という三重の保護を受けています。リーフにある約300のサンゴ砂州のうち、熱帯雨林があるのはこの島だけです。見上げると、ハイムネメジロが林冠を飛び回っています。"},
-  look:['silvereye'], src:'Parks QLD; green-island.com.au'},
- {id:'pestfree', ll:[-16.759235,145.975323], kind:"Sign: Let's Not Change a Thing",
-  t:{en:'Keep it pest-free',zh:'远离有害生物',ja:'外来生物を持ち込まない'},
-  n:{en:"Great Barrier Reef islands are among the most pest-free islands in the world. One seed stuck to a shoelace, or a stowaway insect, could change this forest. Check your shoes, bags and clothes for soil, seeds, insects and lizards, and put any seeds you find in a bin. Everything here is protected. Land and sea are a no-take zone, and feeding birds or fish is not allowed.",
-     zh:"大堡礁的岛屿是世界上有害生物最少的岛屿之一。鞋带上的一粒种子，或偷偷搭便车的一只昆虫，都可能改变这片森林。请检查鞋子、背包和衣物上是否沾有泥土、种子、昆虫或蜥蜴，发现的种子请丢进垃圾桶。这里的一切都受到保护：陆地和海洋都禁止采集任何动植物，也不允许喂食鸟类或鱼类。",
-     ja:"グレートバリアリーフの島々は、世界でも有数の外来生物の少ない島です。靴ひもに付いた種ひとつ、紛れ込んだ虫一匹が、この森を変えてしまうかもしれません。靴やバッグ、衣服に土、種、虫、トカゲが付いていないか確認し、見つけた種はごみ箱へ。ここではすべてが保護されています。陸でも海でも動植物の採取は禁止で、鳥や魚にえさを与えることもできません。"},
-  look:[], src:'Parks QLD, Visiting safely and map'},
- {id:'wunyami', ll:[-16.759333,145.975443], kind:'Sign: Aboriginal Place, Wunyami',
-  t:{en:'Wunyami, place of spirits',zh:'Wunyami：灵魂之地',ja:'ウニャミ：精霊の地'},
-  n:{en:"Long before it was named Green Island, this cay was Wunyami, meaning place of spirits. It is a special place for its Traditional Owners, the Gunggandji people. They fished and hunted here, and held manhood initiation ceremonies on the island. The Gunggandji people's connection to Wunyami and the surrounding sea continues today.",
-     zh:"早在被命名为绿岛之前，这座沙洲就叫做 Wunyami，意为“灵魂之地”。对于这里的传统所有者——冈甘吉（Gunggandji）族人来说，这是一个特别的地方。他们曾在这里捕鱼、狩猎，并在岛上举行成年礼仪式。冈甘吉族人与 Wunyami 及周围海域的联系延续至今。",
-     ja:"グリーン島と名付けられるずっと前から、この砂州は「精霊の地」を意味するウニャミ（Wunyami）と呼ばれていました。伝統的所有者であるグンガンジ（Gunggandji）の人々にとって特別な場所です。彼らはここで漁や狩りをし、島で成人の儀式を行っていました。グンガンジの人々とウニャミ、そして周りの海とのつながりは今も続いています。"},
-  look:[], src:'Parks QLD; green-island.com.au history',
-  note:'Placeholder. In the finished guide this stop would be written and voiced with Gunggandji Traditional Owners, with an ICIP notice, as Skyrail did with the Djabugay people.'},
- {id:'history', ll:[-16.759469,145.975595], kind:'Sign: Historical',
-  t:{en:'Cook, Green and bêche-de-mer',zh:'库克、格林与海参',ja:'クック、グリーン、ナマコ'},
-  n:{en:"On the 10th of June 1770, Captain James Cook charted a low green woody island and named it after Charles Green, the Endeavour's astronomer. From 1857 a bêche-de-mer station operated here for several decades, smoking sea cucumbers. Coconut palms were planted in 1889, pleasure cruises began arriving in 1890, and a regular passenger service from Cairns started in 1924.",
-     zh:"1770年6月10日，詹姆斯·库克船长在海图上标出一座“低矮、翠绿、林木茂密的小岛”，并以“奋进号”上的天文学家查尔斯·格林的名字为它命名。从1857年起，这里设有一座海参熏制站，运营了几十年。1889年岛上种下了椰子树，1890年开始有游船到访，1924年起开通了往返凯恩斯的定期客运。",
-     ja:"1770年6月10日、ジェームズ・クック船長は「低く緑の木々に覆われた島」を海図に記し、エンデバー号の天文学者チャールズ・グリーンにちなんで名付けました。1857年からは数十年にわたり、ナマコを燻製にする加工場がありました。1889年にはココヤシが植えられ、1890年には遊覧船が訪れ始め、1924年にはケアンズからの定期旅客便が始まりました。"},
-  look:['seacucumber','coconut'], src:'green-island.com.au history'},
- {id:'future', ll:[-16.759574,145.975515], kind:'Sign: Into the Future',
-  t:{en:'Protecting the island',zh:'守护小岛',ja:'島を守る'},
-  n:{en:"Green Island was declared a national park in 1937, the same year the world's first glass-bottom boat launched here. The surrounding waters became a marine national park in 1974. Today they sit in Marine National Park and Scientific Research zones, where fishing is not allowed. The resort began installing solar power in 2017. What happens next depends on every visitor treading lightly.",
-     zh:"1937年，绿岛被宣布为国家公园；同一年，世界上第一艘玻璃底船在这里启航。1974年，周围海域成为海洋国家公园，如今属于海洋国家公园区和科学研究区，禁止捕鱼。度假村自2017年起开始安装太阳能发电设施。小岛的未来，取决于每一位访客都能轻轻走过。",
-     ja:"グリーン島は1937年に国立公園に指定されました。同じ年、世界初のグラスボトムボートがここで就航しています。周囲の海は1974年に海洋国立公園となり、現在は海洋国立公園ゾーンと科学研究ゾーンに属し、釣りは禁止されています。リゾートでは2017年から太陽光発電の導入が始まりました。島の未来は、訪れる一人ひとりが自然にやさしく歩くことにかかっています。"},
-  look:[], src:'green-island.com.au history; Parks QLD'},
- {id:'edge', ll:[-16.760364,145.976214], kind:'Sign: Life on the Edge',
-  t:{en:'Life on the edge',zh:'边缘生活',ja:'境界に生きる'},
-  n:{en:"You're nearing the southern shore. Here the rainforest gives way to a fringe of tough coastal plants: casuarinas and beach almonds. They tolerate sand, salt and wind, and shelter the rainforest behind them. On the beach, look for oystercatchers, egrets and terns fossicking along the shoreline.",
-     zh:"您已接近南岸。在这里，雨林让位于一圈耐盐的海岸植物：木麻黄和榄仁树。它们能忍受沙土、盐分和海风，为身后的雨林遮挡风浪。在海滩上，留意沿岸觅食的蛎鹬、白鹭和燕鸥。",
-     ja:"南側の海岸が近づいてきました。ここでは熱帯雨林が、たくましい海岸植物の帯へと変わります。モクマオウとモモタマナです。砂や塩、風に耐え、背後の熱帯雨林を守っています。浜辺では、波打ち際でえさを探すミヤコドリ、サギ、アジサシを探してみましょう。"},
-  look:['casuarina','almond','oystercatcher','tern'], src:'Parks QLD, Beach walk'},
- {id:'lookout', ll:[-16.760476,145.976317], kind:'Constructed lookout',
-  t:{en:'Southern lookout',zh:'南端观景台',ja:'南の展望台'},
-  n:{en:"This lookout marks the end of the boardwalk. Beyond the beach lies the reef flat, around 1,200 hectares of coral and seagrass. The seagrass beds feed green turtles and dugongs, and shelter young fish. The reef holds more than 190 kinds of hard coral and over 100 soft corals. Watch the sky for ospreys and white-bellied sea-eagles. To return, retrace the boardwalk, or at low tide walk the 1.5 kilometre beach circuit around the island.",
-     zh:"这座观景台是木栈道的终点。沙滩之外是约1200公顷的礁坪，布满珊瑚和海草。海草床为绿海龟和儒艮提供食物，也为幼鱼提供庇护。这里的珊瑚礁有190多种硬珊瑚和100多种软珊瑚。抬头留意空中盘旋的鹗和白腹海雕。返程时可沿木栈道原路返回；如果是低潮，也可以沿海滩绕岛一周，全程1.5公里。",
-     ja:"この展望台が遊歩道の終点です。浜の向こうには、サンゴと海草が広がる約1200ヘクタールのリーフフラット。海草藻場はアオウミガメやジュゴンのえさ場であり、稚魚の隠れ家でもあります。このリーフには190種以上のハードコーラルと100種以上のソフトコーラルがあります。空を舞うミサゴやシロハラウミワシにも注目してください。帰りは遊歩道を戻るか、干潮時なら島を一周する1.5キロのビーチウォークもおすすめです。"},
-  look:['seagrass','dugong','coral','osprey','seaeagle'], src:'Parks QLD; green-island.com.au reef & fauna'}
-];
-
-const POIS = [
- {id:'marineland',name:'Marineland Melanesia',cat:'act',ll:[-16.758697,145.973457]},
- {id:'dive',name:'Dive Centre',cat:'act',ll:[-16.758859,145.97197]},
- {id:'beachhire',name:'Beach Hire',cat:'act',ll:[-16.757899,145.972924]},
- {id:'swim',name:'Patrolled swimming area',cat:'swim',ll:[-16.757515,145.97317]},
- {id:'heli',name:'Nautilus Helicopters',cat:'act',ll:[-16.75885,145.971919]},
- {id:'pool',name:'Day-visitor pool',cat:'swim',ll:[-16.758721,145.972228]},
- {id:'canopy',name:'The Canopy Grill',cat:'food',ll:[-16.758767,145.972581]},
- {id:'emeralds',name:'Emeralds',cat:'food',ll:[-16.758868,145.972376]},
- {id:'litebites',name:'Lite Bites: The Cafe',cat:'food',ll:[-16.75895,145.972056]},
- {id:'greens',name:'Greens Buffet',cat:'food',ll:[-16.758669,145.972776]},
- {id:'reflections',name:'Reflections Pool Bar',cat:'food',ll:[-16.758739,145.972435]},
- {id:'wc1',name:'Toilets',cat:'wc',ll:[-16.758993,145.972082]},
- {id:'wc2',name:'Toilets & showers',cat:'wc',ll:[-16.758655,145.972576]},
- {id:'info',name:'Information counter',cat:'info',ll:[-16.759059,145.971571]}
-];
-
-const NATURE = [
- {id:'rail',g:'birds',n:'Buff-banded rail',l:'Hypotaenidia philippensis',w:['Boardwalk'],t:"A striped, chicken-sized bird that dashes across the boardwalk. Hard to miss, and bold around people. Please don't feed it.",s:'Parks QLD'},
- {id:'dove',g:'birds',n:'Emerald dove',l:'Chalcophaps longirostris',w:['Boardwalk'],t:'Glossy green wings and a soft call. Usually heard rustling through leaf litter on the forest floor before it is seen.',s:'Parks QLD'},
- {id:'silvereye',g:'birds',n:'Silvereye',l:'Zosterops lateralis',w:['Rainforest canopy'],t:'Tiny olive-green birds with a white eye-ring, darting about the canopy in busy flocks.',s:'Parks QLD'},
- {id:'pigeon',g:'birds',n:'Pied imperial-pigeon',l:'Ducula spilorrhoa',w:['Canopy','Summer'],t:'Large white pigeons that arrive in the summer months. Their soft calls fill the canopy during the forest fruiting season.',s:'Parks QLD'},
- {id:'osprey',g:'birds',n:'Osprey',l:'Pandion haliaetus',w:['Beach','Overhead'],t:'A fish-eating raptor that soars over the reef flat and plunges feet-first for fish.',s:'Parks QLD'},
- {id:'seaeagle',g:'birds',n:'White-bellied sea-eagle',l:'Haliaeetus leucogaster',w:['Overhead'],t:'A huge white and grey eagle with broad, upswept wings. Watch for it soaring above the beach walk.',s:'Parks QLD'},
- {id:'oystercatcher',g:'birds',n:'Oystercatchers',l:'Haematopus spp.',w:['Beach'],t:'Black or black-and-white shorebirds with long red bills, probing the sand along the shoreline.',s:'Parks QLD'},
- {id:'egret',g:'birds',n:'Egrets & reef herons',l:'Egretta spp.',w:['Jetty','Beach'],t:'Tall white herons that stalk the shallows. Look for them from the jetty and along the tide line.',s:'Parks QLD'},
- {id:'tern',g:'birds',n:'Terns',l:'Family Laridae',w:['Beach','Jetty'],t:'Slender seabirds that hover and dive for small fish. More than 35 seabird species are recorded around the island.',s:'Parks QLD'},
- {id:'turtle',g:'sea',n:'Green turtle',l:'Chelonia mydas',w:['Jetty','Seagrass beds'],t:"Drawn to Green Island's undulating seagrass beds. Watch the surface from the jetty for a head popping up to breathe.",s:'Parks QLD'},
- {id:'ray',g:'sea',n:'Stingrays',l:'Family Dasyatidae',w:['Jetty','Reef flat'],t:'Scan the sandy bottom below the jetty. Stingrays send up a cloud of sand as they dart away.',s:'Parks QLD'},
- {id:'pelagic',g:'sea',n:'Pelagic fish',l:'Open-water species',w:['Under the jetty'],t:'Large fish live under the jetty, gliding in and out of its shadows.',s:'Parks QLD'},
- {id:'reeffish',g:'sea',n:'Reef fish',l:'Many species',w:['Coral bommies','Snorkel trail'],t:'Colourful reef fish crowd the coral bommies visible from the jetty and on a snorkel.',s:'Parks QLD'},
- {id:'coral',g:'sea',n:'Hard & soft corals',l:'Scleractinia & Alcyonacea',w:['Reef edge'],t:'More than 190 kinds of hard coral and over 100 soft corals, grading from shallow to deep water. Never stand on coral; use rest stations.',s:'green-island.com.au'},
- {id:'seagrass',g:'sea',n:'Seagrass meadows',l:'Several species',w:['Reef flat'],t:'Shallow meadows that shelter juvenile fish and feed turtles and dugongs.',s:'green-island.com.au'},
- {id:'dugong',g:'sea',n:'Dugong',l:'Dugong dugon',w:['Seagrass beds'],t:'A shy marine mammal that grazes on seagrass. A rare and lucky sighting.',s:'green-island.com.au'},
- {id:'seacucumber',g:'sea',n:'Sea cucumber (bêche-de-mer)',l:'Class Holothuroidea',w:['Reef flat'],t:'Harvested and smoked on the island from 1857. Today it is protected, like everything in this no-take zone.',s:'green-island.com.au'},
- {id:'vinethicket',g:'plants',n:'Vine-thicket rainforest',l:'Island interior',w:['Boardwalk'],t:"Dense, shady rainforest growing in sand in the island's centre. Green Island is the only one of about 300 reef cays with rainforest.",s:'green-island.com.au'},
- {id:'casuarina',g:'plants',n:'Coastal she-oak (casuarina)',l:'Casuarina equisetifolia',w:['Beach fringe'],t:'Wispy, needle-like foliage that frames the day-use area. Tolerates sand, salt and wind, sheltering the rainforest.',s:'Parks QLD'},
- {id:'almond',g:'plants',n:'Beach almond',l:'Terminalia catappa',w:['Beach fringe'],t:'Broad leaves that turn red before they fall. One of the salt-tolerant plants that shield the island interior.',s:'Parks QLD'},
- {id:'coconut',g:'plants',n:'Coconut palm',l:'Cocos nucifera',w:['Day-use area'],t:'The swaying palms of the day-use area. Coconuts were planted here in 1889.',s:'green-island.com.au'},
- {id:'pandanus',g:'plants',n:'Pandanus',l:'Pandanus tectorius',w:['Beach fringe'],t:'Screw pines with stilt roots and spiral leaves, typical of reef-island shores.',s:'draft'},
- {id:'croc',g:'reptiles',n:'Saltwater crocodile',l:'Crocodylus porosus',w:['Marineland Melanesia'],t:'See them up close at Marineland Melanesia, which began as a crocodile farm in 1964.',s:'green-island.com.au'}
-];
+// Content lives in content/*.json (edited through /admin). A copy is baked in at
+// build time so the guide still works offline or if the files can't be fetched.
+const FALLBACK = {"stops":{"stops":[{"id":"jetty","sign":"Jetty walk","lat":-16.757978,"lon":145.969206,"title":{"en":"The Jetty","zh":"栈桥","ja":"桟橋"},"narration":{"en":"Welcome to Green Island. You're standing on a jetty that visitors have walked for nearly a hundred years. It stretches about 250 metres out over the reef flat. Look over the edge. Large fish glide through the shadows below, stingrays burst away from the sandy bottom in a puff of sand, and green turtles surface for a breath. Before you walk ashore, turn around for the classic postcard view of the island in a sea of blue.","zh":"欢迎来到绿岛。您脚下的这座栈桥，近百年来一直迎接着来访的游客。它从岸边向礁坪延伸约250米。请低头看看：大鱼在阴影中穿梭，魟鱼从沙底疾游而去，扬起一团细沙，绿海龟也会浮出水面换气。上岸之前，不妨回头欣赏小岛被碧蓝大海环抱的明信片般的景色。","ja":"グリーン島へようこそ。いま立っている桟橋は、100年近くにわたり訪れる人々を迎えてきました。桟橋はリーフフラットの上を約250メートル伸びています。下をのぞいてみてください。大きな魚が影の中を泳ぎ、エイは砂を巻き上げて逃げていき、アオウミガメが息つぎに顔を出します。上陸する前に振り返って、青い海に浮かぶ島の絵葉書のような景色を楽しみましょう。"},"audio":{"en":"","zh":"","ja":""},"image":"","look":["turtle","ray","pelagic","egret"],"source":"Parks QLD, Jetty walk","note":""},{"id":"welcome","sign":"Sign: Welcome to Green Island","lat":-16.759076,"lon":145.971481,"title":{"en":"Arrival & day-use area","zh":"抵达与一日游区域","ja":"到着とデイユースエリア"},"narration":{"en":"This is the heart of the day-use area, which stretches along the beach either side of the jetty. Beach Hire, just left of the jetty behind the patrolled beach, rents towels, umbrellas, sun lounges and kayaks. The safest place to swim is between the red and yellow flags on the northern beach. Stingers can be present at any time, so wear a stinger suit in the water. Toilets, showers and lockers are in the resort, just ahead.","zh":"这里是一日游区域的中心，沿着栈桥两侧的海滩展开。栈桥左侧、有救生员巡视的海滩后方是海滩租赁处，可以租用毛巾、遮阳伞、躺椅和皮划艇。最安全的游泳地点是北侧海滩的红黄旗之间。水母全年都可能出现，下水时请穿防蛰服。前方度假村内设有洗手间、淋浴和储物柜。","ja":"ここは桟橋の両側の浜辺に広がるデイユースエリアの中心です。桟橋の左手、監視員のいるビーチの奥にあるビーチハイヤーでは、タオル、パラソル、サンラウンジャー、カヤックを借りられます。いちばん安全に泳げるのは、北側ビーチの赤と黄色の旗の間です。クラゲは一年中現れる可能性があるので、水に入るときはスティンガースーツを着用してください。トイレ、シャワー、ロッカーはこの先のリゾート内にあります。"},"audio":{"en":"","zh":"","ja":""},"image":"","look":["casuarina","coconut"],"source":"Parks QLD, day-use area and map","note":""},{"id":"monkman","sign":"Sign: Kitty & Noel Monkman","lat":-16.758512,"lon":145.97339,"title":{"en":"Kitty & Noel Monkman","zh":"蒙克曼夫妇","ja":"モンクマン夫妻"},"narration":{"en":"This sign remembers Kitty and Noel Monkman, pioneering filmmakers who brought the Great Barrier Reef to cinema audiences and made Green Island their home. The island was full of firsts for reef tourism. The world's first glass-bottom boat launched here in 1937, and the world's first underwater observatory opened here in 1954.","zh":"这块标牌纪念基蒂和诺埃尔·蒙克曼夫妇。他们是开拓性的电影人，把大堡礁带上了大银幕，并以绿岛为家。绿岛创造了许多珊瑚礁旅游的“世界第一”：1937年，世界上第一艘玻璃底船在这里启航；1954年，世界上第一座水下观景台在这里开放。","ja":"この看板は、グレートバリアリーフを映画館のスクリーンに届け、グリーン島を住まいとした先駆的な映画製作者、キティとノエル・モンクマン夫妻を紹介しています。グリーン島はリーフ観光の「世界初」の地でもあります。1937年には世界初のグラスボトムボートがここで就航し、1954年には世界初の海中展望台がオープンしました。"},"audio":{"en":"","zh":"","ja":""},"image":"","look":[],"source":"green-island.com.au history","note":"Sign wording to be confirmed on site. Monkman biography drafted for review."},{"id":"entry","sign":"Sign: Green Island National Park","lat":-16.758666,"lon":145.973883,"title":{"en":"Into the rainforest","zh":"走进雨林","ja":"熱帯雨林へ"},"narration":{"en":"Here the boardwalk leaves the resort and enters Green Island National Park. Step out of the glare into cool, shady vine-thicket rainforest. It grows on sand. The island is a pile of coral rubble, shells and sand about 6,000 years old, cemented and fertilised by seabird droppings. More than 120 native plant species grow here. Listen for buff-banded rails dashing across the path and emerald doves rustling in the leaf litter. Please stay on the boardwalk.","zh":"从这里开始，木栈道离开度假村，进入绿岛国家公园。走出烈日，进入凉爽、幽暗的藤本灌丛雨林。这片雨林生长在沙子上：整座小岛由珊瑚碎屑、贝壳和沙子堆积而成，已有约6000年历史，海鸟粪便把它们胶结在一起，也为种子提供养分。这里生长着120多种本土植物。留意横穿步道的灰胸秧鸡，以及在落叶间窸窣觅食的绿翅金鸠。请始终走在栈道上。","ja":"ここで遊歩道はリゾートを離れ、グリーン島国立公園に入ります。強い日差しから、涼しく木陰の多いつる性の熱帯雨林へ。この森は砂の上に育っています。島はサンゴのかけら、貝殻、砂が積み重なってできた約6000年前の砂州で、海鳥のふんがそれを固め、種に栄養を与えました。120種以上の在来植物が生えています。道を横切るムナオビクイナや、落ち葉の中でカサカサと音を立てるキンバトに耳を澄ませてください。遊歩道から外れないようにしましょう。"},"audio":{"en":"","zh":"","ja":""},"image":"","look":["rail","dove","vinethicket"],"source":"Parks QLD, The Boardwalk; green-island.com.au","note":""},{"id":"showcase","sign":"Sign: By Nature, Showcase to the World","lat":-16.759396,"lon":145.975114,"title":{"en":"Showcase to the world","zh":"向世界展示","ja":"世界に誇る自然"},"narration":{"en":"Green Island sits inside the Great Barrier Reef World Heritage Area, famed for its superlative natural beauty, reef ecosystem development, evolutionary history and diversity. The island is protected three ways: as a national park, within the Great Barrier Reef Marine Park, and as World Heritage. Of around 300 coral cays on the reef, it is the only one with a rainforest. Look up for silvereyes darting through the canopy.","zh":"绿岛位于大堡礁世界遗产区内，这里以绝美的自然景观、珊瑚礁生态系统的演化和丰富的生物多样性而闻名。小岛受到三重保护：国家公园、大堡礁海洋公园，以及世界遗产。在大堡礁约300座珊瑚沙洲中，只有绿岛拥有雨林。抬头看看，灰胸绣眼鸟正在树冠间穿梭。","ja":"グリーン島はグレートバリアリーフ世界遺産地域の中にあり、比類ない自然美、サンゴ礁生態系の発達、進化の歴史、多様性が評価されています。島は国立公園、グレートバリアリーフ海洋公園、世界遺産という三重の保護を受けています。リーフにある約300のサンゴ砂州のうち、熱帯雨林があるのはこの島だけです。見上げると、ハイムネメジロが林冠を飛び回っています。"},"audio":{"en":"","zh":"","ja":""},"image":"","look":["silvereye"],"source":"Parks QLD; green-island.com.au","note":""},{"id":"pestfree","sign":"Sign: Let's Not Change a Thing","lat":-16.759235,"lon":145.975323,"title":{"en":"Keep it pest-free","zh":"远离有害生物","ja":"外来生物を持ち込まない"},"narration":{"en":"Great Barrier Reef islands are among the most pest-free islands in the world. One seed stuck to a shoelace, or a stowaway insect, could change this forest. Check your shoes, bags and clothes for soil, seeds, insects and lizards, and put any seeds you find in a bin. Everything here is protected. Land and sea are a no-take zone, and feeding birds or fish is not allowed.","zh":"大堡礁的岛屿是世界上有害生物最少的岛屿之一。鞋带上的一粒种子，或偷偷搭便车的一只昆虫，都可能改变这片森林。请检查鞋子、背包和衣物上是否沾有泥土、种子、昆虫或蜥蜴，发现的种子请丢进垃圾桶。这里的一切都受到保护：陆地和海洋都禁止采集任何动植物，也不允许喂食鸟类或鱼类。","ja":"グレートバリアリーフの島々は、世界でも有数の外来生物の少ない島です。靴ひもに付いた種ひとつ、紛れ込んだ虫一匹が、この森を変えてしまうかもしれません。靴やバッグ、衣服に土、種、虫、トカゲが付いていないか確認し、見つけた種はごみ箱へ。ここではすべてが保護されています。陸でも海でも動植物の採取は禁止で、鳥や魚にえさを与えることもできません。"},"audio":{"en":"","zh":"","ja":""},"image":"","look":[],"source":"Parks QLD, Visiting safely and map","note":""},{"id":"wunyami","sign":"Sign: Aboriginal Place, Wunyami","lat":-16.759333,"lon":145.975443,"title":{"en":"Wunyami, place of spirits","zh":"Wunyami：灵魂之地","ja":"ウニャミ：精霊の地"},"narration":{"en":"Long before it was named Green Island, this cay was Wunyami, meaning place of spirits. It is a special place for its Traditional Owners, the Gunggandji people. They fished and hunted here, and held manhood initiation ceremonies on the island. The Gunggandji people's connection to Wunyami and the surrounding sea continues today.","zh":"早在被命名为绿岛之前，这座沙洲就叫做 Wunyami，意为“灵魂之地”。对于这里的传统所有者——冈甘吉（Gunggandji）族人来说，这是一个特别的地方。他们曾在这里捕鱼、狩猎，并在岛上举行成年礼仪式。冈甘吉族人与 Wunyami 及周围海域的联系延续至今。","ja":"グリーン島と名付けられるずっと前から、この砂州は「精霊の地」を意味するウニャミ（Wunyami）と呼ばれていました。伝統的所有者であるグンガンジ（Gunggandji）の人々にとって特別な場所です。彼らはここで漁や狩りをし、島で成人の儀式を行っていました。グンガンジの人々とウニャミ、そして周りの海とのつながりは今も続いています。"},"audio":{"en":"","zh":"","ja":""},"image":"","look":[],"source":"Parks QLD; green-island.com.au history","note":"Placeholder. In the finished guide this stop would be written and voiced with Gunggandji Traditional Owners, with an ICIP notice, as Skyrail did with the Djabugay people."},{"id":"history","sign":"Sign: Historical","lat":-16.759469,"lon":145.975595,"title":{"en":"Cook, Green and bêche-de-mer","zh":"库克、格林与海参","ja":"クック、グリーン、ナマコ"},"narration":{"en":"On the 10th of June 1770, Captain James Cook charted a low green woody island and named it after Charles Green, the Endeavour's astronomer. From 1857 a bêche-de-mer station operated here for several decades, smoking sea cucumbers. Coconut palms were planted in 1889, pleasure cruises began arriving in 1890, and a regular passenger service from Cairns started in 1924.","zh":"1770年6月10日，詹姆斯·库克船长在海图上标出一座“低矮、翠绿、林木茂密的小岛”，并以“奋进号”上的天文学家查尔斯·格林的名字为它命名。从1857年起，这里设有一座海参熏制站，运营了几十年。1889年岛上种下了椰子树，1890年开始有游船到访，1924年起开通了往返凯恩斯的定期客运。","ja":"1770年6月10日、ジェームズ・クック船長は「低く緑の木々に覆われた島」を海図に記し、エンデバー号の天文学者チャールズ・グリーンにちなんで名付けました。1857年からは数十年にわたり、ナマコを燻製にする加工場がありました。1889年にはココヤシが植えられ、1890年には遊覧船が訪れ始め、1924年にはケアンズからの定期旅客便が始まりました。"},"audio":{"en":"","zh":"","ja":""},"image":"","look":["seacucumber","coconut"],"source":"green-island.com.au history","note":""},{"id":"future","sign":"Sign: Into the Future","lat":-16.759574,"lon":145.975515,"title":{"en":"Protecting the island","zh":"守护小岛","ja":"島を守る"},"narration":{"en":"Green Island was declared a national park in 1937, the same year the world's first glass-bottom boat launched here. The surrounding waters became a marine national park in 1974. Today they sit in Marine National Park and Scientific Research zones, where fishing is not allowed. The resort began installing solar power in 2017. What happens next depends on every visitor treading lightly.","zh":"1937年，绿岛被宣布为国家公园；同一年，世界上第一艘玻璃底船在这里启航。1974年，周围海域成为海洋国家公园，如今属于海洋国家公园区和科学研究区，禁止捕鱼。度假村自2017年起开始安装太阳能发电设施。小岛的未来，取决于每一位访客都能轻轻走过。","ja":"グリーン島は1937年に国立公園に指定されました。同じ年、世界初のグラスボトムボートがここで就航しています。周囲の海は1974年に海洋国立公園となり、現在は海洋国立公園ゾーンと科学研究ゾーンに属し、釣りは禁止されています。リゾートでは2017年から太陽光発電の導入が始まりました。島の未来は、訪れる一人ひとりが自然にやさしく歩くことにかかっています。"},"audio":{"en":"","zh":"","ja":""},"image":"","look":[],"source":"green-island.com.au history; Parks QLD","note":""},{"id":"edge","sign":"Sign: Life on the Edge","lat":-16.760364,"lon":145.976214,"title":{"en":"Life on the edge","zh":"边缘生活","ja":"境界に生きる"},"narration":{"en":"You're nearing the southern shore. Here the rainforest gives way to a fringe of tough coastal plants: casuarinas and beach almonds. They tolerate sand, salt and wind, and shelter the rainforest behind them. On the beach, look for oystercatchers, egrets and terns fossicking along the shoreline.","zh":"您已接近南岸。在这里，雨林让位于一圈耐盐的海岸植物：木麻黄和榄仁树。它们能忍受沙土、盐分和海风，为身后的雨林遮挡风浪。在海滩上，留意沿岸觅食的蛎鹬、白鹭和燕鸥。","ja":"南側の海岸が近づいてきました。ここでは熱帯雨林が、たくましい海岸植物の帯へと変わります。モクマオウとモモタマナです。砂や塩、風に耐え、背後の熱帯雨林を守っています。浜辺では、波打ち際でえさを探すミヤコドリ、サギ、アジサシを探してみましょう。"},"audio":{"en":"","zh":"","ja":""},"image":"","look":["casuarina","almond","oystercatcher","tern"],"source":"Parks QLD, Beach walk","note":""},{"id":"lookout","sign":"Constructed lookout","lat":-16.760476,"lon":145.976317,"title":{"en":"Southern lookout","zh":"南端观景台","ja":"南の展望台"},"narration":{"en":"This lookout marks the end of the boardwalk. Beyond the beach lies the reef flat, around 1,200 hectares of coral and seagrass. The seagrass beds feed green turtles and dugongs, and shelter young fish. The reef holds more than 190 kinds of hard coral and over 100 soft corals. Watch the sky for ospreys and white-bellied sea-eagles. To return, retrace the boardwalk, or at low tide walk the 1.5 kilometre beach circuit around the island.","zh":"这座观景台是木栈道的终点。沙滩之外是约1200公顷的礁坪，布满珊瑚和海草。海草床为绿海龟和儒艮提供食物，也为幼鱼提供庇护。这里的珊瑚礁有190多种硬珊瑚和100多种软珊瑚。抬头留意空中盘旋的鹗和白腹海雕。返程时可沿木栈道原路返回；如果是低潮，也可以沿海滩绕岛一周，全程1.5公里。","ja":"この展望台が遊歩道の終点です。浜の向こうには、サンゴと海草が広がる約1200ヘクタールのリーフフラット。海草藻場はアオウミガメやジュゴンのえさ場であり、稚魚の隠れ家でもあります。このリーフには190種以上のハードコーラルと100種以上のソフトコーラルがあります。空を舞うミサゴやシロハラウミワシにも注目してください。帰りは遊歩道を戻るか、干潮時なら島を一周する1.5キロのビーチウォークもおすすめです。"},"audio":{"en":"","zh":"","ja":""},"image":"","look":["seagrass","dugong","coral","osprey","seaeagle"],"source":"Parks QLD; green-island.com.au reef & fauna","note":""}]},"places":{"places":[{"id":"marineland","name":"Marineland Melanesia","category":"act","lat":-16.758697,"lon":145.973457},{"id":"dive","name":"Dive Centre","category":"act","lat":-16.758859,"lon":145.97197},{"id":"beachhire","name":"Beach Hire","category":"act","lat":-16.757899,"lon":145.972924},{"id":"swim","name":"Patrolled swimming area","category":"swim","lat":-16.757515,"lon":145.97317},{"id":"heli","name":"Nautilus Helicopters","category":"act","lat":-16.75885,"lon":145.971919},{"id":"pool","name":"Day-visitor pool","category":"swim","lat":-16.758721,"lon":145.972228},{"id":"canopy","name":"The Canopy Grill","category":"food","lat":-16.758767,"lon":145.972581},{"id":"emeralds","name":"Emeralds","category":"food","lat":-16.758868,"lon":145.972376},{"id":"litebites","name":"Lite Bites: The Cafe","category":"food","lat":-16.75895,"lon":145.972056},{"id":"greens","name":"Greens Buffet","category":"food","lat":-16.758669,"lon":145.972776},{"id":"reflections","name":"Reflections Pool Bar","category":"food","lat":-16.758739,"lon":145.972435},{"id":"wc1","name":"Toilets","category":"wc","lat":-16.758993,"lon":145.972082},{"id":"wc2","name":"Toilets & showers","category":"wc","lat":-16.758655,"lon":145.972576},{"id":"info","name":"Information counter","category":"info","lat":-16.759059,"lon":145.971571}]},"nature":{"items":[{"id":"rail","group":"birds","name":"Buff-banded rail","latin":"Hypotaenidia philippensis","where":["Boardwalk"],"text":"A striped, chicken-sized bird that dashes across the boardwalk. Hard to miss, and bold around people. Please don't feed it.","source":"Parks QLD","draft":false,"image":""},{"id":"dove","group":"birds","name":"Emerald dove","latin":"Chalcophaps longirostris","where":["Boardwalk"],"text":"Glossy green wings and a soft call. Usually heard rustling through leaf litter on the forest floor before it is seen.","source":"Parks QLD","draft":false,"image":""},{"id":"silvereye","group":"birds","name":"Silvereye","latin":"Zosterops lateralis","where":["Rainforest canopy"],"text":"Tiny olive-green birds with a white eye-ring, darting about the canopy in busy flocks.","source":"Parks QLD","draft":false,"image":""},{"id":"pigeon","group":"birds","name":"Pied imperial-pigeon","latin":"Ducula spilorrhoa","where":["Canopy","Summer"],"text":"Large white pigeons that arrive in the summer months. Their soft calls fill the canopy during the forest fruiting season.","source":"Parks QLD","draft":false,"image":""},{"id":"osprey","group":"birds","name":"Osprey","latin":"Pandion haliaetus","where":["Beach","Overhead"],"text":"A fish-eating raptor that soars over the reef flat and plunges feet-first for fish.","source":"Parks QLD","draft":false,"image":""},{"id":"seaeagle","group":"birds","name":"White-bellied sea-eagle","latin":"Haliaeetus leucogaster","where":["Overhead"],"text":"A huge white and grey eagle with broad, upswept wings. Watch for it soaring above the beach walk.","source":"Parks QLD","draft":false,"image":""},{"id":"oystercatcher","group":"birds","name":"Oystercatchers","latin":"Haematopus spp.","where":["Beach"],"text":"Black or black-and-white shorebirds with long red bills, probing the sand along the shoreline.","source":"Parks QLD","draft":false,"image":""},{"id":"egret","group":"birds","name":"Egrets & reef herons","latin":"Egretta spp.","where":["Jetty","Beach"],"text":"Tall white herons that stalk the shallows. Look for them from the jetty and along the tide line.","source":"Parks QLD","draft":false,"image":""},{"id":"tern","group":"birds","name":"Terns","latin":"Family Laridae","where":["Beach","Jetty"],"text":"Slender seabirds that hover and dive for small fish. More than 35 seabird species are recorded around the island.","source":"Parks QLD","draft":false,"image":""},{"id":"turtle","group":"sea","name":"Green turtle","latin":"Chelonia mydas","where":["Jetty","Seagrass beds"],"text":"Drawn to Green Island's undulating seagrass beds. Watch the surface from the jetty for a head popping up to breathe.","source":"Parks QLD","draft":false,"image":""},{"id":"ray","group":"sea","name":"Stingrays","latin":"Family Dasyatidae","where":["Jetty","Reef flat"],"text":"Scan the sandy bottom below the jetty. Stingrays send up a cloud of sand as they dart away.","source":"Parks QLD","draft":false,"image":""},{"id":"pelagic","group":"sea","name":"Pelagic fish","latin":"Open-water species","where":["Under the jetty"],"text":"Large fish live under the jetty, gliding in and out of its shadows.","source":"Parks QLD","draft":false,"image":""},{"id":"reeffish","group":"sea","name":"Reef fish","latin":"Many species","where":["Coral bommies","Snorkel trail"],"text":"Colourful reef fish crowd the coral bommies visible from the jetty and on a snorkel.","source":"Parks QLD","draft":false,"image":""},{"id":"coral","group":"sea","name":"Hard & soft corals","latin":"Scleractinia & Alcyonacea","where":["Reef edge"],"text":"More than 190 kinds of hard coral and over 100 soft corals, grading from shallow to deep water. Never stand on coral; use rest stations.","source":"green-island.com.au","draft":false,"image":""},{"id":"seagrass","group":"sea","name":"Seagrass meadows","latin":"Several species","where":["Reef flat"],"text":"Shallow meadows that shelter juvenile fish and feed turtles and dugongs.","source":"green-island.com.au","draft":false,"image":""},{"id":"dugong","group":"sea","name":"Dugong","latin":"Dugong dugon","where":["Seagrass beds"],"text":"A shy marine mammal that grazes on seagrass. A rare and lucky sighting.","source":"green-island.com.au","draft":false,"image":""},{"id":"seacucumber","group":"sea","name":"Sea cucumber (bêche-de-mer)","latin":"Class Holothuroidea","where":["Reef flat"],"text":"Harvested and smoked on the island from 1857. Today it is protected, like everything in this no-take zone.","source":"green-island.com.au","draft":false,"image":""},{"id":"vinethicket","group":"plants","name":"Vine-thicket rainforest","latin":"Island interior","where":["Boardwalk"],"text":"Dense, shady rainforest growing in sand in the island's centre. Green Island is the only one of about 300 reef cays with rainforest.","source":"green-island.com.au","draft":false,"image":""},{"id":"casuarina","group":"plants","name":"Coastal she-oak (casuarina)","latin":"Casuarina equisetifolia","where":["Beach fringe"],"text":"Wispy, needle-like foliage that frames the day-use area. Tolerates sand, salt and wind, sheltering the rainforest.","source":"Parks QLD","draft":false,"image":""},{"id":"almond","group":"plants","name":"Beach almond","latin":"Terminalia catappa","where":["Beach fringe"],"text":"Broad leaves that turn red before they fall. One of the salt-tolerant plants that shield the island interior.","source":"Parks QLD","draft":false,"image":""},{"id":"coconut","group":"plants","name":"Coconut palm","latin":"Cocos nucifera","where":["Day-use area"],"text":"The swaying palms of the day-use area. Coconuts were planted here in 1889.","source":"green-island.com.au","draft":false,"image":""},{"id":"pandanus","group":"plants","name":"Pandanus","latin":"Pandanus tectorius","where":["Beach fringe"],"text":"Screw pines with stilt roots and spiral leaves, typical of reef-island shores.","source":"","draft":true,"image":""},{"id":"croc","group":"reptiles","name":"Saltwater crocodile","latin":"Crocodylus porosus","where":["Marineland Melanesia"],"text":"See them up close at Marineland Melanesia, which began as a crocodile farm in 1964.","source":"green-island.com.au","draft":false,"image":""}]},"activities":{"groups":[{"heading":"On the water","items":[{"name":"Snorkelling","description":"Snorkel from the beach over coral and seagrass. The safest spot is between the flags. Go at high tide, when entry is easier.","tag":"inc","place":"swim","tour":false},{"name":"Glass-bottom boat","description":"See the reef without getting wet. The world's first glass-bottom boat launched here in 1937.","tag":"inc","place":"","tour":false},{"name":"Marine biologist guided snorkel","description":"Snorkel with a marine biologist who points out corals, fish and turtles.","tag":"opt","place":"dive","tour":false},{"name":"Scuba diving","description":"Introductory and certified dives, booked through the Dive Centre.","tag":"opt","place":"dive","tour":false},{"name":"Seawalker helmet diving","description":"Walk the sea floor wearing a helmet with air supplied from the surface. No diving experience needed.","tag":"opt","place":"dive","tour":false},{"name":"Parasailing","description":"See the island and reef flat from the air.","tag":"opt","place":"beachhire","tour":false},{"name":"Kayaks & beach hire","description":"Towels, umbrellas, sun lounges and non-motorised water sports. Motorised water sports are not allowed.","tag":"opt","place":"beachhire","tour":false},{"name":"GoPro hire","description":"Record your snorkel or dive in high definition.","tag":"opt","place":"dive","tour":false}]},{"heading":"On the island","items":[{"name":"Boardwalk eco walk","description":"1.3 km return through the rainforest to the southern lookout. Allow 30 to 50 minutes. This app is your guide.","tag":"free","place":"","tour":true},{"name":"Beach walk","description":"1.5 km circuit around the whole island. Allow 45 minutes to an hour. Do not attempt at high tide.","tag":"free","place":"","tour":false},{"name":"Jetty walk","description":"Walk the 250 m jetty for turtles, rays and the postcard view back to the island.","tag":"free","place":"","tour":false},{"name":"Marineland Melanesia","description":"Crocodile habitat and Melanesian artefacts, operating since 1964 as a crocodile farm and renamed in 1972.","tag":"opt","place":"marineland","tour":false},{"name":"Scenic helicopter flight","description":"A short flight over Green Island and the reef.","tag":"opt","place":"heli","tour":false},{"name":"Swimming pool","description":"Resort pool for day visitors on Eco Adventure and Discovery tours.","tag":"inc","place":"pool","tour":false}]},{"heading":"Eat & drink","items":[{"name":"Lite Bites: The Cafe","description":"Coffee, snacks and light meals near the jetty.","tag":"free","place":"litebites","tour":false},{"name":"Greens Buffet","description":"Buffet lunch for day visitors.","tag":"free","place":"greens","tour":false},{"name":"The Canopy Grill","description":"Casual meals in the resort.","tag":"free","place":"canopy","tour":false},{"name":"Emeralds","description":"Resort restaurant.","tag":"free","place":"emeralds","tour":false},{"name":"Reflections Pool Bar","description":"Drinks beside the pool.","tag":"free","place":"reflections","tour":false}]}]},"info":{"lede":"A rainforest-covered sand cay inside the Great Barrier Reef World Heritage Area, and the only one of about 300 reef cays with rainforest.","facts":[{"value":"27 km","label":"from Cairns"},{"value":"50 min","label":"by ferry"},{"value":"660 × 260 m","label":"island size"},{"value":"1.6 km","label":"around the island"},{"value":"15 ha","label":"island area"},{"value":"1,200 ha","label":"reef area"},{"value":"~6,000 yrs","label":"age of the cay"},{"value":"4 m","label":"highest point"}],"walks":[{"name":"Jetty walk","distance":"500 m return","time":"30 min","notes":"Easy. Wheelchair accessible.","metres":500},{"name":"The Boardwalk","distance":"1.3 km return","time":"30–50 min","notes":"Easy, Grade 1. Wheelchair accessible with assistance. Allow longer to read the signs.","metres":1300},{"name":"Beach walk","distance":"1.5 km circuit","time":"45 min–1 hr","notes":"Easy. Not wheelchair accessible. Do not attempt at high tide.","metres":1500}],"timeline":[{"year":"Always","event":"Wunyami, \"place of spirits\", a special place for the Gunggandji people"},{"year":"1770","event":"Captain Cook names the island after astronomer Charles Green"},{"year":"1857","event":"Bêche-de-mer smoking station opens"},{"year":"1889","event":"Coconut palms planted"},{"year":"1890","event":"Pleasure cruises begin on the coaster Zeus"},{"year":"1924","event":"Hayles start a regular passenger service from Cairns"},{"year":"1937","event":"World’s first glass-bottom boat; national park declared"},{"year":"1954","event":"World’s first underwater observatory opens (closed 2012)"},{"year":"1964","event":"Crocodile farm opens, renamed Marineland Melanesia in 1972"},{"year":"1974","event":"Surrounding waters become a marine national park"},{"year":"2017","event":"Resort begins installing solar power"}],"safety":["Marine stingers (jellyfish) may be present at any time, more often in warmer months. Wear a stinger suit to swim or snorkel.","Swim and snorkel between the red and yellow flags on the northern beach, always with a buddy.","Snorkel at high tide, when it is easier to get in and out of the water.","Never stand on coral. Use rest stations or rest on sand.","Wear a hat and sunscreen, and drink plenty of water. Treated water is on tap in the day-use amenities.","The boardwalk can be slippery when wet.","No-take zone: never touch, pick up or take plants or animals. Rangers issue fines.","Don’t feed wildlife, including birds and fish. No drones on the island or over the reef.","Stay on boardwalks and marked tracks."],"getting_there":"Ferries leave the Reef Fleet Terminal on Spence Street, Cairns, and take 50 to 60 minutes. Helicopter and seaplane services also fly to the island. Toilets, showers, lockers and food are in the resort. A ranger is based on the island; the information counter is in the resort."},"settings":{"intro_lede":"An audio guide to a 6,000-year-old rainforest cay on the Great Barrier Reef. Walk the boardwalk and each story plays as you reach it.","acknowledgement":"We acknowledge the Gunggandji people, Traditional Owners of Wunyami and its sea country, and pay our respects to Elders past and present.","trigger_radius_m":18,"demo_speed_mps":12}};
 const NGROUPS = [['all','All'],['birds','Birds'],['sea','Sea life'],['plants','Plants'],['reptiles','Reptiles']];
-
-const ACTS = [
- {h:'On the water', items:[
-  {n:'Snorkelling',d:'Snorkel from the beach over coral and seagrass. The safest spot is between the flags. Go at high tide, when entry is easier.',tag:'inc',poi:'swim'},
-  {n:'Glass-bottom boat',d:"See the reef without getting wet. The world's first glass-bottom boat launched here in 1937.",tag:'inc',poi:null},
-  {n:'Marine biologist guided snorkel',d:'Snorkel with a marine biologist who points out corals, fish and turtles.',tag:'opt',poi:'dive'},
-  {n:'Scuba diving',d:'Introductory and certified dives, booked through the Dive Centre.',tag:'opt',poi:'dive'},
-  {n:'Seawalker helmet diving',d:'Walk the sea floor wearing a helmet with air supplied from the surface. No diving experience needed.',tag:'opt',poi:'dive'},
-  {n:'Parasailing',d:'See the island and reef flat from the air.',tag:'opt',poi:'beachhire'},
-  {n:'Kayaks & beach hire',d:'Towels, umbrellas, sun lounges and non-motorised water sports. Motorised water sports are not allowed.',tag:'opt',poi:'beachhire'},
-  {n:'GoPro hire',d:'Record your snorkel or dive in high definition.',tag:'opt',poi:'dive'}
- ]},
- {h:'On the island', items:[
-  {n:'Boardwalk eco walk',d:'1.3 km return through the rainforest to the southern lookout. Allow 30 to 50 minutes. This app is your guide.',tag:'free',poi:null,tour:true},
-  {n:'Beach walk',d:'1.5 km circuit around the whole island. Allow 45 minutes to an hour. Do not attempt at high tide.',tag:'free',poi:null},
-  {n:'Jetty walk',d:'Walk the 250 m jetty for turtles, rays and the postcard view back to the island.',tag:'free',poi:null},
-  {n:'Marineland Melanesia',d:'Crocodile habitat and Melanesian artefacts, operating since 1964 as a crocodile farm and renamed in 1972.',tag:'opt',poi:'marineland'},
-  {n:'Scenic helicopter flight',d:'A short flight over Green Island and the reef.',tag:'opt',poi:'heli'},
-  {n:'Swimming pool',d:'Resort pool for day visitors on Eco Adventure and Discovery tours.',tag:'inc',poi:'pool'}
- ]},
- {h:'Eat & drink', items:[
-  {n:'Lite Bites: The Cafe',d:'Coffee, snacks and light meals near the jetty.',tag:'free',poi:'litebites'},
-  {n:'Greens Buffet',d:'Buffet lunch for day visitors.',tag:'free',poi:'greens'},
-  {n:'The Canopy Grill',d:'Casual meals in the resort.',tag:'free',poi:'canopy'},
-  {n:'Emeralds',d:'Resort restaurant.',tag:'free',poi:'emeralds'},
-  {n:'Reflections Pool Bar',d:'Drinks beside the pool.',tag:'free',poi:'reflections'}
- ]}
-];
 const TAGS = {inc:['inc','Included on Eco Adventure & Discovery'],opt:['opt','Optional extra'],free:['free','Open to all']};
-
+let STOPS=[], POIS=[], NATURE=[], ACTS=[], INFO={}, SETTINGS={};
+const arr = v => Array.isArray(v) ? v : [];
+const L3 = o => ({en:(o&&o.en)||'', zh:(o&&o.zh)||'', ja:(o&&o.ja)||''});
+function adapt(c){
+  SETTINGS = c.settings || {};
+  INFO = c.info || {};
+  NATURE = arr(c.nature && c.nature.items).filter(n=>n&&n.id).map(n=>({id:n.id,g:n.group||'birds',n:n.name||'',l:n.latin||'',w:arr(n.where),t:n.text||'',s:n.draft?'draft':(n.source||''),img:n.image||''}));
+  POIS = arr(c.places && c.places.places).filter(p=>p&&p.id&&isFinite(p.lat)&&isFinite(p.lon)).map(p=>({id:p.id,name:p.name||p.id,cat:ICON[p.category]?p.category:'act',ll:[+p.lat,+p.lon]}));
+  ACTS = arr(c.activities && c.activities.groups).map(g=>({h:g.heading||'',items:arr(g.items).map(i=>({n:i.name||'',d:i.description||'',tag:TAGS[i.tag]?i.tag:'free',poi:i.place||null,tour:!!i.tour}))}));
+  STOPS = arr(c.stops && c.stops.stops).filter(x=>x&&x.id&&isFinite(x.lat)&&isFinite(x.lon)).map(x=>{const t=L3(x.title),n=L3(x.narration);
+    ['zh','ja'].forEach(k=>{if(!t[k])t[k]=t.en;if(!n[k])n[k]=n.en});
+    return {id:x.id,kind:x.sign||'',ll:[+x.lat,+x.lon],t,n,audio:L3(x.audio),img:x.image||'',look:arr(x.look),src:x.source||'',note:x.note||''}});
+  STOPS.forEach(s=>{s.xy=XY(...s.ll);s.along=project(s.xy).s});
+  STOPS.sort((a,b)=>a.along-b.along);
+  POIS.forEach(p=>p.xy=XY(...p.ll));
+}
+// Media paths from the CMS look like /media/x.jpg; resolve them against the page, not the site root.
+const media = p => p ? String(p).replace(/^\/+/,'') : '';
 /* ---------- helpers ---------- */
 const $ = s => document.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
@@ -472,9 +353,6 @@ function project(p){let best={d:1e9,s:0,pt:ROUTE[0]};for(let i=1;i<ROUTE.length;
 function pointAt(s){s=Math.max(0,Math.min(RLEN,s));let i=1;while(i<CUM.length-1&&CUM[i]<s)i++;const a=ROUTE[i-1],b=ROUTE[i];const u=(s-CUM[i-1])/((CUM[i]-CUM[i-1])||1);return [a[0]+u*(b[0]-a[0]),a[1]+u*(b[1]-a[1])]}
 function walkedPath(s){const pts=[];for(let i=0;i<ROUTE.length&&CUM[i]<=s;i++)pts.push(ROUTE[i]);pts.push(pointAt(s));return 'M'+pts.map(p=>p[0].toFixed(1)+' '+p[1].toFixed(1)).join(' L')}
 
-STOPS.forEach(s=>{s.xy = s.at==='routeStart'?ROUTE[0].slice():XY(...s.ll);s.along=project(s.xy).s});
-STOPS.sort((a,b)=>a.along-b.along);
-POIS.forEach(p=>p.xy=XY(...p.ll));
 
 /* ---------- state ---------- */
 const st = {lang:store.get('lang','en'), active:0, visited:new Set(store.get('visited',[])), mode:'idle', me:null, acc:0, follow:false, walked:0, audioOn:false, spotted:new Set(store.get('spotted',[]))};
@@ -505,7 +383,7 @@ function buildMap(){
    <g id="stops">${STOPS.map((s,i)=>`<g class="mk mk-stop" data-stop="${i}" data-x="${s.xy[0]}" data-y="${s.xy[1]}"><circle r="11"/><text>${i+1}</text></g>`).join('')}</g>
    <g class="mk me" id="me" data-x="0" data-y="0" style="display:none"><circle class="halo" r="14"/><circle class="dot" r="7"/></g>
   </svg>`;
-  bindMap();
+  render();
 }
 function size(){const r=mapEl.getBoundingClientRect();return [r.width||360,r.height||500]}
 function render(){
@@ -544,9 +422,10 @@ function pickVoice(lang){const vs=synth?synth.getVoices():[];const want=SPEECH_L
 // Speak sentence by sentence (avoids Chrome's ~15 s cut-off) with a timer fallback,
 // so progress and the demo keep moving even where no voice is installed.
 let tick=0, watchdog=0, runId=0;
+const player=new Audio(); player.preload='auto';
 function estSecs(txt){return st.lang==='en'?txt.split(/\s+/).length/2.6:txt.length/5}
 function speak(i,done){
-  stopAudio();const txt=STOPS[i].n[st.lang];const est=estSecs(txt);const my=++runId;onDone=done;speaking=true;setPlayIcon();
+  stopAudio();const rec=media(STOPS[i].audio[st.lang]);if(rec)return playRecording(i,rec,done);const txt=STOPS[i].n[st.lang];const est=estSecs(txt);const my=++runId;onDone=done;speaking=true;setPlayIcon();
   const t0=performance.now();const prog=$('#pProg');prog.style.width='2%';
   const finish=()=>{if(my!==runId)return;runId++;clearInterval(tick);clearTimeout(watchdog);speaking=false;prog.style.width='100%';setPlayIcon();const d=onDone;onDone=null;d&&d()};
   tick=setInterval(()=>{prog.style.width=Math.min(97,(performance.now()-t0)/1000/est*100)+'%'},250);
@@ -559,9 +438,18 @@ function speak(i,done){
     if(k===parts.length-1)u.onend=finish;u.onerror=e=>{if(e.error!=='interrupted'&&e.error!=='canceled')finish()};synth.speak(u)});
   setTimeout(()=>{if(my===runId&&!synth.speaking&&!synth.pending){toast('Audio unavailable on this device. Read along below.');setSheet(true)}},2500);
 }
-function stopAudio(){runId++;onDone=null;clearInterval(tick);clearTimeout(watchdog);if(synth)synth.cancel();speaking=false;setPlayIcon()}
+// A recorded file for this language wins over the device voice. Falls back to speech if it fails to load.
+function playRecording(i,url,done){
+  const my=++runId;onDone=done;speaking=true;setPlayIcon();const prog=$('#pProg');prog.style.width='2%';
+  const finish=()=>{if(my!==runId)return;runId++;player.onended=player.ontimeupdate=player.onerror=null;speaking=false;prog.style.width='100%';setPlayIcon();const d=onDone;onDone=null;d&&d()};
+  player.ontimeupdate=()=>{if(player.duration)prog.style.width=(player.currentTime/player.duration*100)+'%'};
+  player.onended=finish;
+  player.onerror=()=>{if(my!==runId)return;runId++;speaking=false;const s=STOPS[i];const keep=s.audio[st.lang];s.audio[st.lang]='';speak(i,done);s.audio[st.lang]=keep};
+  player.src=url;player.play().catch(()=>player.onerror&&player.onerror());
+}
+function stopAudio(){runId++;onDone=null;clearInterval(tick);clearTimeout(watchdog);if(synth)synth.cancel();try{player.pause()}catch(e){}player.onended=player.ontimeupdate=player.onerror=null;speaking=false;setPlayIcon()}
 function setPlayIcon(){$('#playIcon').innerHTML=speaking?'<path d="M7 5h4v14H7zM13 5h4v14h-4z"/>':'<path d="M8 5v14l11-7z"/>';$('#btnPlay').setAttribute('aria-label',speaking?'Stop narration':'Play narration')}
-function primeAudio(){st.audioOn=true;if(synth){const u=new SpeechSynthesisUtterance(' ');u.volume=0;synth.speak(u)}}
+function primeAudio(){st.audioOn=true;try{player.src='data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';player.play().catch(()=>{})}catch(e){}if(synth){const u=new SpeechSynthesisUtterance(' ');u.volume=0;synth.speak(u)}}
 
 /* ---------- sheet ---------- */
 const sheet=$('#sheet');
@@ -577,6 +465,7 @@ function selectStop(i,{open=false,play=false,center=true}={}){
   $('#btnPrev').disabled=st.active===0;$('#btnNext').disabled=st.active===STOPS.length-1;
   const looks=s.look.map(id=>NATURE.find(n=>n.id===id)).filter(Boolean);
   $('#sbody').innerHTML=`
+   ${s.img?`<img class="photo" src="${esc(media(s.img))}" alt="${esc(s.t[st.lang])}" loading="lazy">`:''}
    <p class="src" style="margin-top:12px">${esc(s.kind)}</p>
    <p>${esc(s.n[st.lang])}</p>
    ${s.note?`<p class="note">${esc(s.note)}</p>`:''}
@@ -591,9 +480,9 @@ function selectStop(i,{open=false,play=false,center=true}={}){
 function markVisited(i){st.visited.add(STOPS[i].id);store.set('visited',[...st.visited]);document.querySelectorAll('.mk-stop')[i]?.classList.add('done')}
 
 /* geofence: fire the nearest unvisited stop within radius */
-const RADIUS=18;
+const radius=()=>+SETTINGS.trigger_radius_m||18;
 function checkFences(xy){
-  let hit=-1,bd=1e9;STOPS.forEach((s,i)=>{const d=Math.hypot(s.xy[0]-xy[0],s.xy[1]-xy[1]);if(d<RADIUS&&d<bd&&!st.fired.has(i)){bd=d;hit=i}});
+  let hit=-1,bd=1e9;STOPS.forEach((s,i)=>{const d=Math.hypot(s.xy[0]-xy[0],s.xy[1]-xy[1]);if(d<radius()&&d<bd&&!st.fired.has(i)){bd=d;hit=i}});
   if(hit<0)return false;st.fired.add(hit);markVisited(hit);
   if(navigator.vibrate)try{navigator.vibrate(60)}catch(e){}
   selectStop(hit,{play:st.audioOn,center:false});
@@ -621,13 +510,13 @@ function onPosErr(e){const msg=e.code===1?'Location permission is off':e.code===
 function stopGps(keepStatus){if(watchId!=null)navigator.geolocation.clearWatch(watchId);watchId=null;$('#btnLocate').setAttribute('aria-pressed','false');if(st.mode==='gps'){st.mode='idle';if(!keepStatus)setStatus('idle','Tour paused')}}
 
 /* ---------- demo walk ---------- */
-const SPEED=12; // metres per second of simulation, roughly 8x walking pace
+const speed=()=>+SETTINGS.demo_speed_mps||12; // metres per second of simulation; 12 is roughly 8x walking pace
 let demo={s:0,raf:0,t0:0,paused:true,timer:0};
 function startDemo(fromStart){
   stopGps();st.mode='demo';st.follow=true;$('#btnDemo').setAttribute('aria-pressed','true');
   if(fromStart||demo.s>=RLEN){demo.s=0;st.walked=0;st.fired=new Set()}
   setStatus('demo','Demo walk · 8× speed');if(vp.k<1.3)centerOn(pointAt(demo.s),1.5);demo.paused=false;demo.t0=0;cancelAnimationFrame(demo.raf);demo.raf=requestAnimationFrame(stepDemo);setDemoIcon()}
-function stepDemo(t){if(demo.paused)return;if(!demo.t0)demo.t0=t;const dt=Math.min(.1,(t-demo.t0)/1000);demo.t0=t;demo.s+=SPEED*dt;
+function stepDemo(t){if(demo.paused)return;if(!demo.t0)demo.t0=t;const dt=Math.min(.1,(t-demo.t0)/1000);demo.t0=t;demo.s+=speed()*dt;
   const xy=pointAt(demo.s);st.me=xy;setMe(xy,0);setWalked(demo.s);
   if(checkFences(xy)){demo.paused=true;setStatus('demo','Demo walk · listening');return}
   if(demo.s>=RLEN){demo.paused=true;setStatus('demo','Demo finished · boardwalk end');$('#btnDemo').setAttribute('aria-pressed','false');setDemoIcon();return}
@@ -649,7 +538,7 @@ function renderNature(){
   const list=NATURE.filter(n=>(cur==='all'||n.g===cur)&&(!q||(n.n+' '+n.l+' '+n.t+' '+n.w.join(' ')).toLowerCase().includes(q)));
   $('#natTally').textContent=`You've spotted ${st.spotted.size} of ${NATURE.length}`;
   const G={birds:'Bird',sea:'Sea life',plants:'Plant',reptiles:'Reptile'};
-  $('#natCards').innerHTML=list.map(n=>`<article class="card" data-g="${n.g}" id="nat-${n.id}"><div class="band"><span class="grp">${G[n.g]}</span><button class="spot" data-spot="${n.id}" aria-pressed="${st.spotted.has(n.id)}">${st.spotted.has(n.id)?'✓ Spotted':'Spotted it?'}</button></div>
+  $('#natCards').innerHTML=list.map(n=>`<article class="card" data-g="${n.g}" id="nat-${n.id}">${n.img?`<img class="photo" src="${esc(media(n.img))}" alt="${esc(n.n)}" loading="lazy">`:''}<div class="band"><span class="grp">${G[n.g]}</span><button class="spot" data-spot="${n.id}" aria-pressed="${st.spotted.has(n.id)}">${st.spotted.has(n.id)?'✓ Spotted':'Spotted it?'}</button></div>
    <div class="inner"><h4>${esc(n.n)}</h4><div class="lat">${esc(n.l)}</div><div class="where">${n.w.map(w=>`<span>${esc(w)}</span>`).join('')}</div><p>${esc(n.t)}</p>
    <div class="src ${n.s==='draft'?'draft':''}">${n.s==='draft'?'Draft entry, verify before launch':'Source: '+esc(n.s)}</div></div></article>`).join('')||'<p class="src">Nothing matches that search.</p>';
 }
@@ -658,23 +547,20 @@ function renderActs(){
   `<p class="src" style="margin-top:18px">Activities and inclusions from green-island.com.au. Prices and availability change; check at the information counter.</p>`;
 }
 function renderInfo(){
-  const facts=[['27 km','from Cairns'],['50 min','by ferry'],['660 × 260 m','island size'],['1.6 km','around the island'],['15 ha','island area'],['1,200 ha','reef area'],['~6,000 yrs','age of the cay'],['4 m','highest point']];
-  const walks=[['Jetty walk','500 m return','30 min','Easy. Wheelchair accessible.',500],['The Boardwalk','1.3 km return','30–50 min','Easy, Grade 1. Wheelchair accessible with assistance. Allow longer to read the signs.',1300],['Beach walk','1.5 km circuit','45 min–1 hr','Easy. Not wheelchair accessible. Do not attempt at high tide.',1500]];
-  const tl=[['Always','Wunyami, "place of spirits", a special place for the Gunggandji people'],['1770','Captain Cook names the island after astronomer Charles Green'],['1857','Bêche-de-mer smoking station opens'],['1889','Coconut palms planted'],['1890','Pleasure cruises begin on the coaster Zeus'],['1924','Hayles start a regular passenger service from Cairns'],['1937','World’s first glass-bottom boat; national park declared'],['1954','World’s first underwater observatory opens (closed 2012)'],['1964','Crocodile farm opens, renamed Marineland Melanesia in 1972'],['1974','Surrounding waters become a marine national park'],['2017','Resort begins installing solar power']];
-  const safety=['Marine stingers (jellyfish) may be present at any time, more often in warmer months. Wear a stinger suit to swim or snorkel.','Swim and snorkel between the red and yellow flags on the northern beach, always with a buddy.','Snorkel at high tide, when it is easier to get in and out of the water.','Never stand on coral. Use rest stations or rest on sand.','Wear a hat and sunscreen, and drink plenty of water. Treated water is on tap in the day-use amenities.','The boardwalk can be slippery when wet.','No-take zone: never touch, pick up or take plants or animals. Rangers issue fines.','Don’t feed wildlife, including birds and fish. No drones on the island or over the reef.','Stay on boardwalks and marked tracks.'];
+  const I=INFO, max=Math.max(1,...arr(I.walks).map(w=>+w.metres||0));
   $('#infoBody').innerHTML=`
-   <div class="vhead"><h2>About Wunyami</h2><p>A rainforest-covered sand cay inside the Great Barrier Reef World Heritage Area, and the only one of about 300 reef cays with rainforest.</p></div>
-   <div class="facts">${facts.map(f=>`<div><b>${f[0]}</b><span>${f[1]}</span></div>`).join('')}</div>
+   <div class="vhead"><h2>About Wunyami</h2><p>${esc(I.lede||'')}</p></div>
+   <div class="facts">${arr(I.facts).map(f=>`<div><b>${esc(f.value)}</b><span>${esc(f.label)}</span></div>`).join('')}</div>
    <h3 class="grouph">Walks</h3>
-   <div class="walks">${walks.map(w=>`<div class="walk"><h4>${w[0]}</h4><div class="m">${w[1]} · ${w[2]}</div><div class="bar"><b style="width:${w[4]/15}%"></b></div><p>${w[3]}</p></div>`).join('')}</div>
+   <div class="walks">${arr(I.walks).map(w=>`<div class="walk"><h4>${esc(w.name)}</h4><div class="m">${esc(w.distance)} · ${esc(w.time)}</div><div class="bar"><b style="width:${(+w.metres||0)/max*100}%"></b></div><p>${esc(w.notes)}</p></div>`).join('')}</div>
    <h3 class="grouph">History</h3>
-   <ol class="tl">${tl.map(t=>`<li><div class="y">${t[0]}</div><div>${esc(t[1])}</div></li>`).join('')}</ol>
+   <ol class="tl">${arr(I.timeline).map(t=>`<li><div class="y">${esc(t.year)}</div><div>${esc(t.event)}</div></li>`).join('')}</ol>
    <h3 class="grouph">Stay safe</h3>
-   <ul class="safety">${safety.map(s=>`<li>${esc(s)}</li>`).join('')}</ul>
+   <ul class="safety">${arr(I.safety).map(s=>`<li>${esc(s)}</li>`).join('')}</ul>
    <h3 class="grouph">Getting there</h3>
-   <p>Ferries leave the Reef Fleet Terminal on Spence Street, Cairns, and take 50 to 60 minutes. Helicopter and seaplane services also fly to the island. Toilets, showers, lockers and food are in the resort. A ranger is based on the island; the information counter is in the resort.</p>
+   <p>${esc(I.getting_there||'')}</p>
    <h3 class="grouph">About this proof of concept</h3>
-   <p class="src">Narration uses your device's built-in voice. A production app would use recorded voiceover, including Traditional Owner voices, and could add AR moments at the jetty and lookout. Stop positions are the real boardwalk sign locations. Content: <a href="https://parks.qld.gov.au/parks/green-island" target="_blank" rel="noopener">Queensland Parks and Wildlife Service</a>, <a href="https://www.green-island.com.au/" target="_blank" rel="noopener">green-island.com.au</a>. Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.</p>`;
+   <p class="src">Narration uses recorded audio where it has been uploaded, otherwise your device's built-in voice. A production app could add AR moments at the jetty and lookout. Stop positions are the real boardwalk sign locations. Content: <a href="https://parks.qld.gov.au/parks/green-island" target="_blank" rel="noopener">Queensland Parks and Wildlife Service</a>, <a href="https://www.green-island.com.au/" target="_blank" rel="noopener">green-island.com.au</a>. Map data © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors.</p>`;
 }
 
 /* intro art: island silhouette from the same geometry */
@@ -711,8 +597,27 @@ window.addEventListener('resize',()=>render());
 if(synth&&synth.onvoiceschanged!==undefined)synth.onvoiceschanged=()=>{};
 
 /* ---------- boot ---------- */
-buildMap();applyLang();introArt();selectStop(0,{center:false});setWalked(0);renderNature();renderActs();renderInfo();
+function renderAll(){
+  adapt(CONTENT);buildMap();applyLang();
+  if(SETTINGS.intro_lede)$('#introLede').textContent=SETTINGS.intro_lede;
+  if(SETTINGS.acknowledgement)$('#introAck').textContent=SETTINGS.acknowledgement;
+  st.active=Math.min(st.active,Math.max(0,STOPS.length-1));
+  selectStop(st.active,{center:false,open:!sheet.classList.contains('peek')});setWalked(st.walked);renderNature();renderActs();renderInfo();
+}
+let CONTENT=FALLBACK;
+async function loadLive(){
+  if(!/^https?:$/.test(location.protocol))return;
+  const parts=['stops','places','nature','activities','info','settings'];
+  try{
+    const got=await Promise.all(parts.map(p=>fetch(`content/${p}.json`,{cache:'no-cache'}).then(r=>{if(!r.ok)throw new Error(p+' '+r.status);return r.json()})));
+    const live={};parts.forEach((p,i)=>live[p]=got[i]);
+    if(JSON.stringify(live)===JSON.stringify(CONTENT))return;
+    CONTENT=live;if(!speaking)renderAll();else setTimeout(()=>{if(!speaking)renderAll()},1500);
+  }catch(e){/* offline or not published alongside: keep the built-in copy */}
+}
+bindMap();introArt();renderAll();
 requestAnimationFrame(fit);
+loadLive();
 </script>
 
 </body></html>
